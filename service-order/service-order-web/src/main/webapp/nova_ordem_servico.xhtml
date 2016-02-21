@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+     xmlns:f="http://java.sun.com/jsf/core"
+     xmlns:h="http://java.sun.com/jsf/html"
+     xmlns:p="http://primefaces.org/ui"
+     xmlns:ui="http://java.sun.com/jsf/facelets">
+
+<ui:composition template="/template.xhtml">
+
+	<ui:define name="titulo">
+		Nova Ordem Serviço
+	</ui:define>
+	
+	<ui:define name="body">
+	<h:form id="formulario">
+		<p:messages autoUpdate="true"/>
+		<p:fieldset legend="Cliente" styleClass="field_set_50 esq">
+			<p:panelGrid columns="1" styleClass="panelGrid-semBorda">
+				<p:outputLabel for="nomeCliente" value="Nome"/>
+				<p:inputText id="nomeCliente" value="#{ordemServicoMBean.cliente.nome}"/>
+				
+				<p:outputLabel for="enderecoCliente" value="Endereco"/>
+				<p:inputText id="enderecoCliente" value="#{ordemServicoMBean.cliente.endereco}"/>
+				
+				<p:outputLabel for="telefoneResidencial" value="Fone Residencial"></p:outputLabel>
+				<p:inputMask id="telefoneResidencial" value="#{ordemServicoMBean.cliente.telefoneResidencial}" mask="(99) 9999-9999"/>
+				
+				<p:outputLabel for="telefoneComercial" value="Fone Comercial"/>
+				<p:inputMask id="telefoneComercial" value="#{ordemServicoMBean.cliente.telefoneComercial}"  mask="(99) 9999-9999"/>
+				
+			</p:panelGrid>
+		</p:fieldset>
+		
+		<p:fieldset legend="Telefone" styleClass="field_set_50 dir">
+		
+			<p:panelGrid columns="1" styleClass="panelGrid-semBorda">
+				<p:outputLabel for="marca" value="Marca"/>
+				<p:inputText id="marca" value="#{ordemServicoMBean.telefone.marca}"/>
+				
+				<p:outputLabel for="modelo" value="Modelo"/>
+				<p:inputText id="modelo" value="#{ordemServicoMBean.telefone.modelo}"/>
+				
+				<p:outputLabel for="estado" value="Estado"/>
+				<p:selectOneRadio id="estado" value="#{ordemServicoMBean.telefone.estado}">
+					<f:selectItems value="#{ordemServicoMBean.estados}" var="e" itemValue="#{estado}" itemLabel="#{e.label}"  />
+				</p:selectOneRadio>
+				
+				<p:outputLabel for="esn" value="Esn"/>
+				<p:inputText id="esn" value="#{ordemServicoMBean.telefone.esn}"/>
+				
+			</p:panelGrid>
+		</p:fieldset>
+		
+		<p:fieldset legend="Ordem Serviço" styleClass="field_set_50 esq">
+			<p:panelGrid columns="1" styleClass="panelGrid-semBorda">
+				<p:outputLabel for="tipoOs" value="Tipo da OS"/>
+				<p:selectOneRadio id="tipoOs" value="#{ordemServicoMBean.os.tipoOrdemServico}">
+					<f:selectItems value="#{ordemServicoMBean.tipoOs}" var="os" itemValue="#{os}" itemLabel="#{os.label}"/>
+				</p:selectOneRadio>
+				
+				<p:outputLabel for="problemaRelatado" value="Problema Relatado"/>
+				<p:inputTextarea id="problemaRelatado" value="#{ordemServicoMBean.os.problemaRelatado}"/>
+			</p:panelGrid>
+		</p:fieldset>
+		
+		<br style="clear"/>
+		
+		<p:commandButton value="Salvar" action="#{ordemServicoMBean.salva}" update="formulario" styleClass="clear"/>
+	</h:form>
+	</ui:define>
+</ui:composition>
+</html>

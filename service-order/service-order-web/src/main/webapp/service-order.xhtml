@@ -1,0 +1,29 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui" 
+	template="/template.xhtml">
+	
+	<ui:define name="titulo">
+		Service Order
+	</ui:define>
+
+	<ui:define name="body">
+		<h:form id="formulario">
+			<p:messages autoUpdate="true"/>
+
+			<p:outputLabel for="osType" value="OS Type"/>
+			<p:selectOneRadio id="osType" value="#{newServiceOrder.orderServiceType}">
+				<f:selectItems value="#{serviceOrderController.orderTypes}" var="type" itemValue="#{type}" itemLabel="#{type.label}"/>
+			</p:selectOneRadio>
+
+			<p:outputLabel for="reportedProblem" value="Problema Relatado" />
+			<p:inputText id="reportedProblem" value="#{newServiceOrder.reportedProblem}" />
+			
+			<p:commandButton action="#{serviceOrderController.save}" value="Save" />
+		</h:form>
+	</ui:define>
+</ui:composition>

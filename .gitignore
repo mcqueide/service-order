@@ -1,0 +1,14 @@
+service-order/.project
+service-order/.settings/
+service-order/service-order-ear/.project
+service-order/service-order-ear/.settings/
+service-order/service-order-ear/target/
+service-order/service-order-ejb/.classpath
+service-order/service-order-ejb/.project
+service-order/service-order-ejb/.settings/
+service-order/service-order-ejb/target/
+service-order/service-order-web/.classpath
+service-order/service-order-web/.project
+service-order/service-order-web/.settings/
+service-order/service-order-web/src/main/webapp/WEB-INF/.faces-config.xml.jsfdia
+service-order/service-order-web/target/

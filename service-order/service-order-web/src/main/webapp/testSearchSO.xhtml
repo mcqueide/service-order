@@ -1,0 +1,52 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui" template="/template.xhtml">
+
+	<ui:define name="titulo">
+		Service Order
+	</ui:define>
+
+	<ui:define name="body">
+		<h:form id="formulario">
+			<p:messages autoUpdate="true" />
+			<p:fieldset legend="Consulta">
+				<p class="consulta">Escolha um dos campos para realizar a
+					pesquisa.</p>
+				<p:panelGrid columns="4" styleClass="pesquisa">
+					<p:outputLabel for="numOs" value="Número da OS" />
+					<p:inputText id="numOs" value="#{serviceOrderController.filterSo}">
+						<p:ajax update="tabelaOs" event="keyup"
+							listener="#{serviceOrderController.findBySo(serviceOrderController.filterSo)}" />
+					</p:inputText>
+
+					<p:outputLabel for="buscaNome" value="Nome Cliente" />
+					<p:inputText id="buscaNome"
+						value="#{serviceOrderController.filterClient}">
+						<p:ajax update="tabelaOs" event="keyup"
+							listener="#{serviceOrderController.findClientByName(serviceOrderController.filterClient)}" />
+					</p:inputText>
+				</p:panelGrid>
+
+			</p:fieldset>
+
+			<p:dataTable id="tabelaOs" var="os" value="#{serviceOrderController.listServiceOrder}" emptyMessage="Não existe registro">
+				<p:column headerText="" style="width:8%; text-align: center;">
+					
+				</p:column>
+				<p:column headerText="Número OS" style="width:11%; text-align: center;">
+					<h:outputLabel value="#{os.numberOS}" />
+				</p:column>
+				<p:column headerText="Nome Cliente" style="width:59%;">
+					<h:outputLabel value="#{os.client.name}" />
+				</p:column>
+				<p:column headerText="Celular" style="width:22%;">
+					<h:outputLabel value="#{os.phone.model}" />
+				</p:column>
+			</p:dataTable>
+		</h:form>
+	</ui:define>
+</ui:composition>
