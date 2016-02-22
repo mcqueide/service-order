@@ -7,6 +7,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -31,16 +32,12 @@ public class Phone implements Serializable{
 	@Enumerated(EnumType.ORDINAL)
 	private PhoneState state;
 	private String esn;
-	@ManyToOne
+	@ManyToOne(fetch = FetchType.LAZY)
 	private Client client;
 	@OneToMany(mappedBy="phone")
 	private List<ServiceOrder> os;
 	
 	public Phone() {
-	}
-	
-	public PhoneState[] getPhoneStates(){
-		return PhoneState.values();
 	}
 	
 	public int getId() {

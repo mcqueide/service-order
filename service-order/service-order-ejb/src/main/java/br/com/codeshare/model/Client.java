@@ -3,8 +3,10 @@ package br.com.codeshare.model;
 import java.io.Serializable;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -28,7 +30,7 @@ public class Client implements Serializable{
 	private String bisenessPhone;
 	@OneToMany(mappedBy="client")
 	private List<ServiceOrder> ordemServicos;
-	@OneToMany(mappedBy="client")
+	@OneToMany(mappedBy="client", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	private List<Phone> telefones;
 	
 	public Client() {

@@ -1,23 +1,26 @@
 package br.com.codeshare.controller;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 import javax.annotation.PostConstruct;
-import javax.enterprise.inject.Model;
 import javax.enterprise.inject.Produces;
 import javax.faces.application.FacesMessage;
-import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
+import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 
+import br.com.codeshare.enums.PhoneState;
 import br.com.codeshare.model.Client;
 import br.com.codeshare.model.Phone;
 import br.com.codeshare.service.ClientService;
 
-@Model
+@Named
 @ViewScoped
-public class ClientController {
+public class ClientController implements Serializable {
+
+	private static final long serialVersionUID = 1L;
 
 	@Inject
 	private FacesContext facesContext;
@@ -75,9 +78,15 @@ public class ClientController {
     }
 	
 	public void addClientPhone(){
+		newPhone.setClient(newClient);
 		if(newClient.getTelefones() == null){
 			newClient.setTelefones(new ArrayList<Phone>());
 		}
 		newClient.getTelefones().add(newPhone);
+		
+	}
+	
+	public PhoneState[] getPhoneStates(){
+		return PhoneState.values();
 	}
 }

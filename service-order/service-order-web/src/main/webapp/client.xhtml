@@ -38,13 +38,13 @@
 
 					<p:outputLabel for="state" value="#{label['phone.state']}"/>
 					<p:selectOneRadio id="state" value="#{clientePhone.state}">
-						<f:selectItems value="#{clientePhone.phoneStates}" var="p" itemValue="#{p}" itemLabel="#{p.label}" />
+						<f:selectItems value="#{clientController.phoneStates}" var="p" itemValue="#{p}" itemLabel="#{label[p.label]}" />
 					</p:selectOneRadio>
 					
 					<p:outputLabel for="esn" value="#{label['phone.esn']}" />
 					<p:inputText id="esn" value="#{clientePhone.esn}" />
 				</p:panelGrid>
-				<p:commandButton value="Gravar" action="#{clientController.addClientPhone}"/>
+				<p:commandButton value="Gravar" action="#{clientController.addClientPhone}" update="phoneTable"/>
 				
 				<p:dataTable value="#{newClient.telefones}" var="phone" emptyMessage="#{label['phone.notadd']}"
 					id="phoneTable">
@@ -57,7 +57,7 @@
 					</p:column>
 				</p:dataTable>
 			</p:fieldset>
-			<p:commandButton action="#{clientController.save}" value="#{label['client.save']}]"/>
+			<p:commandButton action="#{clientController.save}" value="#{label['client.save']}" update="@form"/>
 			
 			
 		</h:form>

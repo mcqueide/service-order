@@ -114,7 +114,7 @@ public class ServiceOrderController {
 		this.listServiceOrder = listServiceOrder;
 	}
 	
-	public ServiceOrderType[] orderTypes(){
+	public ServiceOrderType[] getOrderTypes(){
 		return orderTypes;
 	}
 	
