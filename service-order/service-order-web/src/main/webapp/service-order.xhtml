@@ -8,16 +8,16 @@
 	template="/template.xhtml">
 	
 	<ui:define name="titulo">
-		Service Order
+		#{label['serviceorder.title']}
 	</ui:define>
 
 	<ui:define name="body">
 		<h:form id="formulario">
 			<p:messages autoUpdate="true"/>
-			<p:fieldset legend="Ordem Serviço">
+			<p:fieldset legend="#{label['serviceorder.fieldset.legend']}">
 				<p:panelGrid columns="1" styleClass="panelGrid-semBorda">
 					
-					<p:outputLabel for="cliente" value="Cliente:"  />
+					<p:outputLabel for="cliente" value="#{label['serviceorder.client']}"  />
 				        <p:selectOneMenu id="cliente" value="#{newServiceOrder.client}" converter="clientConverter"
 				                         effect="fade" var="c" filter="true" filterMatchMode="startsWith">
 				            <f:selectItems value="#{serviceOrderController.listClient}" var="client" itemLabel="#{client.name}" itemValue="#{client}" />
@@ -27,15 +27,15 @@
 				            </p:column>
 				        </p:selectOneMenu>
 					
-					<p:outputLabel for="osType" value="OS Type"/>
+					<p:outputLabel for="osType" value="#{label['serviceorder.ostype']}"/>
 					<p:selectOneRadio id="osType" value="#{newServiceOrder.orderServiceType}">
-						<f:selectItems value="#{serviceOrderController.orderTypes}" var="type" itemValue="#{type}" itemLabel="#{type.label}"/>
+						<f:selectItems value="#{serviceOrderController.orderTypes}" var="type" itemValue="#{type}" itemLabel="#{label[type.label]}"/>
 					</p:selectOneRadio>
 		
-					<p:outputLabel for="reportedProblem" value="Problema Relatado" />
+					<p:outputLabel for="reportedProblem" value="#{label['serviceorder.reportedproblem']}" />
 					<p:inputText id="reportedProblem" value="#{newServiceOrder.reportedProblem}" />
 					
-					<p:commandButton action="#{serviceOrderController.save}" value="Save" />
+					<p:commandButton action="#{serviceOrderController.save}" value="#{label['serviceorder.save']}" />
 				</p:panelGrid>
 			</p:fieldset>
 		</h:form>

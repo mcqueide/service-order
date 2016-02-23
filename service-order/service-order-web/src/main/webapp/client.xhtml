@@ -7,7 +7,7 @@
 	xmlns:ui="http://java.sun.com/jsf/facelets" template="/template.xhtml">
 
 	<ui:define name="titulo">
-		Cliente
+		#{label['client.title']}
 	</ui:define>
 
 	<ui:define name="body">
@@ -44,7 +44,7 @@
 					<p:outputLabel for="esn" value="#{label['phone.esn']}" />
 					<p:inputText id="esn" value="#{newPhone.esn}" />
 				</p:panelGrid>
-				<p:commandButton value="Gravar" action="#{clientController.addClientPhone}" update="phoneTable"/>
+				<p:commandButton value="Gravar" action="#{clientController.addClientPhone}" update="phoneTable @form"/>
 				
 				<p:dataTable value="#{newClient.telefones}" var="phone" emptyMessage="#{label['phone.notadd']}"
 					id="phoneTable">

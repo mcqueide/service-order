@@ -8,11 +8,11 @@
 
 	<ui:composition>
 		<p:menubar>
-			<p:submenu label="Ordem Serviço">
-				<p:menuitem value="Nova" url="/service-order.jsf"/>
+			<p:submenu label="#{label['menu.serviceorder']}">
+				<p:menuitem value="#{label['menu.serviceorder.new']}" url="/service-order.jsf"/>
 			</p:submenu>
-			<p:submenu label="Cliente">
-				<p:menuitem value="Novo Cliente" url="/client.jsf"></p:menuitem>
+			<p:submenu label="#{label['menu.client']}">
+				<p:menuitem value="#{label['menu.client.new']}" url="/client.jsf"></p:menuitem>
 			</p:submenu>
 		</p:menubar>
 	</ui:composition>

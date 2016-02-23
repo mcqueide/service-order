@@ -2,6 +2,8 @@ package br.com.codeshare.controller;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.Map;
 
 import javax.annotation.PostConstruct;
 import javax.enterprise.inject.Produces;
@@ -77,6 +79,6 @@ public class ClientController implements Serializable {
 			newClient.setTelefones(new ArrayList<Phone>());
 		}
 		newClient.getTelefones().add(phoneController.getNewPhone());
-
+		phoneController.initNewPhone();
 	}
 }

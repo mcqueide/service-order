@@ -2,8 +2,8 @@ package br.com.codeshare.enums;
 
 public enum ServiceOrderType {
 
-	BUDGET(0,"Orçamento"),
-	SERVICE(1,"Serviço");
+	BUDGET(0,"serviceorder.ostype.budget"),
+	SERVICE(1,"serviceorder.ostype.budget");
 	
 	private Integer cod;
 	private String label;
