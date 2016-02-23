@@ -7,12 +7,15 @@ import javax.annotation.PostConstruct;
 import javax.enterprise.inject.Model;
 import javax.enterprise.inject.Produces;
 import javax.faces.application.FacesMessage;
+import javax.faces.bean.ManagedProperty;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
 
 import br.com.codeshare.enums.ServiceOrderType;
+import br.com.codeshare.model.Client;
 import br.com.codeshare.model.ServiceOrder;
+import br.com.codeshare.service.ClientService;
 import br.com.codeshare.service.ServiceOrderService;
 
 @Model
@@ -23,11 +26,15 @@ public class ServiceOrderController {
 
 	@Inject
 	private ServiceOrderService serviceOrderService;
+	@Inject
+	private ClientService clientService;
 
 	private ServiceOrder newServiceOrder;
 	private String filterClient;
 	private Long filterSo;
 	private List<ServiceOrder> listServiceOrder;
+	@ManagedProperty("#{listClientMP}")
+	private List<Client> listClient;
 	private ServiceOrderType[] orderTypes;
 
 	@Produces
@@ -55,6 +62,7 @@ public class ServiceOrderController {
 	public void initNewServiceOrder() {
 		this.newServiceOrder = new ServiceOrder();
 		orderTypes = ServiceOrderType.values();
+		listClient = clientService.searchAll();
 	}
 
 	private String getRootErrorMessage(Exception e) {
@@ -116,6 +124,10 @@ public class ServiceOrderController {
 	
 	public ServiceOrderType[] getOrderTypes(){
 		return orderTypes;
+	}
+
+	public List<Client> getListClient() {
+		return listClient;
 	}
 	
 }

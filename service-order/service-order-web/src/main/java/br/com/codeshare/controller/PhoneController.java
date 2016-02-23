@@ -8,6 +8,7 @@ import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
 
+import br.com.codeshare.enums.PhoneState;
 import br.com.codeshare.model.Phone;
 import br.com.codeshare.service.PhoneService;
 
@@ -65,5 +66,11 @@ public class PhoneController {
         // This is the root cause message
         return errorMessage;
     }
+	
+	@Produces
+	@Named
+	public PhoneState[] getPhoneStates(){
+		return PhoneState.values();
+	}
 	
 }

@@ -11,7 +11,6 @@ import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 
-import br.com.codeshare.enums.PhoneState;
 import br.com.codeshare.model.Client;
 import br.com.codeshare.model.Phone;
 import br.com.codeshare.service.ClientService;
@@ -24,69 +23,60 @@ public class ClientController implements Serializable {
 
 	@Inject
 	private FacesContext facesContext;
-	
+
 	@Inject
 	private ClientService clientService;
-	
+
 	private Client newClient;
-	private Phone newPhone;
-	
+
+	@Inject
+	private PhoneController phoneController;
+
 	@Produces
 	@Named
-	public Client getNewClient(){
+	public Client getNewClient() {
 		return newClient;
 	}
-	@Produces
-	@Named("clientePhone")
-	public Phone getNewPhone(){
-		return newPhone;
-	}
-	
-	public String save() throws Exception{
+
+	public String save() throws Exception {
 		try {
 			clientService.save(newClient);
-			facesContext.addMessage(null,
-                    new FacesMessage(FacesMessage.SEVERITY_INFO, "Registered!", "Registration successful"));
+			facesContext.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Registered!","Registration successful"));
 			initNewClient();
 		} catch (Exception e) {
 			String errorMessage = getRootErrorMessage(e);
-            FacesMessage m = new FacesMessage(FacesMessage.SEVERITY_ERROR, errorMessage, "Registration Unsuccessful");
-            facesContext.addMessage(null, m);
+			FacesMessage m = new FacesMessage(FacesMessage.SEVERITY_ERROR,errorMessage, "Registration Unsuccessful");
+			facesContext.addMessage(null, m);
 		}
 		return null;
 	}
-	
+
 	@PostConstruct
-	public void initNewClient(){
+	public void initNewClient() {
 		newClient = new Client();
 		newClient.setTelefones(new ArrayList<Phone>());
-		newPhone = new Phone();
 	}
-	
-	private String getRootErrorMessage(Exception e) {
-        String errorMessage = "Registration failed. See server log for more information";
-        if (e == null) {
-            return errorMessage;
-        }
 
-        Throwable t = e;
-        while (t != null) {
-            errorMessage = t.getLocalizedMessage();
-            t = t.getCause();
-        }
-        return errorMessage;
-    }
-	
-	public void addClientPhone(){
-		newPhone.setClient(newClient);
-		if(newClient.getTelefones() == null){
+	private String getRootErrorMessage(Exception e) {
+		String errorMessage = "Registration failed. See server log for more information";
+		if (e == null) {
+			return errorMessage;
+		}
+
+		Throwable t = e;
+		while (t != null) {
+			errorMessage = t.getLocalizedMessage();
+			t = t.getCause();
+		}
+		return errorMessage;
+	}
+
+	public void addClientPhone() {
+		phoneController.getNewPhone().setClient(newClient);
+		if (newClient.getTelefones() == null) {
 			newClient.setTelefones(new ArrayList<Phone>());
 		}
-		newClient.getTelefones().add(newPhone);
-		
-	}
-	
-	public PhoneState[] getPhoneStates(){
-		return PhoneState.values();
+		newClient.getTelefones().add(phoneController.getNewPhone());
+
 	}
 }

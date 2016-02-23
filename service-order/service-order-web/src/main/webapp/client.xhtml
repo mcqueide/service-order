@@ -31,18 +31,18 @@
 			<p:fieldset legend="#{label['client.fieldset.phone']}">
 				<p:panelGrid id="telefone" columns="1" styleClass="panelGrid-semBorda">
 					<p:outputLabel for="brand" value="#{label['phone.brand']}" />
-					<p:inputText id="brand" value="#{clientePhone.brand}" />
+					<p:inputText id="brand" value="#{newPhone.brand}" />
 
 					<p:outputLabel for="model" value="#{label['phone.model']}" />
-					<p:inputText id="model" value="#{clientePhone.model}" />
+					<p:inputText id="model" value="#{newPhone.model}" />
 
 					<p:outputLabel for="state" value="#{label['phone.state']}"/>
-					<p:selectOneRadio id="state" value="#{clientePhone.state}">
-						<f:selectItems value="#{clientController.phoneStates}" var="p" itemValue="#{p}" itemLabel="#{label[p.label]}" />
+					<p:selectOneRadio id="state" value="#{newPhone.state}">
+						<f:selectItems value="#{phoneStates}" var="p" itemValue="#{p}" itemLabel="#{label[p.label]}" />
 					</p:selectOneRadio>
 					
 					<p:outputLabel for="esn" value="#{label['phone.esn']}" />
-					<p:inputText id="esn" value="#{clientePhone.esn}" />
+					<p:inputText id="esn" value="#{newPhone.esn}" />
 				</p:panelGrid>
 				<p:commandButton value="Gravar" action="#{clientController.addClientPhone}" update="phoneTable"/>
 				
