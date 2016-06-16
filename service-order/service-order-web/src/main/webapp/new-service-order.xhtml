@@ -1,0 +1,47 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<ui:composition xmlns="http://www.w3.org/1999/xhtml" xmlns:h="http://java.sun.com/jsf/html" xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:p="http://primefaces.org/ui" template="/template.xhtml">
+
+	<ui:define name="title">
+		#{label['new-serviceorder.title']}
+	</ui:define>
+
+	<ui:define name="body">
+		<h:form id="form">
+			<p:messages autoUpdate="true" />
+			<p:fieldset legend="#{label['new-serviceorder.fieldset.legend']}">
+				<p:panelGrid columns="1" styleClass="panelGrid-semBorda">
+					<p:outputLabel for="client" value="#{label['new-serviceorder.client']}" />
+					<p:selectOneMenu id="client" value="#{newServiceOrder.client}" converter="#{clientConverter}" 
+						effect="fade" var="c" filter="true" filterMatchMode="startsWith">
+						<p:ajax listener="#{serviceOrderController.onClientChange}" update="phone" />
+						<f:selectItem itemLabel="#{label['new-serviceorder.client.label']}"/>
+						<f:selectItems value="#{clients}" var="client" itemLabel="#{client.name}" itemValue="#{client}"/>
+						<p:column>
+							<h:outputText value="#{c.name}" />
+						</p:column>
+					</p:selectOneMenu>
+					
+					<p:outputLabel for="phone" value="#{label['new-serviceorder.phone']}" />
+					<p:selectOneMenu id="phone" value="#{newServiceOrder.phone}" converter="#{phoneConverter}" disabled="#{newServiceOrder.client == null}">
+						<f:selectItem itemLabel="#{label['new-serviceorder.phone.label']}"/>
+						<f:selectItems value="#{serviceOrderController.phones}" var="phone" itemLabel="#{phone.model}" itemValue="#{phone}" />
+					</p:selectOneMenu>
+					<p:outputLabel for="osType" value="#{label['new-serviceorder.ostype']}" />
+					<p:selectOneRadio id="osType" value="#{newServiceOrder.serviceOrderType}">
+						<f:selectItems value="#{serviceOrderController.orderTypes}" var="type" itemValue="#{type}" itemLabel="#{label[type.label]}" />
+					</p:selectOneRadio>
+
+					<p:outputLabel for="reportedProblem" value="#{label['new-serviceorder.reportedproblem']}" />
+					<p:inputTextarea id="reportedProblem" value="#{newServiceOrder.reportedProblem}" />
+					
+					<p:outputLabel for="value" value="#{label['new-serviceorder.value']}" />
+                    <p:inputText id="value" value="#{newServiceOrder.value}" />
+                    
+					<p:commandButton action="#{serviceOrderController.save}" value="#{label['new-serviceorder.save']}" update="@form"/>
+				</p:panelGrid>
+			</p:fieldset>
+		</h:form>
+	</ui:define>
+</ui:composition>

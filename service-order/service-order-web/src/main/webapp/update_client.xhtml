@@ -1,0 +1,69 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:ui="http://java.sun.com/jsf/facelets" template="/template.xhtml">
+
+    <ui:define name="titulo">
+        Atualizar Cliente
+    </ui:define>
+
+    <ui:define name="body">
+        <h:form id="form">
+            <p:messages />
+            <p:fieldset legend="#{label['client.fieldset.client']}">
+                <p:panelGrid columns="1" styleClass="panelGrid-semBorda">
+                    <p:outputLabel for="name" value="#{label['client.name']}" />
+                    <p:outputLabel id="name" value="#{clientController.clientSelected.name}" />
+
+                    <p:outputLabel for="adress" value="#{label['client.adress']}" />
+                    <p:inputText id="adress" value="#{clientController.clientSelected.adress}" />
+
+                    <p:outputLabel for="homePhone" value="#{label['client.homePhone']}" />
+                    <p:inputText id="homePhone" value="#{clientController.clientSelected.homePhone}" />
+
+                    <p:outputLabel for="bisenessPhone" value="#{label['client.businessPhone']}" />
+                    <p:inputText id="bisenessPhone" value="#{clientController.clientSelected.bisenessPhone}" />
+                </p:panelGrid>
+            </p:fieldset>
+            <p:fieldset legend="#{label['client.fieldset.phone']}">
+                <p:panelGrid id="phone" columns="1" styleClass="panelGrid-semBorda">
+                    <p:outputLabel for="brand" value="#{label['phone.brand']}" />
+                    <p:inputText id="brand" value="#{newPhone.brand}" />
+
+                    <p:outputLabel for="model" value="#{label['phone.model']}" />
+                    <p:inputText id="model" value="#{newPhone.model}" />
+
+                    <p:outputLabel for="state" value="#{label['phone.state']}"/>
+                    <p:selectOneRadio id="state" value="#{newPhone.state}">
+                        <f:selectItems value="#{phoneStates}" var="p" itemValue="#{p}" itemLabel="#{label[p.label]}" />
+                    </p:selectOneRadio>
+                    
+                    <p:outputLabel for="esn" value="#{label['phone.esn']}" />
+                    <p:inputText id="esn" value="#{newPhone.esn}" />
+                </p:panelGrid>
+                <p:commandButton value="#{label['phone.add']}" action="#{clientController.addClientPhoneOnUpdate}" update="phoneTable @form"/>
+                
+                <p:dataTable value="#{clientController.clientSelected.phones}" var="phone" emptyMessage="#{label['phone.notadd']}"
+                    id="phoneTable">
+					<p:column headerText="" style="width:8%; text-align: center;">
+						<p:commandLink action="#{clientController.removeClientPhone(phone)}" immediate="true" update="phoneTable">
+							<i class="fa fa-times" />
+						</p:commandLink>
+					</p:column>
+
+					<p:column headerText="#{label['phone.brand']}">
+                        <p:outputLabel value="#{phone.brand}"/>
+                    </p:column>
+                    
+                    <p:column headerText="#{label['phone.model']}">
+                        <p:outputLabel value="#{phone.model}"/>
+                    </p:column>
+                </p:dataTable>
+            </p:fieldset>
+            <p:commandButton action="#{clientController.update(clientController.clientSelected)}" value="#{label['client.save']}" update="@form"/>
+        </h:form>
+    </ui:define>
+</ui:composition>

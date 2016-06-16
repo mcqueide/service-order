@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+     xmlns:f="http://java.sun.com/jsf/core"
+     xmlns:h="http://java.sun.com/jsf/html"
+     xmlns:p="http://primefaces.org/ui"
+     xmlns:ui="http://java.sun.com/jsf/facelets">
+
+<ui:composition template="/template.xhtml">
+	<ui:define name="title">
+		${label['detail.serviceorder.title']}
+	</ui:define>
+	
+	<ui:define name="body">
+	<h:form id="form">
+		<a href="#" onclick="window.print();" class="imprimir">
+			<i class="fa fa-print"/>
+		</a>
+		<p:fieldset legend="#{label['detail.serviceorder.fieldset.legend']}" styleClass="detalhaOs">
+			
+			<p:outputLabel value="#{label['detail.serviceorder.name']}" styleClass="itens_detalhamento_titulo"/>
+			<p:outputLabel value="#{serviceOrderController.soSelected.client.name}"/>
+		
+			<p:outputLabel value="#{label['detail.serviceorder.adress']}" styleClass="itens_detalhamento_titulo"/>
+			<p:outputLabel value="#{serviceOrderController.soSelected.client.adress}"/>
+			
+			<div>
+				<p:outputLabel value="#{label['detail.serviceorder.homephone']}" styleClass="itens_detalhamento_titulo"/>
+				<p:outputLabel value="#{serviceOrderController.soSelected.client.homePhone}"/>
+			</div>
+			
+			<div>
+				<p:outputLabel value="#{label['detail.serviceorder.businessphone']}" styleClass="itens_detalhamento_titulo"/>
+				<p:outputLabel value="#{serviceOrderController.soSelected.client.bisenessPhone}"/>
+			</div>
+			
+			<br />
+			
+			<div>
+				<p:outputLabel value="#{label['detail.serviceorder.brand']}" styleClass="itens_detalhamento_titulo"/>
+				<p:outputLabel value="#{serviceOrderController.soSelected.phone.brand}"/>
+			</div>
+			<div>
+				<p:outputLabel value="#{label['detail.serviceorder.model']}" styleClass="itens_detalhamento_titulo"/>
+				<p:outputLabel value="#{serviceOrderController.soSelected.phone.model}"/>
+			</div>
+			
+			<div>
+				<p:outputLabel value="#{label['detail.serviceorder.phonestate']}" styleClass="itens_detalhamento_titulo"/>
+				<p:outputLabel value="#{label[serviceOrderController.soSelected.phone.state.label]}"/>
+			</div>
+			
+			<br />
+			
+			<div>
+				<p:outputLabel value="#{label['detail.serviceorder.esn']}" styleClass="itens_detalhamento_titulo"/>
+				<p:outputLabel value="#{serviceOrderController.soSelected.phone.esn}"/>
+			</div>
+			
+			<div>
+				<p:outputLabel value="#{label['detail.serviceorder.date']}" styleClass="itens_detalhamento_titulo"/>
+				<p:outputLabel value="#{serviceOrderController.soSelected.dateSo}">
+					<f:convertDateTime pattern="dd/MM/yyyy" timeZone="America/Sao_Paulo"/>
+				</p:outputLabel>
+			</div>
+			<div>
+				<p:outputLabel value="#{label['detail.serviceorder.sotype']}" styleClass="itens_detalhamento_titulo"/>
+				<p:outputLabel value="#{label[serviceOrderController.soSelected.serviceOrderType.label]}"/>
+			</div>
+			<div>
+				<p:outputLabel value="#{label['detail.serviceorder.value']}"/>
+				<p:outputLabel value="R$ #{serviceOrderController.soSelected.value}"/>
+			</div>
+			<label />
+			<p:outputLabel value="#{label['detail.serviceorder.reportedproblem']}"/>
+			<p:outputLabel value="#{serviceOrderController.soSelected.reportedProblem}"/>
+			
+			<p:outputLabel value="#{label['detail.serviceorder.termsheet']}"/>
+			<h:outputFormat value="#{msg['term_sheet']}" escape="false">
+				<f:param value="WC"/>
+			</h:outputFormat>
+			<label />
+			
+			<ui:fragment rendered="#{!empty serviceOrderController.soSelected.problemFound}">
+				<p:outputLabel value="#{label['detail.serviceorder.problemfound']}"/>
+				<p:outputLabel value="#{serviceOrderController.soSelected.problemFound}"/>
+			</ui:fragment>
+			
+			<ui:fragment rendered="#{!empty serviceOrderController.soSelected.executedService}">
+				<p:outputLabel value="#{label['detail.serviceorder.executedservice']}"/>
+				<p:outputLabel value="#{serviceOrderController.soSelected.executedService}"/>
+			</ui:fragment>
+			
+		</p:fieldset>
+		
+	</h:form>
+	</ui:define>
+</ui:composition>
+</html>

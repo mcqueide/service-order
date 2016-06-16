@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+     xmlns:f="http://java.sun.com/jsf/core"
+     xmlns:h="http://java.sun.com/jsf/html"
+     xmlns:p="http://primefaces.org/ui"
+     xmlns:ui="http://java.sun.com/jsf/facelets">
+
+<ui:composition template="/template.xhtml">
+	<ui:define name="title">
+		${label['detail.serviceorder.title']}
+	</ui:define>
+	
+	<ui:define name="body">
+		<h:form id="form">
+			<p:messages autoUpdate="true" />
+			<p:fieldset legend="#{label['new-serviceorder.fieldset.legend']}">
+				<p:panelGrid columns="1" styleClass="panelGrid-semBorda">
+					<p:outputLabel for="client" value="#{label['new-serviceorder.client']}" />
+					<p:outputLabel id="client" value="#{serviceOrderController.soSelected.client.name}"/>
+					
+					<p:outputLabel for="phone" value="#{label['new-serviceorder.phone']}" />
+					<p:outputLabel id="phone" value="#{serviceOrderController.soSelected.phone.brand} - #{serviceOrderController.soSelected.phone.model}" />
+					
+					<p:outputLabel for="osType" value="#{label['new-serviceorder.ostype']}" />
+					<p:selectOneRadio id="osType" value="#{serviceOrderController.soSelected.serviceOrderType}">
+						<f:selectItems value="#{serviceOrderController.orderTypes}" var="type" itemValue="#{type}" itemLabel="#{label[type.label]}" />
+					</p:selectOneRadio>
+
+					<p:outputLabel for="reportedProblem" value="#{label['new-serviceorder.reportedproblem']}" />
+					<p:inputTextarea id="reportedProblem" value="#{serviceOrderController.soSelected.reportedProblem}" />
+
+                    <p:outputLabel for="value" value="#{label['new-serviceorder.value']}" />
+                    <p:inputText id="value" value="#{serviceOrderController.soSelected.value}" />
+
+					<p:outputLabel for="soState" value="Estado da Os"/>
+					<p:selectOneRadio id="soState" value="#{serviceOrderController.soSelected.SOState}">
+						<f:selectItems value="#{serviceOrderController.orderStates}" var="state" itemValue="#{state}" itemLabel="#{label[state.label]}"/>
+						<f:ajax execute="@this" render="action"/>
+					</p:selectOneRadio>
+						
+					<p:fragment id="action">
+							<p:fragment id="waiting" rendered="#{serviceOrderController.soSelected.SOState.id} == 1 ||
+								ordemServicoMBean.osSelecionada.estadoOrdemServico.codigo == 2}">
+								<p:outputLabel for="problemFound" value="Problema Encontrado"/>
+								<p:inputTextarea id="problemFound" value="#{serviceOrderController.soSelected.problemFound}"/>
+							</p:fragment>
+							
+							<p:fragment id="approved" rendered="#{serviceOrderController.soSelected.SOState.id == 2}">
+								<p:outputLabel for="executedService" value="Serviço Executado"/>
+								<p:inputTextarea id="executedService" value="#{serviceOrderController.soSelected.executedService}"/>
+							</p:fragment>
+							
+							<p:fragment id="deliveryDate" rendered="#{serviceOrderController.soSelected.SOState.id == 2}">
+								<p:outputLabel for="date" value="Data Prevista para Entrega"/>
+								<p:calendar id="date" value="#{serviceOrderController.soSelected.datePhoneWithdrawl}"/>
+							</p:fragment>
+					</p:fragment>
+					
+					<p:commandButton action="#{serviceOrderController.update(serviceOrderController.soSelected)}" value="#{label['new-serviceorder.save']}" />
+				</p:panelGrid>
+			</p:fieldset>
+			
+			
+		</h:form>
+	</ui:define>
+</ui:composition>
+</html>

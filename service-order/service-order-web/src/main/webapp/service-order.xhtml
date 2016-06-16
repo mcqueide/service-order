@@ -1,0 +1,49 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<ui:composition xmlns="http://www.w3.org/1999/xhtml" xmlns:h="http://java.sun.com/jsf/html" xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:p="http://primefaces.org/ui" template="/template.xhtml">
+
+	<ui:define name="title">
+		#{label['serviceorder.title']}
+	</ui:define>
+
+	<ui:define name="body">
+		<h:form id="form">
+			<p:messages autoUpdate="true" />
+			<p:fieldset legend="#{label['serviceorder.fieldset.legend']}">
+				<p class="query">#{label['serviceorder.choisefield']}</p>
+				<p:panelGrid columns="4" styleClass="search">
+					<p:outputLabel for="numOs" value="#{label['serviceorder.sonumber']}" />
+					<p:inputText id="numOs" value="#{serviceOrderController.filterSo}">
+						<p:ajax update="tableOs" event="keyup" listener="#{serviceOrderController.searchById}"/>
+					</p:inputText>
+
+					<p:outputLabel for="searchName" value="#{label['serviceorder.clientname']}" />
+					<p:inputText id="searchName" value="#{serviceOrderController.filterClient}">
+						<p:ajax update="tableOs" event="keyup" listener="#{serviceOrderController.searchByName}"/>
+					</p:inputText>
+				</p:panelGrid>
+			</p:fieldset>
+
+			<p:dataTable id="tableOs" var="so" value="#{serviceOrderController.listServiceOrder}" emptyMessage="#{label['serviceorder.table.emptymessage']}">
+				<p:column headerText="" style="width:8%; text-align: center;">
+					<p:commandLink action="#{serviceOrderController.detail(so)}" immediate="true">
+						<i class="fa fa-search" />
+					</p:commandLink>
+					<p:commandLink action="#{serviceOrderController.edit(so)}" immediate="true">
+						<i class="fa fa-pencil-square-o" />
+					</p:commandLink>
+				</p:column>
+				<p:column headerText="#{label['serviceorder.table.sonumber']}" style="width:11%; text-align: center;">
+					<h:outputLabel value="#{so.id}" />
+				</p:column>
+				<p:column headerText="#{label['serviceorder.table.clientName']}" style="width:59%;">
+					<h:outputLabel value="#{so.client.name}" />
+				</p:column>
+				<p:column headerText="#{label['serviceorder.table.cellphone']}" style="width:22%;">
+					<h:outputLabel value="#{so.phone.model}" />
+				</p:column>
+			</p:dataTable>
+		</h:form>
+	</ui:define>
+</ui:composition>

@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+     xmlns:f="http://java.sun.com/jsf/core"
+     xmlns:h="http://java.sun.com/jsf/html"
+     xmlns:p="http://primefaces.org/ui"
+     xmlns:ui="http://java.sun.com/jsf/facelets">
+<f:view locale="#{language.localeCode}" encoding="utf-8">
+<h:head>
+	<title>
+		<ui:insert name="title"/>
+	</title>
+	<link rel="stylesheet" type="text/css" href="resources/css/reset.css" />
+	<link rel="stylesheet" type="text/css" href="resources/css/style.css" />
+	<link rel="stylesheet" type="text/css" href="resources/css/fonts/font-awesome.min.css" />
+</h:head>
+<body>
+	<div class="main">
+		<div class="menu">
+			<ui:include src="/menu.xhtml" />
+		</div>	
+		
+		<div id="body">
+			<ui:insert name="body"/>
+		</div>
+	</div>
+</body>
+</f:view>
+</html>

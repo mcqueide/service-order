@@ -1,0 +1,38 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:ui="http://java.sun.com/jsf/facelets" template="/template.xhtml">
+
+    <ui:define name="titulo">
+        #{label['client.title']}
+    </ui:define>
+
+    <ui:define name="body">
+        <h:form id="form">
+            <p:messages />
+            <p:fieldset legend="#{label['clients.fieldset.legend']}">
+                <p:panelGrid columns="2">
+                    <p:outputLabel value="#{label['clients.clientname']}"/>
+                    <p:inputText value="#{clientController.filterName}">
+                        <p:ajax update="tableClient" event="keyup" listener="#{clientController.searchByName}"/>
+                    </p:inputText>
+                </p:panelGrid>
+            </p:fieldset>
+            
+            <p:dataTable id="tableClient" var="client" value="#{clientController.listClients}" emptyMessage="#{label['clients.table.emptymessage']}">
+                <p:column headerText="" style="width:8%; text-align: center;">
+                    <p:commandLink action="#{clientController.edit(client)}" immediate="true">
+                        <i class="fa fa-pencil-square-o"/>
+                    </p:commandLink>
+                </p:column>
+                
+                <p:column headerText="#{label['clients.table.clientname']}">
+                    <p:outputLabel value="#{client.name}"/>
+                </p:column>
+            </p:dataTable>
+        </h:form>
+    </ui:define>
+</ui:composition>
