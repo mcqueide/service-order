@@ -111,7 +111,8 @@ public class ServiceOrderServiceTest {
 		Client client = new ClientBuilder()
 				.withName("John Mc.Queide")
 				.withAdress("Quadra 101 Conjunto 07 Casa 07")
-				.withHomePhone("(61) 1234-9812")
+				.withHomePhone("(61)1234-9812")
+				.withBusinessPhone("")
 				.withPhone(Arrays.asList(phones))
 				.build();
 		return client;
@@ -122,7 +123,8 @@ public class ServiceOrderServiceTest {
 		Client client = new ClientBuilder()
 				.withName("John Mc.Queide")
 				.withAdress("Quadra 101 Conjunto 07 Casa 07")
-				.withHomePhone("(61) 1234-9812")
+				.withHomePhone("(61)1234-9812")
+				.withBusinessPhone("")
 				.build();
 		return client;
 	}
