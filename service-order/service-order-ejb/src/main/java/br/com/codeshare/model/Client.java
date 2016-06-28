@@ -46,7 +46,7 @@ public class Client implements Serializable{
 	@Column(name="home_phone")
 	private String homePhone;
 	
-	@PhoneLengthPattern
+	@PhoneLengthPattern(min=13,max=14)
 	@Column(name="business_phone")
 	private String bisenessPhone;
 	

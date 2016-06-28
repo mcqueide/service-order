@@ -7,17 +7,22 @@ import br.com.codeshare.annotation.validator.PhoneLengthPattern;
 
 public class PhoneLengthValidator implements ConstraintValidator<PhoneLengthPattern, String>{
 
+	private int min;
+	private int max;
+
 	@Override
-	public void initialize(PhoneLengthPattern constraintAnnotation) {
-		
+	public void initialize(PhoneLengthPattern parameters) {
+		min = parameters.min();
+		max = parameters.max();
 	}
 
 	@Override
 	public boolean isValid(String value, ConstraintValidatorContext context) {
 		
-		if(!(value.isEmpty()) && (value.length() < 13) || (value.length() > 14) )
-			return false;
-		return true;
+		if(value.isEmpty())
+			return true;
+		
+		return value.length()>= min && value.length() <= max;
 	}
-
+	
 }
