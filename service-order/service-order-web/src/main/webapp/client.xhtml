@@ -22,10 +22,10 @@
 					<p:inputText id="adress" value="#{newClient.adress}" />
 
 					<p:outputLabel for="homePhone" value="#{label['client.homePhone']}" />
-					<p:inputText id="homePhone" value="#{newClient.homePhone}"/>
+					<p:inputText id="homePhone" value="#{newClient.homePhone}" validator="#{phoneLengthValidator.validate}"/>
 
 					<p:outputLabel for="bisenessPhone" value="#{label['client.businessPhone']}" />
-					<p:inputText id="bisenessPhone" value="#{newClient.bisenessPhone}" />
+					<p:inputText id="bisenessPhone" value="#{newClient.bisenessPhone}" validator="#{phoneLengthValidator.validate}"/>
 				</p:panelGrid>
 			</p:fieldset>
 			<p:fieldset legend="#{label['client.fieldset.phone']}" id="phones">

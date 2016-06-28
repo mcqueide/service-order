@@ -14,6 +14,7 @@ import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
 
+import br.com.codeshare.enums.ErrorCode;
 import br.com.codeshare.exception.BusinessException;
 import br.com.codeshare.model.Client;
 import br.com.codeshare.model.Phone;
@@ -67,13 +68,14 @@ public class ClientController implements Serializable {
 	
 	public String save() throws Exception {
 		try {
+			validatePhoneLeastOnePhoneObligatory(newClient);
+			
 			clientService.save(newClient);
 			facesContext.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, WebResources.getMessage("register"),WebResources.getMessage("sucess_register")));
 			initNewClient();
 		}catch (BusinessException e) {
 			FacesMessage m = new FacesMessage(FacesMessage.SEVERITY_ERROR,WebResources.getMessage(e.getErrorCode()),"");
 			facesContext.addMessage(null, m);
-			initNewClient();
 		}catch (Exception e) {
 			String errorMessage = getRootErrorMessage(e);
 			FacesMessage m = new FacesMessage(FacesMessage.SEVERITY_ERROR,errorMessage,WebResources.getMessage("unsuccessful"));
@@ -87,23 +89,31 @@ public class ClientController implements Serializable {
 
 	public String update(Client client) throws Exception{
 		try {
+			validatePhoneLeastOnePhoneObligatory(client);
+			
 			clientService.update(client,phoneToBeRemove);
 			facesContext.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,  WebResources.getMessage("register"),WebResources.getMessage("sucess_register")));
 			initNewClient();
 		}catch (BusinessException e) {
 			FacesMessage m = new FacesMessage(FacesMessage.SEVERITY_ERROR,WebResources.getMessage(e.getErrorCode()),"");
 			facesContext.addMessage(null, m);
-			initNewClient();
+			return null;
 		} catch (Exception e) {
 			String errorMessage = getRootErrorMessage(e);
 			FacesMessage m = new FacesMessage(FacesMessage.SEVERITY_ERROR, errorMessage, WebResources.getMessage("unsuccessful"));
 			facesContext.addMessage(null, m);
-			initNewClient();
+			return null;
 		}
 		if(!conversation.isTransient()){
 			conversation.end();
 		}
 		return "clients";
+	}
+	
+	private void validatePhoneLeastOnePhoneObligatory(Client client) throws BusinessException {
+		if(client.getHomePhone().isEmpty() && client.getBisenessPhone().isEmpty()){
+			throw new BusinessException(ErrorCode.LEAST_ONE_PHONE_OBLIGATORY.getErrorCode());
+		}
 	}
 
 	private String getRootErrorMessage(Exception e) {

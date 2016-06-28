@@ -26,32 +26,10 @@ public class ClientService{
 	
 	public void save(Client client) throws Exception{
 		
-		validatePhoneLeastOnePhoneObligatory(client);
-		validatePhoneLength(client);
-		
 		clientRepository.insert(client);
 		clientEventSrc.fire(client);
 	}
 
-	private void validatePhoneLength(Client client) throws BusinessException {
-		if(!client.getHomePhone().isEmpty()){
-			if(client.getHomePhone().length() < 13 || client.getHomePhone().length() >14){
-				throw new BusinessException(ErrorCode.LENGTH_MUST_BE_BETWEEN_13_14.getErrorCode());
-			}
-		}
-		if(!client.getBisenessPhone().isEmpty()){
-			if(client.getBisenessPhone().length() < 13 || client.getBisenessPhone().length() >14){
-				throw new BusinessException(ErrorCode.LENGTH_MUST_BE_BETWEEN_13_14.getErrorCode());
-			}
-		}
-	}
-
-	private void validatePhoneLeastOnePhoneObligatory(Client client) throws BusinessException {
-		if(client.getHomePhone().isEmpty() && client.getBisenessPhone().isEmpty()){
-			throw new BusinessException(ErrorCode.LEAST_ONE_PHONE_OBLIGATORY.getErrorCode());
-		}
-	}
-	
 	public Client findById(Long id)
 	{
 		return clientRepository.findById(id);
@@ -66,9 +44,6 @@ public class ClientService{
 	}
 
 	public void update(Client client,List<Phone>phonesToBeRemove) throws Exception {
-		
-		validatePhoneLeastOnePhoneObligatory(client);
-		validatePhoneLength(client);
 		
 		clientRepository.update(client);
 		
