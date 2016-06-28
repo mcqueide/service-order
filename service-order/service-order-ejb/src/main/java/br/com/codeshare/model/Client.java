@@ -16,7 +16,10 @@ import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.validation.constraints.NotNull;
 
+import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.NotEmpty;
+
+import br.com.codeshare.annotation.validator.PhoneLengthPattern;
 
 @Entity
 @NamedQueries(
@@ -39,9 +42,11 @@ public class Client implements Serializable{
 	
 	private String adress;
 	
+	@PhoneLengthPattern(min=13,max=14)
 	@Column(name="home_phone")
 	private String homePhone;
 	
+	@PhoneLengthPattern
 	@Column(name="business_phone")
 	private String bisenessPhone;
 	

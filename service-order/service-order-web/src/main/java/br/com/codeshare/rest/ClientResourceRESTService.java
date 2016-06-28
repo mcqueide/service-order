@@ -11,6 +11,7 @@ import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import javax.validation.ConstraintViolation;
 import javax.validation.ConstraintViolationException;
+import javax.validation.ValidationException;
 import javax.validation.Validator;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
@@ -23,6 +24,8 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 import br.com.codeshare.data.ClientRepository;
+import br.com.codeshare.enums.ErrorCode;
+import br.com.codeshare.exception.BusinessException;
 import br.com.codeshare.model.Client;
 
 @Path("/client")
@@ -105,6 +108,12 @@ public class ClientResourceRESTService {
 			throw new ConstraintViolationException(new HashSet<ConstraintViolation<?>>(violations));
 		}
 		
+		try {
+			validatePhoneLeastOnePhoneObligatory(client);
+		} catch (BusinessException e) {
+			throw new ValidationException(e.getErrorCode(), e);
+		}
+		
 	}
 	
 	private Response.ResponseBuilder createViolationResponse(Set<ConstraintViolation<?>> violations) {
@@ -118,5 +127,11 @@ public class ClientResourceRESTService {
 
         return Response.status(Response.Status.BAD_REQUEST).entity(responseObj);
     }
+	
+	private void validatePhoneLeastOnePhoneObligatory(Client client) throws BusinessException {
+		if(client.getHomePhone().isEmpty() && client.getBisenessPhone().isEmpty()){
+			throw new BusinessException(ErrorCode.LEAST_ONE_PHONE_OBLIGATORY.getErrorCode());
+		}
+	}
 	
 }
