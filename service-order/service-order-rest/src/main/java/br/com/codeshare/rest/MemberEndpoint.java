@@ -1,6 +1,5 @@
 package br.com.codeshare.rest;
 
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -9,6 +8,7 @@ import java.util.logging.Logger;
 
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
+import javax.persistence.OptimisticLockException;
 import javax.validation.ConstraintViolation;
 import javax.validation.ConstraintViolationException;
 import javax.validation.ValidationException;
@@ -16,6 +16,7 @@ import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
+import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
@@ -102,7 +103,7 @@ public class MemberEndpoint {
 		return repository.findAllOrderedByName(startPosition,maxResult);
 	}
 
-	/*@PUT
+	@PUT
 	@Path("/{id:[0-9][0-9]*}")
 	@Consumes("application/json")
 	public Response update(@PathParam("id") Long id, Member entity) {
@@ -115,18 +116,18 @@ public class MemberEndpoint {
 		if (!id.equals(entity.getId())) {
 			return Response.status(Status.CONFLICT).entity(entity).build();
 		}
-		if (em.find(Member.class, id) == null) {
+		if (repository.findById(id) == null) {
 			return Response.status(Status.NOT_FOUND).build();
 		}
 		try {
-			entity = em.merge(entity);
+			entity = registration.update(entity);
 		} catch (OptimisticLockException e) {
 			return Response.status(Response.Status.CONFLICT)
 					.entity(e.getEntity()).build();
 		}
 
 		return Response.noContent().build();
-	}*/
+	}
 	
 	private Response.ResponseBuilder createViolationResponse(Set<ConstraintViolation<?>> violations) {
         log.fine("Validation completed. violations found: " + violations.size());

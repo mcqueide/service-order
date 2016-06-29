@@ -33,6 +33,14 @@ public class MemberRegistration extends AbstractRepository<Client>{
     
     public void remove(Member member){
     	log.info("Removing " + member.getName());
+    	em.merge(member);
     	em.remove(member);
+    }
+    
+    public Member update(Member member){
+    	log.info("Updating " + member.getName());
+    	Member merge = em.merge(member);
+    	em.persist(merge);
+    	return merge;
     }
 }
