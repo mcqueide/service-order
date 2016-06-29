@@ -1,29 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	
 	<modelVersion>4.0.0</modelVersion>
-
+	
 	<parent>
 		<artifactId>service-order</artifactId>
 		<groupId>br.com.codeshare</groupId>
 		<version>1.0</version>
 	</parent>
-
-	<artifactId>service-order-web</artifactId>
+	
+	<artifactId>service-order-angular</artifactId>
 	<packaging>war</packaging>
-
-	<name>service-order: WAR Module</name>
-
-	<url>http://wildfly.org</url>
-	<licenses>
-		<license>
-			<name>Apache License, Version 2.0</name>
-			<distribution>repo</distribution>
-			<url>http://www.apache.org/licenses/LICENSE-2.0.html</url>
-		</license>
-	</licenses>
-
+	
 	<dependencies>
 
 		<!-- Dependency on the EJB module so we can use it's services if needed -->
@@ -50,14 +39,6 @@
 			<scope>provided</scope>
 		</dependency>
 
-		<!-- Import the JSF API, we use provided scope as the API is included in 
-			JBoss WildFly -->
-		<dependency>
-			<groupId>org.jboss.spec.javax.faces</groupId>
-			<artifactId>jboss-jsf-api_2.2_spec</artifactId>
-			<scope>provided</scope>
-		</dependency>
-
 		<!-- Import the JPA API, we use provided scope as the API is included in 
 			JBoss WildFly -->
 		<dependency>
@@ -81,14 +62,8 @@
 			</exclusions>
 		</dependency>
 
-		<dependency>
-			<groupId>org.primefaces</groupId>
-			<artifactId>primefaces</artifactId>
-			<version>5.3</version>
-		</dependency>
-
 	</dependencies>
-
+	
 	<build>
 		<finalName>${project.artifactId}</finalName>
 		<plugins>
@@ -101,21 +76,6 @@
 				</configuration>
 			</plugin>
 		</plugins>
-		
-		<resources>
-			<resource>
-				<directory>src/main/java</directory>
-				<includes>
-					<include>**/*.properties</include>
-				</includes>
-			</resource>
-			<resource>
-				<directory>src/main/resources</directory>
-				<includes>
-					<include>**/*.properties</include>
-				</includes>
-			</resource>
-		</resources>
 	</build>
-
+	
 </project>

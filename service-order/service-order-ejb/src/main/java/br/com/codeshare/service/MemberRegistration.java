@@ -16,30 +16,23 @@
  */
 package br.com.codeshare.service;
 
-import br.com.codeshare.model.Member;
-
 import javax.ejb.Stateless;
-import javax.enterprise.event.Event;
-import javax.inject.Inject;
-import javax.persistence.EntityManager;
-import java.util.logging.Logger;
+
+import br.com.codeshare.data.AbstractRepository;
+import br.com.codeshare.model.Client;
+import br.com.codeshare.model.Member;
 
 // The @Stateless annotation eliminates the need for manual transaction demarcation
 @Stateless
-public class MemberRegistration {
-
-    @Inject
-    private Logger log;
-
-    @Inject
-    private EntityManager em;
-
-    @Inject
-    private Event<Member> memberEventSrc;
+public class MemberRegistration extends AbstractRepository<Client>{
 
     public void register(Member member) throws Exception {
         log.info("Registering " + member.getName());
         em.persist(member);
-        memberEventSrc.fire(member);
+    }
+    
+    public void remove(Member member){
+    	log.info("Removing " + member.getName());
+    	em.remove(member);
     }
 }

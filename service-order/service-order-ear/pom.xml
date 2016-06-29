@@ -49,8 +49,18 @@
         </dependency>
         <dependency>
             <groupId>br.com.codeshare</groupId>
+            <artifactId>service-order-angular</artifactId>
+            <type>war</type>
+        </dependency>
+        <dependency>
+            <groupId>br.com.codeshare</groupId>
             <artifactId>service-order-ejb</artifactId>
             <type>ejb</type>
+        </dependency>
+        <dependency>
+            <groupId>br.com.codeshare</groupId>
+            <artifactId>service-order-rest</artifactId>
+            <type>war</type>
         </dependency>
     </dependencies>
 
