@@ -7,6 +7,7 @@ angular.module('serviceorderangular',['ngRoute','ngResource'])
       .when('/Members',{templateUrl:'views/Member/search.html',controller:'SearchMemberController'})
       .when('/Members/new',{templateUrl:'views/Member/detail.html',controller:'NewMemberController'})
       .when('/Members/edit/:MemberId',{templateUrl:'views/Member/detail.html',controller:'EditMemberController'})
+      .when('/Clients',{templateUrl:'views/Client/search.html',controller:'SearchClientController'})
       .otherwise({
         redirectTo: '/'
       });

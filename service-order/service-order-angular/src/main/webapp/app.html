@@ -35,6 +35,7 @@
                     <nav class="sidebar-nav" ng-controller="NavController" role="navigation">
                         <div id="sidebar-entries" class="list-group">
                         	<a class="list-group-item" ng-class="{active: matchesRoute('Members')}" href="#/Members" data-toggle="offcanvas">Members</a>
+                        	<a class="list-group-item" ng-class="{active: matchesRoute('Clients')}" href="#/Clients" data-toggle="offcanvas">Clients</a>
                         </div>
                     </nav>
                 </div>
@@ -78,5 +79,7 @@
     <script src="scripts/controllers/newMemberController.js"></script>
     <script src="scripts/controllers/searchMemberController.js"></script>
     <script src="scripts/controllers/editMemberController.js"></script>
+    <script src="scripts/controllers/searchClientController.js"></script>
+    <script src="scripts/services/ClientFactory.js"></script>
 </body>
 </html>
