@@ -61,6 +61,7 @@
 .panelGrid-semBorda td{
 	border: none !important;
 	vertical-align: middle;
+	padding-left: 0px !important;
 }
 
 .menu_languages{

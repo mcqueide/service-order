@@ -20,12 +20,26 @@
 
 					<p:outputLabel for="adress" value="#{label['client.adress']}" />
 					<p:inputText id="adress" value="#{newClient.adress}" />
-
-					<p:outputLabel for="homePhone" value="#{label['client.homePhone']}" />
-					<p:inputText id="homePhone" value="#{newClient.homePhone}"/>
-
-					<p:outputLabel for="bisenessPhone" value="#{label['client.businessPhone']}" />
-					<p:inputText id="bisenessPhone" value="#{newClient.bisenessPhone}"/>
+					
+					<p:fragment rendered='#{!language.localeCode.equals("en")}'>
+						<p:panelGrid columns="1" styleClass="panelGrid-semBorda">
+							<p:outputLabel for="homePhone_pt" value="#{label['client.homePhone']}" />
+							<p:inputMask id="homePhone_pt" value="#{newClient.homePhone}" mask="(99)99999-9999"/>
+							
+							<p:outputLabel for="bisenessPhone_pt" value="#{label['client.businessPhone']}" />
+							<p:inputMask id="bisenessPhone_pt" value="#{newClient.bisenessPhone}" mask="(99)9999-9999"/>
+						</p:panelGrid>
+					</p:fragment>
+					
+					<p:fragment rendered='#{language.localeCode.equals("en")}'>
+						<p:panelGrid columns="1" styleClass="panelGrid-semBorda">
+							<p:outputLabel for="homePhone_en" value="#{label['client.homePhone']}" />
+							<p:inputText id="homePhone_en" value="#{newClient.homePhone}"/>
+							
+							<p:outputLabel for="bisenessPhone_en" value="#{label['client.businessPhone']}" />
+							<p:inputText id="bisenessPhone_en" value="#{newClient.bisenessPhone}"/>
+						</p:panelGrid>
+					</p:fragment>
 				</p:panelGrid>
 			</p:fieldset>
 			<p:fieldset legend="#{label['client.fieldset.phone']}" id="phones">
@@ -44,7 +58,7 @@
 					<p:outputLabel for="esn" value="#{label['phone.esn']}" />
 					<p:inputText id="esn" value="#{newPhone.esn}" />
 				</p:panelGrid>
-				<p:commandButton value="#{label['phone.add']}" action="#{clientController.addClientPhone}" update="phoneTable phones" ajax="true" process="phones"/>
+				<p:commandButton value="#{label['phone.add']}" action="#{clientController.addClientPhone}" update="phoneTable phones" process="phones"/>
 				
 				<p:dataTable value="#{newClient.phones}" var="phone" emptyMessage="#{label['phone.notadd']}"
 					id="phoneTable">
