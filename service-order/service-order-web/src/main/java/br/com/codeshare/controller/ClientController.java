@@ -131,9 +131,6 @@ public class ClientController implements Serializable {
 	}
 
 	public void addClientPhone() {
-		if(conversation.isTransient()){
-			conversation.begin();
-		}
 		
 		phoneController.getNewPhone().setClient(newClient);
 		if (newClient.getPhones() == null) {
@@ -141,6 +138,12 @@ public class ClientController implements Serializable {
 		}
 		newClient.getPhones().add(phoneController.getNewPhone());
 		phoneController.initNewPhone();
+	}
+	
+	public void initConversation(){
+		if(conversation.isTransient()){
+			conversation.begin();
+		}
 	}
 	
 	public void removeClientPhone(Phone phone){

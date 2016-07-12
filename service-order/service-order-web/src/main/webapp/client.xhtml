@@ -12,6 +12,12 @@
 
 	<ui:define name="body">
 		<h:form id="form">
+			<f:metadata>
+			    <f:event listener="#{clientController.initConversation()}" type="preRenderView" />
+			</f:metadata>
+			<input type="hidden" name="cid" value="#{clientController.idConversation}"/>
+			<h:inputHidden id="cid2" name="cid2" value="#{clientController.idConversation}" />
+			<f:param name="cid" value="#{clientController.idConversation}"></f:param>
 			<p:messages />
 			<p:fieldset legend="#{label['client.fieldset.client']}" id="client">
 				<p:panelGrid columns="1" styleClass="panelGrid-semBorda">
