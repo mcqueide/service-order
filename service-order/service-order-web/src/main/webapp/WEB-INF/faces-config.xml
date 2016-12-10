@@ -9,9 +9,13 @@
 	<!-- Write your navigation rules here. You are encouraged to use CDI for 
 		creating @Named managed beans. -->
 	<application>
+		<message-bundle>resources.application</message-bundle>
 		<locale-config>
 			<supported-locale>pt</supported-locale>
 			<supported-locale>en</supported-locale>
+		</locale-config>
+		<locale-config>
+			<default-locale>en</default-locale>
 		</locale-config>
 		<resource-bundle>
 			<base-name>br.com.codeshare.messages.labels</base-name>

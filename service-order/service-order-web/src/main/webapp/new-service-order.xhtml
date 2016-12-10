@@ -36,8 +36,14 @@
 					<p:outputLabel for="reportedProblem" value="#{label['new-serviceorder.reportedproblem']}" />
 					<p:inputTextarea id="reportedProblem" value="#{newServiceOrder.reportedProblem}" />
 					
-					<p:outputLabel for="value" value="#{label['new-serviceorder.value']}" />
-                    <p:inputText id="value" value="#{newServiceOrder.value}" />
+                    <p:fragment rendered='#{!language.localeCode.equals("en")}'>
+						<p:outputLabel for="value_pt" value="#{label['new-serviceorder.value']}" />
+                    	<p:spinner id="value_pt" value="#{newServiceOrder.value}" prefix="R$" min="0" stepFactor="0.1"/>
+                   	</p:fragment>
+                    <p:fragment rendered='#{language.localeCode.equals("en")}'>
+                    	<p:outputLabel for="value_en" value="#{label['new-serviceorder.value']}" />
+                    	<p:spinner id="value_en" value="#{newServiceOrder.value}" prefix="$" min="0.0" stepFactor="0.1"/>
+                    </p:fragment>
                     
 					<p:commandButton action="#{serviceOrderController.save}" value="#{label['new-serviceorder.save']}" update="@form"/>
 				</p:panelGrid>

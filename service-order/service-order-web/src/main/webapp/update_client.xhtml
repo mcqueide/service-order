@@ -44,12 +44,12 @@
                     <p:outputLabel for="esn" value="#{label['phone.esn']}" />
                     <p:inputText id="esn" value="#{newPhone.esn}" />
                 </p:panelGrid>
-                <p:commandButton value="#{label['phone.add']}" action="#{clientController.addClientPhoneOnUpdate}" update="phoneTable @form"/>
+                <p:commandButton value="#{label['phone.add']}" action="#{clientController.addClientPhone(clientController.clientSelected)}" update="phoneTable @form"/>
                 
                 <p:dataTable value="#{clientController.clientSelected.phones}" var="phone" emptyMessage="#{label['phone.notadd']}"
                     id="phoneTable">
 					<p:column headerText="" style="width:8%; text-align: center;">
-						<p:commandLink action="#{clientController.removeClientPhone(phone)}" immediate="true" update="phoneTable">
+						<p:commandLink action="#{clientController.removeClientPhone(clientController.clientSelected,phone)}" immediate="true" update="phoneTable">
 							<i class="fa fa-times" />
 						</p:commandLink>
 					</p:column>

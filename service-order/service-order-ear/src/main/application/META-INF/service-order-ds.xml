@@ -12,8 +12,7 @@
         <driver>postgres</driver>
         <security>
             <user-name>postgres</user-name>
-            <password>postgres</password>
+            <password>root</password>
         </security>
     </datasource>
 </datasources>
- 

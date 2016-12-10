@@ -3,13 +3,13 @@ package br.com.codeshare.controller;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.Conversation;
 import javax.enterprise.context.ConversationScoped;
 import javax.enterprise.inject.Produces;
 import javax.faces.application.FacesMessage;
+import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -18,7 +18,6 @@ import br.com.codeshare.enums.ErrorCode;
 import br.com.codeshare.exception.BusinessException;
 import br.com.codeshare.model.Client;
 import br.com.codeshare.model.Phone;
-import br.com.codeshare.qualifiers.SessionMap;
 import br.com.codeshare.service.ClientService;
 import br.com.codeshare.service.PhoneService;
 import br.com.codeshare.util.WebResources;
@@ -31,8 +30,8 @@ public class ClientController implements Serializable {
 
 	@Inject
 	private FacesContext facesContext;
-	@Inject @SessionMap
-	private Map<String, Object> sessionMap;
+	@Inject
+	private ExternalContext externalContext;
 	@Inject
 	private ClientService clientService;
 
@@ -63,13 +62,13 @@ public class ClientController implements Serializable {
 	public void initNewClient() {
 		newClient = new Client();
 		newClient.setTelefones(new ArrayList<Phone>());
-		listClients = clientService.findAll();
+		if(externalContext.getRequestServletPath().equals("/clients.jsf")){
+			listClients = clientService.findAll();
+		}
 	}
 	
 	public String save() throws Exception {
 		try {
-			validatePhoneLeastOnePhoneObligatory(newClient);
-			
 			clientService.save(newClient);
 			facesContext.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, WebResources.getMessage("register"),WebResources.getMessage("sucess_register")));
 			initNewClient();
@@ -89,8 +88,6 @@ public class ClientController implements Serializable {
 
 	public String update(Client client) throws Exception{
 		try {
-			validatePhoneLeastOnePhoneObligatory(client);
-			
 			clientService.update(client,phoneToBeRemove);
 			facesContext.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,  WebResources.getMessage("register"),WebResources.getMessage("sucess_register")));
 			initNewClient();
@@ -110,12 +107,6 @@ public class ClientController implements Serializable {
 		return "clients";
 	}
 	
-	private void validatePhoneLeastOnePhoneObligatory(Client client) throws BusinessException {
-		if(client.getHomePhone().isEmpty() && client.getBisenessPhone().isEmpty()){
-			throw new BusinessException(ErrorCode.LEAST_ONE_PHONE_OBLIGATORY.getErrorCode());
-		}
-	}
-
 	private String getRootErrorMessage(Exception e) {
 		String errorMessage = "Registration failed. See server log for more information";
 		if (e == null) {
@@ -130,13 +121,16 @@ public class ClientController implements Serializable {
 		return errorMessage;
 	}
 
-	public void addClientPhone() {
-		
-		phoneController.getNewPhone().setClient(newClient);
-		if (newClient.getPhones() == null) {
-			newClient.setTelefones(new ArrayList<Phone>());
+	public void addClientPhone(Client client) {
+		if(conversation.isTransient()){
+			conversation.begin();
 		}
-		newClient.getPhones().add(phoneController.getNewPhone());
+		
+		phoneController.getNewPhone().setClient(client);
+		if (client.getPhones() == null) {
+			client.setTelefones(new ArrayList<Phone>());
+		}
+		client.getPhones().add(phoneController.getNewPhone());
 		phoneController.initNewPhone();
 	}
 	
@@ -146,29 +140,16 @@ public class ClientController implements Serializable {
 		}
 	}
 	
-	public void removeClientPhone(Phone phone){
+	public void removeClientPhone(Client client, Phone phone){
 		if(conversation.isTransient()){
 			conversation.begin();
 		}
 		
-		clientSelected.getPhones().remove(phone);
+		client.getPhones().remove(phone);
 		if(phoneToBeRemove == null){
 			phoneToBeRemove = new ArrayList<Phone>();
 		}
 		phoneToBeRemove.add(phone);
-	}
-	
-	public void addClientPhoneOnUpdate() {
-		if(conversation.isTransient()){
-			conversation.begin();
-		}
-		
-		phoneController.getNewPhone().setClient(clientSelected);
-		if (clientSelected.getPhones() == null) {
-			clientSelected.setTelefones(new ArrayList<Phone>());
-		}
-		clientSelected.getPhones().add(phoneController.getNewPhone());
-		phoneController.initNewPhone();
 	}
 	
 	public void searchByName() {
@@ -186,12 +167,11 @@ public class ClientController implements Serializable {
 		this.clientSelected = client;
 		List<Phone> phoneList = phoneService.findPhoneByClientId(clientSelected.getId());
 		clientSelected.setTelefones(phoneList);
-		sessionMap.put("client", client);
 		return "update_client";
 	}
 	
 	public Client getClientSelected() {
-		return (Client) sessionMap.get("client");
+		return clientSelected;
 	}
 	
 	public String getFilterName() {

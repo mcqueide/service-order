@@ -30,9 +30,15 @@
 					<p:outputLabel for="reportedProblem" value="#{label['new-serviceorder.reportedproblem']}" />
 					<p:inputTextarea id="reportedProblem" value="#{serviceOrderController.soSelected.reportedProblem}" />
 
-                    <p:outputLabel for="value" value="#{label['new-serviceorder.value']}" />
-                    <p:inputText id="value" value="#{serviceOrderController.soSelected.value}" />
-
+					<p:fragment rendered='#{!language.localeCode.equals("en")}'>
+						<p:outputLabel for="value_pt" value="#{label['new-serviceorder.value']}" />
+                    	<p:spinner id="value_pt" value="#{serviceOrderController.soSelected.value}" prefix="R$" min="0" stepFactor="0.1"/>
+                   	</p:fragment>
+                    <p:fragment rendered='#{language.localeCode.equals("en")}'>
+                    	<p:outputLabel for="value_en" value="#{label['new-serviceorder.value']}" />
+                    	<p:spinner id="value_en" value="#{serviceOrderController.soSelected.value}" prefix="$" min="0.0" stepFactor="0.1"/>
+                    </p:fragment>
+                    
 					<p:outputLabel for="soState" value="Estado da Os"/>
 					<p:selectOneRadio id="soState" value="#{serviceOrderController.soSelected.SOState}">
 						<f:selectItems value="#{serviceOrderController.orderStates}" var="state" itemValue="#{state}" itemLabel="#{label[state.label]}"/>
@@ -60,7 +66,6 @@
 					<p:commandButton action="#{serviceOrderController.update(serviceOrderController.soSelected)}" value="#{label['new-serviceorder.save']}" />
 				</p:panelGrid>
 			</p:fieldset>
-			
 			
 		</h:form>
 	</ui:define>

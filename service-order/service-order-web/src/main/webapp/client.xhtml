@@ -12,12 +12,6 @@
 
 	<ui:define name="body">
 		<h:form id="form">
-			<f:metadata>
-			    <f:event listener="#{clientController.initConversation()}" type="preRenderView" />
-			</f:metadata>
-			<input type="hidden" name="cid" value="#{clientController.idConversation}"/>
-			<h:inputHidden id="cid2" name="cid2" value="#{clientController.idConversation}" />
-			<f:param name="cid" value="#{clientController.idConversation}"></f:param>
 			<p:messages />
 			<p:fieldset legend="#{label['client.fieldset.client']}" id="client">
 				<p:panelGrid columns="1" styleClass="panelGrid-semBorda">
@@ -64,10 +58,17 @@
 					<p:outputLabel for="esn" value="#{label['phone.esn']}" />
 					<p:inputText id="esn" value="#{newPhone.esn}" />
 				</p:panelGrid>
-				<p:commandButton value="#{label['phone.add']}" action="#{clientController.addClientPhone}" update="phoneTable phones" process="phones"/>
+				<p:commandButton value="#{label['phone.add']}" action="#{clientController.addClientPhone(newClient)}" update="phoneTable @form"/>
 				
 				<p:dataTable value="#{newClient.phones}" var="phone" emptyMessage="#{label['phone.notadd']}"
 					id="phoneTable">
+					
+					<p:column headerText="" style="width:8%; text-align: center;">
+						<p:commandLink action="#{clientController.removeClientPhone(newClient,phone)}" immediate="true" update="phoneTable">
+							<i class="fa fa-times" />
+						</p:commandLink>
+					</p:column>
+					
 					<p:column headerText="#{label['phone.brand']}">
 						<p:outputLabel value="#{phone.brand}"/>
 					</p:column>
