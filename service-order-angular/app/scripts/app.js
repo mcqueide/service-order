@@ -11,8 +11,8 @@ angular.module('serviceOrder',['ngRoute','ngResource'])
         });
 
         $routeProvider.when('/clients', {
-           templateUrl: 'views/clients.html'
-
+            templateUrl: 'views/clients.html',
+            controller: 'ClientController'
         });
 
         $routeProvider.otherwise({redirectTo: '/clients'});
