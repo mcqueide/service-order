@@ -1,0 +1,36 @@
+{
+  "name": "service-order",
+  "private": true,
+  "devDependencies": {
+    "browser-sync": "~2.12.10",
+    "del": "~2.2.0",
+    "gulp": "~3.9.1",
+    "gulp-autoprefixer": "~3.1.0",
+    "gulp-cache": "~0.4.5",
+    "gulp-changed": "~1.3.0",
+    "gulp-concat": "~2.6.0",
+    "gulp-cssnano": "~2.1.2",
+    "gulp-imagemin": "~3.0.1",
+    "gulp-jshint": "~2.0.1",
+    "gulp-livereload": "~3.8.1",
+    "gulp-minify-css": "~1.2.4",
+    "gulp-ng-annotate": "^2.0.0",
+    "gulp-notify": "~2.2.0",
+    "gulp-rename": "~1.2.2",
+    "gulp-rev": "~7.0.0",
+    "gulp-ruby-sass": "~2.0.6",
+    "gulp-uglify": "~1.5.3",
+    "gulp-usemin": "~0.3.23",
+    "jasmine-core": "^2.4.1",
+    "jshint": "~2.9.2",
+    "jshint-stylish": "~2.2.0",
+    "karma": "^1.0.0",
+    "karma-chrome-launcher": "^1.0.1",
+    "karma-jasmine": "^1.0.2",
+    "karma-phantomjs-launcher": "^1.0.1",
+    "phantomjs": "^2.1.7"
+  },
+  "engines": {
+    "node": ">=0.10.0"
+  }
+}
