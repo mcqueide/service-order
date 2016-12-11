@@ -1,1 +1,21 @@
-<h1>{{test}}</h1>
+<div class="conteiner">
+    <div class="row row-content">
+        <div class="col-xs-12">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th></th>
+                        <th>Client Name</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr ng-repeat="client in clients">
+                        <td><i class="fa fa-pencil-square-o"/></td>
+                        <td>{{client.name}}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+    </div>
+</div>

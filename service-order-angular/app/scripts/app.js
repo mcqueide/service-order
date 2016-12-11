@@ -5,10 +5,10 @@
 
 angular.module('serviceOrder',['ngRoute','ngResource'])
     .config(function ($routeProvider,$locationProvider) {
-        $locationProvider.html5Mode({
+        /*$locationProvider.html5Mode({
             enabled: true,
             requireBase: false
-        });
+        });*/
 
         $routeProvider.when('/clients', {
             templateUrl: 'views/clients.html',

@@ -36,7 +36,6 @@
         <module>service-order-ejb</module>
         <module>service-order-web</module>
         <module>service-order-ear</module>
-        <module>service-order-angular</module>
         <module>service-order-rest</module>
     </modules>
 
@@ -87,14 +86,6 @@
             <dependency>
                 <groupId>br.com.codeshare</groupId>
                 <artifactId>service-order-web</artifactId>
-                <version>${project.version}</version>
-                <type>war</type>
-                <scope>compile</scope>
-            </dependency>
-            
-            <dependency>
-                <groupId>br.com.codeshare</groupId>
-                <artifactId>service-order-angular</artifactId>
                 <version>${project.version}</version>
                 <type>war</type>
                 <scope>compile</scope>
