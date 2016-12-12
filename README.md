@@ -8,7 +8,7 @@ Project to work with service orders from a cel phone store made with: Java, JSF,
  - PostgreSQL 9.4
  - JDK 1.7 +
 
-2. First you have to config your environment, to do this you can follow this [instructions](https://github.com/CodeShareEducation/java-service-order/blob/master/how-to-config-data-source-wildfly.md).
+2. First you have to config your environment, to do this you can follow this [instructions](how-to-config-data-source-wildfly.md)).
 
 3. You'll need set the correct username and password of you database to the default value of application (username=postgres, password=postgres), or change them in the service-order-ds.xml file (it's into `service-order/service-order-ear/src/main/application/META-INF`).
 
