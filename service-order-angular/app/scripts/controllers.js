@@ -1,18 +1,21 @@
 /**
  * Created by mcqueide on 10/12/16.
  */
-'use strict';
 
-angular.module('serviceOrder')
-    .controller('ClientController',['$scope','clientService',function ($scope,clientService) {
+(function () {
+    'use strict';
 
-        $scope.message = 'Loading ...';
-        clientService.getClients().query(
-            function (response) {
-                $scope.clients = response;
-            },
-            function (response) {
-                $scope.message = 'Error: ' + response.status + ' ' + response.statusText;
-            }
-        );
-    }]);
+    angular.module('serviceOrder')
+        .controller('ClientController',['$scope','clientService',function ($scope,clientService) {
+
+            $scope.message = 'Loading ...';
+            clientService.getClients().query(
+                function (response) {
+                    $scope.clients = response;
+                },
+                function (response) {
+                    $scope.message = 'Error: ' + response.status + ' ' + response.statusText;
+                }
+            );
+        }]);
+})();
