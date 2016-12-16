@@ -67,6 +67,7 @@
         <!-- maven-compiler-plugin -->
         <maven.compiler.target>1.7</maven.compiler.target>
         <maven.compiler.source>1.7</maven.compiler.source>
+
     </properties>
 
     <dependencyManagement>
@@ -155,6 +156,29 @@
                 </plugin>
             </plugins>
         </pluginManagement>
+
+        <resources>
+            <resource>
+                <excludes>
+                    <exclude>**/persistence.xml</exclude>
+                </excludes>
+                <directory>src/main/resources</directory>
+            </resource>
+            <resource>
+                <includes>
+                    <include>**/persistence.xml</include>
+                </includes>
+                <directory>src/main/resources</directory>
+                <filtering>true</filtering>
+            </resource>
+        </resources>
+
+        <testResources>
+            <testResource>
+                <directory>src/test/resources</directory>
+                <filtering>true</filtering>
+            </testResource>
+        </testResources>
     </build>
 
 </project>

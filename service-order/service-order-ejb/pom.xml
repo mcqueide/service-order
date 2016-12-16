@@ -151,6 +151,7 @@
                         </configuration>
                     </plugin>
                 </plugins>
+
             </build>
         </profile>
 
@@ -172,6 +173,15 @@
                     <scope>test</scope>
                 </dependency>
             </dependencies>
+
+            <properties>
+                <jta.data.source>java:jboss/datasources/service-orderDS</jta.data.source>
+                <hibernate.show_sql>true</hibernate.show_sql>
+                <hibernate.format_sql>true</hibernate.format_sql>
+                <hibernate.dialect>org.hibernate.dialect.PostgreSQLDialect</hibernate.dialect>
+                <hibernate.hbm2ddl.auto>update</hibernate.hbm2ddl.auto>
+                <javax.persistence.sql-load-script-source/>
+            </properties>
         </profile>
 
         <profile>
@@ -187,6 +197,14 @@
                     <scope>test</scope>
                 </dependency>
             </dependencies>
+
+            <properties>
+                <jta.data.source.arquilian>java:jboss/datasources/service-orderTestDS</jta.data.source.arquilian>
+                <hibernate.show_sql>true</hibernate.show_sql>
+                <hibernate.format_sql>true</hibernate.format_sql>
+                <hibernate.hbm2ddl.auto>create-drop</hibernate.hbm2ddl.auto>
+            </properties>
+
         </profile>
 
     </profiles>
