@@ -55,36 +55,3 @@ After execute the `standalone.sh` to start the server. For the next step run the
 Now, to add postgres module in wildfly, download postgresql [driver](https://github.com/CodeShareEducation/java-service-order/raw/master/config/postgresql-9.4-1206-jdbc41.jar) in one folder of your choice, and run this command, `module add --name=org.postgres --resources=/tmp/postgresql-9.4-1206-jdbc41.jar --dependencies=javax.api,javax.transaction.api`.
 
 Then we have to install the driver in the wildfly. `/subsystem=datasources/jdbc-driver=postgres:add(driver-name="postgres",driver-module-name="org.postgres",driver-class-name=org.postgresql.Driver)`.
-
-## CORS with WildFly
-
-Maybe when you run the angular application you will get the `No 'Access-Control-Allow-Origin' header is present on the requested resource. Origin 'http://localhost' is therefore not allowed access.`. To solve this you can edit you standalone.xml as follow:
-
-```xml
-<subsystem xmlns="urn:jboss:domain:undertow:1.1">
-    <buffer-cache name="default"/>
-    <server name="default-server">
-        <http-listener name="default" socket-binding="http"/>
-        <host name="default-host" alias="localhost">
-            <location name="/" handler="welcome-content"/>
-            <filter-ref name="server-header"/>
-            <filter-ref name="x-powered-by-header"/>
-            <filter-ref name="Access-Control-Allow-Origin"/>
-            <filter-ref name="Access-Control-Allow-Methods"/>
-            <filter-ref name="Access-Control-Allow-Headers"/>
-            <filter-ref name="Access-Control-Allow-Credentials"/>
-            <filter-ref name="Access-Control-Max-Age"/>
-        </host>
-    </server>
-    ...
-    <filters>
-        <response-header name="server-header" header-name="Server" header-value="WildFly/8"/>
-        <response-header name="x-powered-by-header" header-name="X-Powered-By" header-value="Undertow/1"/>
-        <response-header name="Access-Control-Allow-Origin" header-name="Access-Control-Allow-Origin" header-value="*"/>
-        <response-header name="Access-Control-Allow-Methods" header-name="Access-Control-Allow-Methods" header-value="GET, POST, OPTIONS, PUT"/>
-        <response-header name="Access-Control-Allow-Headers" header-name="Access-Control-Allow-Headers" header-value="accept, authorization,  content-type, x-requested-with"/>
-        <response-header name="Access-Control-Allow-Credentials" header-name="Access-Control-Allow-Credentials" header-value="true"/>
-        <response-header name="Access-Control-Max-Age" header-name="Access-Control-Max-Age" header-value="1"/>
-    </filters>
-</subsystem>
-```
