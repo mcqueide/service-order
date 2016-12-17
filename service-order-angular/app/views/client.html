@@ -1,0 +1,130 @@
+<div class="conteiner">
+    <div class="row row-content">
+        <div class="col-xs-12">
+            <form class="form-horizontal" name="clientForm" novalidate>
+                <fieldset><legend>Client</legend>
+                    <div class="form-group" ng-class="{ 'has-error' : clientForm.name.$error.required &&
+                        !clientForm.name.$pristine }">
+
+                        <label for="name" class="col-sm-2 control-label">Name</label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" id="name" name="name" placeholder="Enter Name"
+                                   ng-model="client.name" required>
+                            <span ng-show="clientForm.name.$error.required && !clientForm.name.$pristine" class="help-block">
+                                Your name is required.</span>
+                        </div>
+
+                    </div>
+                    <div class="form-group" ng-class="{ 'has-error' : clientForm.address.$error.required &&
+                        !clientForm.address.$pristine }">
+
+                        <label for="address" class="col-sm-2 control-label">Address</label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" id="address" name="address" placeholder="Enter Address"
+                                   ng-model="client.adress" required>
+                            <span ng-show="clientForm.address.$error.required && !clientForm.address.$pristine"
+                                  class="help-block"> Your address is required.</span>
+                        </div>
+
+                    </div>
+                    <div class="form-group" ng-class="{ 'has-error' : clientForm.homePhone.$error.required &&
+                        !clientForm.homePhone.$pristine }">
+
+                        <label for="homePhone" class="col-sm-2 control-label">Home Phone</label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" id="homePhone" name="homePhone" placeholder="Enter Home Phone"
+                                   ng-model="client.homePhone" required>
+                            <span ng-show="clientForm.homePhone.$error.required && !clientForm.homePhone.$pristine"
+                                  class="help-block"> Your home phone is required.</span>
+                        </div>
+
+                    </div>
+                    <div class="form-group" ng-class="{ 'has-error' : clientForm.bisenessPhone.$error.required &&
+                        !clientForm.bisenessPhone.$pristine }">
+
+                        <label for="bisenessPhone" class="col-sm-2 control-label">Business Phone</label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" id="bisenessPhone" name="bisenessPhone"
+                                   placeholder="Enter Business Phone" ng-model="client.bisenessPhone" required>
+                            <span ng-show="clientForm.bisenessPhone.$error.required && !clientForm.bisenessPhone.$pristine"
+                                  class="help-block">Your home phone is required.</span>
+                        </div>
+
+                    </div>
+                </fieldset>
+                <fieldset>
+                    <legend>Phone</legend>
+
+                    <div class="form-group" ng-class="{ 'has-error' : clientForm.brand.$error.required &&
+                    !clientForm.brand.$pristine }">
+
+                        <label for="brand" class="col-sm-2 control-label">Brand</label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" id="brand" name="brand"
+                                   placeholder="Enter Brand" ng-model="phone.brand" required>
+                            <span ng-show="clientForm.brand.$error.required && !clientForm.brand.$pristine"
+                                  class="help-block">Your brand is required.</span>
+                        </div>
+
+                    </div>
+                    <div class="form-group" ng-class="{ 'has-error' : clientForm.model.$error.required &&
+                    !clientForm.model.$pristine }">
+
+                        <label for="model" class="col-sm-2 control-label">Model</label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" id="model" name="model"
+                                   placeholder="Enter Model" ng-model="phone.model" required>
+                            <span ng-show="clientForm.model.$error.required && !clientForm.model.$pristine"
+                                  class="help-block">Your model is required.</span>
+                        </div>
+
+                    </div>
+                    <div class="form-group" ng-class="{ 'has-error' : clientForm.state.$error.required &&
+                    !clientForm.state.$pristine }">
+
+                        <label for="state" class="col-sm-2 control-label">State</label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" id="state" name="state"
+                                   placeholder="Enter State" ng-model="phone.state" required>
+                            <span ng-show="clientForm.state.$error.required && !clientForm.state.$pristine"
+                                  class="help-block">Your state is required.</span>
+                        </div>
+
+                    </div>
+                    <div class="form-group" ng-class="{ 'has-error' : clientForm.esn.$error.required &&
+                    !clientForm.esn.$pristine }">
+
+                        <label for="esn" class="col-sm-2 control-label">Esn</label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" id="esn" name="esn"
+                                   placeholder="Enter Esn" ng-model="phone.esn" required>
+                            <span ng-show="clientForm.esn.$error.required && !clientForm.esn.$pristine"
+                                  class="help-block">Your esn is required.</span>
+                        </div>
+
+                    </div>
+                    <button class="btn btn-info" ng-click="addPhone()">Add Phone</button>
+
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th></th>
+                                <th>Brand</th>
+                                <th>Model</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr ng-repeat="phone in client.phones">
+                                <td><i class="fa fa-trash action" aria-hidden="true" ng-click="removeClientPhone(phone)"/></td>
+                                <td>{{phone.brand}}</td>
+                                <td>{{phone.model}}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </fieldset>
+
+                <button type="submit" class="btn btn-primary" ng-click="registerClient()">Save</button>
+            </form>
+        </div>
+    </div>
+</div>
