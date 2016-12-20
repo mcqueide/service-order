@@ -45,7 +45,7 @@ public class Phone implements Serializable{
 	@JoinColumn(name="client_id")
 	private Client client;
 	
-	@OneToMany(mappedBy="phone",fetch=FetchType.EAGER)
+	@OneToMany(mappedBy="phone")
 	private List<ServiceOrder> os;
 	
 	public Phone() {

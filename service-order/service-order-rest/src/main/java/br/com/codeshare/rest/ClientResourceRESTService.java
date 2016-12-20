@@ -76,14 +76,19 @@ public class ClientResourceRESTService {
 	@Path("/{id:[0-9][0-9]*}")
 	@Produces(MediaType.APPLICATION_JSON)
 	public Client lookupClientById(@PathParam("id") Long id){
-		Client client = repository.findById(id);
+		Client client = repository.findClientById(id);
 		
 		if(client == null){
 			throw new WebApplicationException(Response.Status.NOT_FOUND);
 		}
 		
 		client.setOrdemServicos(null);
-		client.setTelefones(null);
+
+		for(Phone phone : client.getPhones()){
+		    phone.setOs(null);
+		    phone.setClient(null);
+        }
+
 		return client;
 	}
 	
@@ -145,6 +150,7 @@ public class ClientResourceRESTService {
 	@PUT
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
+	@Path("/{id:[0-9][0-9]*}")
 	public Response updateClient(Client client){
 		
 		ResponseBuilder builder = null;

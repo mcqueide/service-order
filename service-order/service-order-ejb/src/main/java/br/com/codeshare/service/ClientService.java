@@ -29,6 +29,11 @@ public class ClientService{
 		validatePhoneLeastOnePhoneObligatory(client);
 
 		clientRepository.insert(client);
+
+		for(Phone phone : client.getPhones()){
+			phoneService.register(phone);
+		}
+
 		clientEventSrc.fire(client);
 	}
 
