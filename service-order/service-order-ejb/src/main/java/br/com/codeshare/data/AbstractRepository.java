@@ -1,15 +1,14 @@
 package br.com.codeshare.data;
 
-import java.io.Serializable;
-import java.lang.reflect.ParameterizedType;
-import java.util.List;
-import java.util.logging.Logger;
-
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
+import java.io.Serializable;
+import java.lang.reflect.ParameterizedType;
+import java.util.List;
+import java.util.logging.Logger;
 
 public class AbstractRepository<T extends Serializable> implements Repository<T> {
 

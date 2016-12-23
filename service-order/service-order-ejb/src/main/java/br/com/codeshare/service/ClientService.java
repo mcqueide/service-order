@@ -72,10 +72,6 @@ public class ClientService{
 		clientEventSrc.fire(client);
 	}
 	
-	public void removePhoneCliente(Client client, Phone phone){
-		clientRepository.removePhoneClient(client, phone);
-	}
-
 	private void validatePhoneLeastOnePhoneObligatory(Client client) throws BusinessException {
 		if(client.getHomePhone().isEmpty() && client.getBisenessPhone().isEmpty()){
 			throw new BusinessException(ErrorCode.LEAST_ONE_PHONE_OBLIGATORY.getErrorCode());

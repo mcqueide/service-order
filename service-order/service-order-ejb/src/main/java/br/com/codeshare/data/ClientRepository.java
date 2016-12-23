@@ -26,14 +26,6 @@ public class ClientRepository extends AbstractRepository<Client>{
 		return query.getResultList();
 	}
 	
-	public void removePhoneClient(Client client, Phone phone){
-		log.info(String.format("Removing phone %s belongs %s", phone.getBrand(),client.getName()));
-		Client clientMerge = getEntityManager().merge(client);
-		Phone phoneMerge = getEntityManager().merge(phone);
-		clientMerge.getPhones().remove(phoneMerge);
-		getEntityManager().remove(phoneMerge);
-	}
-
 	public Client findClientById(Long id){
 		return getEntityManager().createQuery("select client from Client client join fetch client.phones where client.id = :id", Client.class)
 				.setParameter("id",id).getSingleResult();

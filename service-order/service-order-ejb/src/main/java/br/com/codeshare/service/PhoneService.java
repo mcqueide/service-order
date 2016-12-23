@@ -18,9 +18,6 @@ public class PhoneService {
 	private Logger log;
 	
 	@Inject
-	private EntityManager em;
-	
-	@Inject
 	private Event<Phone> phoneEvent;
 	
 	@Inject
@@ -28,7 +25,7 @@ public class PhoneService {
 	
 	public void register(Phone phone) throws Exception{
 		log.info("Registering " + phone.getModel());
-		em.persist(phone);
+		phoneRepository.insert(phone);
 		phoneEvent.fire(phone);
 	}
 	
@@ -42,11 +39,11 @@ public class PhoneService {
 		return phoneRepository.findById(id);
 	}
 	
-	public void remove(Phone phone){
-		log.info(String.format("Removing %s  - %s", phone.getBrand(), phone.getModel()));
-		Phone merge = em.merge(phone);
-		em.remove(merge);
-		phoneEvent.fire(merge);
+	public void remove(Phone phoneToBeRemoved){
+		log.info(String.format("Removing %s  - %s", phoneToBeRemoved.getBrand(), phoneToBeRemoved.getModel()));
+        Phone phone = phoneRepository.findById(phoneToBeRemoved.getId());
+        phoneRepository.delete(phone);
+		phoneEvent.fire(phone);
 	}
 	
 	public List<Phone> findPhoneByClientId(Long id){
