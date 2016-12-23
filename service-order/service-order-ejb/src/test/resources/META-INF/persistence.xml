@@ -5,29 +5,9 @@
 	xsi:schemaLocation="
         http://java.sun.com/xml/ns/persistence
         http://java.sun.com/xml/ns/persistence/persistence_2_0.xsd">
-	<persistence-unit name="primary">
-		
-		<!-- The datasource is deployed as <EAR>/META-INF/service-order-ds.xml, 
-			you can find it in the source at ear/src/main/application/META-INF/service-order-ds.xml -->
-		<jta-data-source>${jta.data.source}</jta-data-source>
-		
-		<class>br.com.codeshare.model.Client</class>
-		<class>br.com.codeshare.model.ServiceOrder</class>
-		<class>br.com.codeshare.model.Phone</class>
-		
-		<properties>
-			<!-- Properties for Hibernate -->
-			<property name="hibernate.hbm2ddl.auto" value="validate" />
-			<property name="hibernate.dialect" value="${hibernate.dialect}" />
-			<property name="hibernate.show_sql" value="${hibernate.show_sql}" />
-			<property name="hibernate.format_sql" value="${hibernate.format_sql}" />
-			<property name="javax.persistence.sql-load-script-source" value="${javax.persistence.sql-load-script-source}" />
 
-		</properties>
-	</persistence-unit>
-
-    <persistence-unit name="mockPU" transaction-type="RESOURCE_LOCAL">
-
+    <persistence-unit name="primary" transaction-type="RESOURCE_LOCAL">
+		<provider>org.hibernate.ejb.HibernatePersistence</provider>
         <class>br.com.codeshare.model.Client</class>
         <class>br.com.codeshare.model.ServiceOrder</class>
         <class>br.com.codeshare.model.Phone</class>

@@ -26,7 +26,7 @@
 		</properties>
 	</persistence-unit>
 
-    <persistence-unit name="mockPU" transaction-type="RESOURCE_LOCAL">
+    <!--<persistence-unit name="mockPU" transaction-type="RESOURCE_LOCAL">
 
         <class>br.com.codeshare.model.Client</class>
         <class>br.com.codeshare.model.ServiceOrder</class>
@@ -42,5 +42,5 @@
             <property name="hibernate.show_sql" value="false" />
             <property name="hibernate.dialect" value="org.hibernate.dialect.H2Dialect" />
         </properties>
-    </persistence-unit>
+    </persistence-unit>-->
 </persistence>
