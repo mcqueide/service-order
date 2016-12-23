@@ -1,5 +1,6 @@
 package br.com.codeshare.data;
 
+import javax.persistence.EntityManager;
 import java.util.List;
 
 public interface Repository<T> {
@@ -10,5 +11,6 @@ public interface Repository<T> {
 	T findById(Long id);
 	List<T> findAllOrderedByName();
 	List<T> findAllOrderedById();
+	EntityManager getEntityManager();
 	
 }

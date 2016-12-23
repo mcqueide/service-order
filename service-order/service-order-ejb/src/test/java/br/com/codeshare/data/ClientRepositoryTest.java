@@ -2,6 +2,7 @@ package br.com.codeshare.data;
 
 import java.util.Arrays;
 
+import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 
@@ -10,7 +11,10 @@ import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.Mockito;
+import org.powermock.api.mockito.PowerMockito;
 import org.powermock.modules.junit4.PowerMockRunner;
 
 import br.com.codeshare.builder.ClientBuilder;
@@ -19,16 +23,16 @@ import br.com.codeshare.model.Client;
 import br.com.codeshare.model.Phone;
 
 @RunWith(PowerMockRunner.class)
-@Ignore
 public class ClientRepositoryTest {
 	
-	@Mock
+	@InjectMocks
 	private ClientRepository repository;
 	
 	@Before
 	public void begin(){
 		EntityManagerFactory emf = Persistence.createEntityManagerFactory("mockPU");
-		repository.em = emf.createEntityManager();
+        EntityManager em = emf.createEntityManager();
+        Mockito.when(repository.getEntityManager()).thenReturn(em);
 	}
 	
 	@Test
@@ -46,15 +50,15 @@ public class ClientRepositoryTest {
 				.withPhone(Arrays.asList(phone))
 				.build();
 		
-		repository.em.getTransaction().begin();
+		repository.getEntityManager().getTransaction().begin();
 		repository.insert(client);
-		repository.em.getTransaction().commit();
+		repository.getEntityManager().getTransaction().commit();
 
 		Client c = repository.findById(client.getId());
 		
 		Assert.assertEquals(client.getName(), c.getName());
 		
-		repository.em.close();
+		repository.getEntityManager().close();
 	}
 	
 }

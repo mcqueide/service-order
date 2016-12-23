@@ -66,14 +66,27 @@
                     }
                     );
 
-                /*$http.get('http://localhost:8080/service-order-rest/rest/client/' + $routeParams.id)
-                    .success(function(client) {
-                        $scope.client = client;
-                    })
-                    .error(function(error) {
-                        console.log(error);
-                        $scope.mensagem = 'Não foi possível obter a foto'
-                    });*/
+                $scope.addPhone = function () {
+                    $scope.client.phones.push($scope.phone);
 
+                    $scope.phone = {id:'',brand:'',model:'',state:'',esn:'',client:{}};
+
+                    console.log($scope.client);
+                };
+
+                $scope.removeClientPhone = function (phone) {
+                    var index = $scope.client.phones.indexOf(phone);
+                    $scope.client.phones.splice(index,1);
+                };
+
+                $scope.registerClient = function () {
+                    clientService.getClients().update({id:$scope.client.id},$scope.client,
+                        function () {
+                            $scope.message = 'Client registered sucessful';
+                            console.log('sucess');
+                        },function (error) {
+                            console.log(error);
+                        });
+                };
         }]);
 })();

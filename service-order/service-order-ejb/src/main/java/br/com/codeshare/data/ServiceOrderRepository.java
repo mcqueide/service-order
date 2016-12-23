@@ -11,16 +11,16 @@ import br.com.codeshare.model.ServiceOrder;
 public class ServiceOrderRepository extends AbstractRepository<ServiceOrder>{
 
 	public List<ServiceOrder> findClientByName(String nameFilter) {
-		TypedQuery<ServiceOrder> query = 
-				em.createQuery("from ServiceOrder os join fetch os.client join fetch os.phone where lower (os.client.name) like :name",ServiceOrder.class);
+		TypedQuery<ServiceOrder> query =
+				getEntityManager().createQuery("from ServiceOrder os join fetch os.client join fetch os.phone where lower (os.client.name) like :name",ServiceOrder.class);
 		query.setParameter("name", "%"+nameFilter.toLowerCase()+"%");
 		return query.getResultList();
 	}
 	
 	public List<ServiceOrder> findByPhoneId(Long id){
 		log.info(String.format("Recovering service orders of phone: %d",id));
-		TypedQuery<ServiceOrder> query = 
-				em.createNamedQuery(ServiceOrder.FIND_SO_BY_PHONE,ServiceOrder.class);
+		TypedQuery<ServiceOrder> query =
+				getEntityManager().createNamedQuery(ServiceOrder.FIND_SO_BY_PHONE,ServiceOrder.class);
 		query.setParameter("phoneid", id);
 		return query.getResultList();
 	}

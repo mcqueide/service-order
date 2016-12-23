@@ -28,19 +28,19 @@ public class MemberRegistration extends AbstractRepository<Client>{
 
     public void register(Member member) throws Exception {
         log.info("Registering " + member.getName());
-        em.persist(member);
+        getEntityManager().persist(member);
     }
     
     public void remove(Member member){
     	log.info("Removing " + member.getName());
-    	em.merge(member);
-    	em.remove(member);
+        getEntityManager().merge(member);
+        getEntityManager().remove(member);
     }
     
     public Member update(Member member){
     	log.info("Updating " + member.getName());
-    	Member merge = em.merge(member);
-    	em.persist(merge);
+    	Member merge = getEntityManager().merge(member);
+        getEntityManager().persist(merge);
     	return merge;
     }
 }
