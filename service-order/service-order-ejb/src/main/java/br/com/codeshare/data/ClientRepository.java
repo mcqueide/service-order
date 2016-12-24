@@ -27,6 +27,7 @@ public class ClientRepository extends AbstractRepository<Client>{
 	}
 	
 	public Client findClientById(Long id){
+		log.info(String.format("Recovering client (id=%d) and your phones: ",id));
 		return getEntityManager().createQuery("select client from Client client join fetch client.phones where client.id = :id", Client.class)
 				.setParameter("id",id).getSingleResult();
 	}

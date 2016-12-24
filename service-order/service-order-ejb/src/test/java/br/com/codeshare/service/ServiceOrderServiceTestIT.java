@@ -27,8 +27,7 @@ import br.com.codeshare.model.ServiceOrder;
 import br.com.codeshare.util.PackageUtil;
 
 @RunWith(Arquillian.class)
-@Ignore
-public class ServiceOrderServiceTest {
+public class ServiceOrderServiceTestIT {
 
 	@Deployment
 	public static Archive<?> createTestArchive(){

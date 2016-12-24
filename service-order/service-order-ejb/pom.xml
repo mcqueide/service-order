@@ -159,19 +159,55 @@
 
     <profiles>
         <profile>
-            <!-- The default profile skips all tests, though you can tune it 
-                to run just unit tests based on a custom pattern -->
-            <!-- Seperate profiles are provided for running all tests, including 
-                Arquillian tests that execute in the specified container -->
             <id>default</id>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
+
+            <dependencies>
+                <dependency>
+                    <groupId>org.wildfly</groupId>
+                    <artifactId>wildfly-arquillian-container-managed</artifactId>
+                    <version>${version.arquillian.container}</version>
+                    <scope>test</scope>
+                </dependency>
+            </dependencies>
+
+            <properties>
+                <jta.data.source>java:jboss/datasources/service-orderDS</jta.data.source>
+                <jta.data.source.arquilian>java:jboss/datasources/service-orderTestDS</jta.data.source.arquilian>
+                <hibernate.show_sql>true</hibernate.show_sql>
+                <hibernate.format_sql>true</hibernate.format_sql>
+                <hibernate.dialect>org.hibernate.dialect.PostgreSQLDialect</hibernate.dialect>
+                <hibernate.hbm2ddl.auto>update</hibernate.hbm2ddl.auto>
+                <javax.persistence.sql-load-script-source/>
+            </properties>
+
             <build>
                 <plugins>
                     <plugin>
                         <artifactId>maven-surefire-plugin</artifactId>
                         <version>${version.surefire.plugin}</version>
                         <configuration>
-                            <skip>true</skip>
+                            <skip>false</skip>
                         </configuration>
+                    </plugin>
+
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-failsafe-plugin</artifactId>
+                        <version>2.19.1</version>
+                        <configuration>
+                            <skip>false</skip>
+                        </configuration>
+                        <executions>
+                            <execution>
+                                <goals>
+                                    <goal>integration-test</goal>
+                                    <goal>verify</goal>
+                                </goals>
+                            </execution>
+                        </executions>
                     </plugin>
                 </plugins>
 
@@ -185,9 +221,6 @@
                 the test, shutting it down when done -->
             <!-- Run with: mvn clean test -Parq-wildfly-managed -->
             <id>arq-wildfly-managed</id>
-            <activation>
-                <activeByDefault>true</activeByDefault>
-            </activation>
             <dependencies>
                 <dependency>
                     <groupId>org.wildfly</groupId>
@@ -199,6 +232,7 @@
 
             <properties>
                 <jta.data.source>java:jboss/datasources/service-orderDS</jta.data.source>
+                <jta.data.source.arquilian>java:jboss/datasources/service-orderTestDS</jta.data.source.arquilian>
                 <hibernate.show_sql>true</hibernate.show_sql>
                 <hibernate.format_sql>true</hibernate.format_sql>
                 <hibernate.dialect>org.hibernate.dialect.PostgreSQLDialect</hibernate.dialect>
