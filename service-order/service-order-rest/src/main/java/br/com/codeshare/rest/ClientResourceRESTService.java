@@ -33,6 +33,7 @@ import br.com.codeshare.exception.BusinessException;
 import br.com.codeshare.model.Client;
 import br.com.codeshare.model.Phone;
 import br.com.codeshare.service.ClientService;
+import br.com.codeshare.vo.ClientPhoneUpdateVO;
 
 @Path("/client")
 @RequestScoped
@@ -151,12 +152,17 @@ public class ClientResourceRESTService {
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
 	@Path("/{id:[0-9][0-9]*}")
-	public Response updateClient(Client client){
+	public Response updateClient(ClientPhoneUpdateVO clientPhoneVO){
 		
 		ResponseBuilder builder = null;
 		
 		try{
-			service.update(client, new ArrayList<Phone>());
+			if (clientPhoneVO.getClient().getPhones() != null) {
+				for (Phone phone : clientPhoneVO.getClient().getPhones()) {
+					phone.setClient(clientPhoneVO.getClient());
+				}
+			}
+			service.update(clientPhoneVO.getClient(), clientPhoneVO.getPhonesToBeRemoved());
 			
 			builder = Response.ok();
 		}catch (ConstraintViolationException ce) {
