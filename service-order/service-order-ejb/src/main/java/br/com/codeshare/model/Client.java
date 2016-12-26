@@ -3,10 +3,8 @@ package br.com.codeshare.model;
 import java.io.Serializable;
 import java.util.List;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -16,7 +14,6 @@ import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.validation.constraints.NotNull;
 
-import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.NotEmpty;
 
 import br.com.codeshare.annotation.validator.PhoneLengthPattern;
@@ -40,7 +37,7 @@ public class Client implements Serializable{
 	@NotEmpty(message="{name.notempty}")
 	private String name;
 	
-	private String adress;
+	private String address;
 	
 	@PhoneLengthPattern(min=13,max=14)
 	@Column(name="home_phone")
@@ -48,10 +45,10 @@ public class Client implements Serializable{
 	
 	@PhoneLengthPattern(min=13,max=14)
 	@Column(name="business_phone")
-	private String bisenessPhone;
+	private String businessPhone;
 	
 	@OneToMany(mappedBy="client")
-	private List<ServiceOrder> ordemServicos;
+	private List<ServiceOrder> serviceOrders;
 	
 	@OneToMany(mappedBy="client")
 	private List<Phone> phones;
@@ -71,11 +68,11 @@ public class Client implements Serializable{
 	public void setName(String name) {
 		this.name = name;
 	}
-	public String getAdress() {
-		return adress;
+	public String getAddress() {
+		return address;
 	}
-	public void setAdress(String adress) {
-		this.adress = adress;
+	public void setAddress(String address) {
+		this.address = address;
 	}
 	public String getHomePhone() {
 		return homePhone;
@@ -83,22 +80,22 @@ public class Client implements Serializable{
 	public void setHomePhone(String homePhone) {
 		this.homePhone = homePhone;
 	}
-	public String getBisenessPhone() {
-		return bisenessPhone;
+	public String getBusinessPhone() {
+		return businessPhone;
 	}
-	public void setBisenessPhone(String bisenessPhone) {
-		this.bisenessPhone = bisenessPhone;
+	public void setBusinessPhone(String businessPhone) {
+		this.businessPhone = businessPhone;
 	}
-	public List<ServiceOrder> getOrdemServicos() {
-		return ordemServicos;
+	public List<ServiceOrder> getServiceOrders() {
+		return serviceOrders;
 	}
-	public void setOrdemServicos(List<ServiceOrder> ordemServicos) {
-		this.ordemServicos = ordemServicos;
+	public void setServiceOrders(List<ServiceOrder> serviceOrders) {
+		this.serviceOrders = serviceOrders;
 	}
 	public List<Phone> getPhones() {
 		return phones;
 	}
-	public void setTelefones(List<Phone> phones) {
+	public void setPhones(List<Phone> phones) {
 		this.phones = phones;
 	}
 

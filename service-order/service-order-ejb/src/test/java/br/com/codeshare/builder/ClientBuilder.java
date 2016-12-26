@@ -19,8 +19,8 @@ public class ClientBuilder {
 		return this;
 	}
 	
-	public  ClientBuilder withAdress (String adress){
-		client.setAdress(adress);
+	public  ClientBuilder withAdress (String address){
+		client.setAddress(address);
 		return this;
 	}
 	
@@ -30,17 +30,17 @@ public class ClientBuilder {
 	}
 	
 	public  ClientBuilder withBusinessPhone (String businessPhone){
-		client.setBisenessPhone(businessPhone);
+		client.setBusinessPhone(businessPhone);
 		return this;
 	}
 	
 	public  ClientBuilder withServiceOrder (List<ServiceOrder> serviceOrders){
-		client.setOrdemServicos(serviceOrders);
+		client.setServiceOrders(serviceOrders);
 		return this;
 	}
 	
 	public  ClientBuilder withPhone (List< Phone> phones){
-		client.setTelefones(phones);
+		client.setPhones(phones);
 		return this;
 	}
 	

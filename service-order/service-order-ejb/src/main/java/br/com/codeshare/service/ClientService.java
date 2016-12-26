@@ -96,7 +96,7 @@ public class ClientService{
 	}
 
 	private void validatePhoneLeastOnePhoneObligatory(Client client) throws BusinessException {
-		if(client.getHomePhone().isEmpty() && client.getBisenessPhone().isEmpty()){
+		if(client.getHomePhone().isEmpty() && client.getBusinessPhone().isEmpty()){
 			throw new BusinessException(ErrorCode.LEAST_ONE_PHONE_OBLIGATORY.getErrorCode());
 		}
 	}

@@ -19,7 +19,7 @@
 					<p:inputText id="name" value="#{newClient.name}" />
 
 					<p:outputLabel for="adress" value="#{label['client.adress']}" />
-					<p:inputText id="adress" value="#{newClient.adress}" />
+					<p:inputText id="adress" value="#{newClient.address}" />
 					
 					<p:fragment rendered='#{!language.localeCode.equals("en")}'>
 						<p:panelGrid columns="1" styleClass="panelGrid-semBorda">
@@ -27,7 +27,7 @@
 							<p:inputMask id="homePhone_pt" value="#{newClient.homePhone}" mask="(99)99999-9999"/>
 							
 							<p:outputLabel for="bisenessPhone_pt" value="#{label['client.businessPhone']}" />
-							<p:inputMask id="bisenessPhone_pt" value="#{newClient.bisenessPhone}" mask="(99)9999-9999"/>
+							<p:inputMask id="bisenessPhone_pt" value="#{newClient.businessPhone}" mask="(99)9999-9999"/>
 						</p:panelGrid>
 					</p:fragment>
 					
@@ -37,7 +37,7 @@
 							<p:inputText id="homePhone_en" value="#{newClient.homePhone}"/>
 							
 							<p:outputLabel for="bisenessPhone_en" value="#{label['client.businessPhone']}" />
-							<p:inputText id="bisenessPhone_en" value="#{newClient.bisenessPhone}"/>
+							<p:inputText id="bisenessPhone_en" value="#{newClient.businessPhone}"/>
 						</p:panelGrid>
 					</p:fragment>
 				</p:panelGrid>

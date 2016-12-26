@@ -1,6 +1,5 @@
 package br.com.codeshare.rest;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -12,7 +11,6 @@ import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import javax.validation.ConstraintViolation;
 import javax.validation.ConstraintViolationException;
-import javax.validation.ValidationException;
 import javax.validation.Validator;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
@@ -28,7 +26,6 @@ import javax.ws.rs.core.Response.ResponseBuilder;
 
 import br.com.codeshare.data.ClientRepository;
 import br.com.codeshare.data.PhoneRepository;
-import br.com.codeshare.enums.ErrorCode;
 import br.com.codeshare.exception.BusinessException;
 import br.com.codeshare.model.Client;
 import br.com.codeshare.model.Phone;
@@ -66,8 +63,8 @@ public class ClientResourceRESTService {
 		}
 
 		for (Client client : clients) {
-			client.setOrdemServicos(null);
-			client.setTelefones(null);
+			client.setServiceOrders(null);
+			client.setPhones(null);
 		}
 		
 		return clients; 
@@ -83,7 +80,7 @@ public class ClientResourceRESTService {
 			throw new WebApplicationException(Response.Status.NOT_FOUND);
 		}
 		
-		client.setOrdemServicos(null);
+		client.setServiceOrders(null);
 
 		for(Phone phone : client.getPhones()){
 		    phone.setOs(null);

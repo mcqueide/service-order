@@ -14,7 +14,6 @@ import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
 
-import br.com.codeshare.enums.ErrorCode;
 import br.com.codeshare.exception.BusinessException;
 import br.com.codeshare.model.Client;
 import br.com.codeshare.model.Phone;
@@ -61,7 +60,7 @@ public class ClientController implements Serializable {
 	@PostConstruct
 	public void initNewClient() {
 		newClient = new Client();
-		newClient.setTelefones(new ArrayList<Phone>());
+		newClient.setPhones(new ArrayList<Phone>());
 		if(externalContext.getRequestServletPath().equals("/clients.jsf")){
 			listClients = clientService.findAll();
 		}
@@ -128,7 +127,7 @@ public class ClientController implements Serializable {
 		
 		phoneController.getNewPhone().setClient(client);
 		if (client.getPhones() == null) {
-			client.setTelefones(new ArrayList<Phone>());
+			client.setPhones(new ArrayList<Phone>());
 		}
 		client.getPhones().add(phoneController.getNewPhone());
 		phoneController.initNewPhone();
@@ -166,7 +165,7 @@ public class ClientController implements Serializable {
 		}
 		this.clientSelected = client;
 		List<Phone> phoneList = phoneService.findPhoneByClientId(clientSelected.getId());
-		clientSelected.setTelefones(phoneList);
+		clientSelected.setPhones(phoneList);
 		return "update_client";
 	}
 	
