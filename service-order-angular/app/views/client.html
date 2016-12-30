@@ -1,6 +1,11 @@
-<div class="conteiner">
+<div class="container">
     <div class="row row-content">
         <div class="col-xs-12">
+            <div class="{{classMessage}}" role="alert" ng-if="showMessage">
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span
+                        aria-hidden="true" ng-click="closeMessage()">×</span></button>
+                <strong>{{head}}</strong> {{message}}
+            </div>
             <form class="form-horizontal" name="clientForm" novalidate>
                 <fieldset><legend>Client</legend>
                     <div class="form-group" ng-class="{ 'has-error' : clientForm.name.$error.required &&
@@ -92,7 +97,7 @@
 
                     </div>
                     <div class="form-group" ng-class="{ 'has-error' : clientForm.esn.$error.required &&
-                    !clientForm.esn.$pristine }">
+                    !clientForm.esn.$pristine}">
 
                         <label for="esn" class="col-sm-2 control-label">Esn</label>
                         <div class="col-sm-10">
@@ -103,27 +108,40 @@
                         </div>
 
                     </div>
-                    <button class="btn btn-info" ng-click="addPhone()">Add Phone</button>
-
-                    <table class="table">
-                        <thead>
-                            <tr>
-                                <th></th>
-                                <th>Brand</th>
-                                <th>Model</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr ng-repeat="phone in client.phones">
-                                <td><i class="fa fa-trash action" aria-hidden="true" ng-click="removeClientPhone(phone)"/></td>
-                                <td>{{phone.brand}}</td>
-                                <td>{{phone.model}}</td>
-                            </tr>
-                        </tbody>
-                    </table>
+                    <div class="row">
+                        <div class="col-xs-9"></div>
+                        <div class="col-xs-3">
+                            <button class="btn btn-success btn-margin pull-right" ng-click="resetPhone()">Reset Phone</button>
+                            <button class="btn btn-info btn-margin pull-right" ng-click="addPhone()">Add Phone</button>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-9 col-xs-push-2">
+                            <div class="panel panel-default" ng-if="client.phones.length">
+                                <!-- Default panel contents -->
+                                <div class="panel-heading panel-heading-center"><p class="text-center">Client's Phones</p></div>
+                                <table class="table">
+                                    <thead>
+                                        <tr>
+                                            <th></th>
+                                            <th>Brand</th>
+                                            <th>Model</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr ng-repeat="phone in client.phones">
+                                            <td><i class="fa fa-trash action" aria-hidden="true" ng-click="removeClientPhone(phone)"/></td>
+                                            <td>{{phone.brand}}</td>
+                                            <td>{{phone.model}}</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
                 </fieldset>
 
-                <button type="submit" class="btn btn-primary" ng-click="registerClient()">Save</button>
+                <button type="submit" class="btn btn-primary" ng-click="registerClient()">Save Client</button>
             </form>
         </div>
     </div>

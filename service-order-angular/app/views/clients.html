@@ -1,7 +1,7 @@
-<div class="conteiner">
+<div class="container">
     <div class="row row-content">
         <div class="col-xs-12">
-            <table class="table">
+            <table class="table table-responsive table-bordered table-striped clearfix">
                 <thead>
                     <tr>
                         <th></th>
@@ -15,7 +15,19 @@
                     </tr>
                 </tbody>
             </table>
+            <ul class="pagination pagination-centered">
+                <li ng-class="{disabled:currentPage == 0}">
+                    <a id="prev" href ng-click="previous()">«</a>
+                </li>
+                <li ng-repeat="n in pageRange" ng-class="{active:currentPage == n}" ng-click="setPage(n)">
+                    <a href ng-bind="n + 1">1</a>
+                </li>
+                <li ng-class="{disabled: currentPage == (numberOfPages() - 1)}">
+                    <a id="next" href ng-click="next()">»</a>
+                </li>
+            </ul>
         </div>
+
 
     </div>
 </div>

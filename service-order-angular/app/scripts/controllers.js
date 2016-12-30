@@ -44,7 +44,19 @@
 
                 $scope.phone = {id:'',brand:'',model:'',state:'',esn:'',client:{}};
 
-                console.log($scope.client);
+                $scope.clientForm.brand.$setPristine();
+                $scope.clientForm.model.$setPristine();
+                $scope.clientForm.state.$setPristine();
+                $scope.clientForm.esn.$setPristine();
+
+            };
+
+            $scope.resetPhone = function () {
+                $scope.phone = {id:'',brand:'',model:'',state:'',esn:''};
+                $scope.clientForm.brand.$setPristine();
+                $scope.clientForm.model.$setPristine();
+                $scope.clientForm.state.$setPristine();
+                $scope.clientForm.esn.$setPristine();
             };
 
             $scope.removeClientPhone = function (phone) {
@@ -54,9 +66,13 @@
         }])
         .controller('EditClientController',['$scope','$routeParams','clientService',
             function ($scope,$routeParams,clientService) {
-                $scope.message = 'Loading ...';
+                $scope.showMessage = false;
+                $scope.message = '';
+                $scope.classMessage = '';
                 $scope.client = {};
                 $scope.phone = {id:'',brand:'',model:'',state:'',esn:''};
+                $scope.phonesToBeRemoved = [];
+
                 clientService.getClients().get({id:$routeParams.id})
                     .$promise.then(
                     function (response) {
@@ -71,22 +87,45 @@
 
                     $scope.phone = {id:'',brand:'',model:'',state:'',esn:'',client:{}};
 
-                    console.log($scope.client);
+                    $scope.clientForm.brand.$setPristine();
+                    $scope.clientForm.model.$setPristine();
+                    $scope.clientForm.state.$setPristine();
+                    $scope.clientForm.esn.$setPristine();
                 };
 
                 $scope.removeClientPhone = function (phone) {
+                    $scope.phonesToBeRemoved.push(phone);
+
                     var index = $scope.client.phones.indexOf(phone);
                     $scope.client.phones.splice(index,1);
                 };
 
+                $scope.resetPhone = function () {
+                    $scope.phone = {id:'',brand:'',model:'',state:'',esn:''};
+                    $scope.clientForm.brand.$setPristine();
+                    $scope.clientForm.model.$setPristine();
+                    $scope.clientForm.state.$setPristine();
+                    $scope.clientForm.esn.$setPristine();
+                };
+
                 $scope.registerClient = function () {
-                    clientService.getClients().update({id:$scope.client.id},$scope.client,
+                    $scope.clientPhoneUpdateVO = {client:$scope.client,phonesToBeRemoved:$scope.phonesToBeRemoved};
+                    clientService.getClients().update({id:$scope.client.id},$scope.clientPhoneUpdateVO,
                         function () {
+                            $scope.showMessage = true;
                             $scope.message = 'Client registered sucessful';
-                            console.log('sucess');
+                            $scope.classMessage = 'alert alert-success';
                         },function (error) {
-                            console.log(error);
+                            $scope.showMessage = true;
+                            $scope.message = error;
+                            $scope.classMessage = 'alert alert-danger';
                         });
                 };
+
+                $scope.closeMessage = function () {
+                    $scope.showMessage = false;
+                    $scope.message = '';
+                    $scope.classMessage = '';
+                }
         }]);
 })();
