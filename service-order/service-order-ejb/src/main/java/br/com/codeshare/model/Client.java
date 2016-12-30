@@ -36,7 +36,8 @@ public class Client implements Serializable{
 	@NotNull(message="{name.notempty}")
 	@NotEmpty(message="{name.notempty}")
 	private String name;
-	
+
+	@Column
 	private String address;
 	
 	@PhoneLengthPattern(min=13,max=14)
