@@ -13,7 +13,7 @@ import java.util.logging.Logger;
 public class AbstractRepository<T extends Serializable> implements Repository<T> {
 
 	@Inject
-	private EntityManager em;
+	protected EntityManager em;
 	@Inject
 	protected Logger log;
 
