@@ -1,0 +1,394 @@
+{
+    "swagger": "2.0",
+    "info": {
+        "title": "Service Order",
+        "description": "API to mobile service order",
+        "version": "1.0.0"
+    },
+    "host": "localhost:8080",
+    "basePath": "/service-order-rest/rest",
+    "schemes": [
+        "http",
+        "https"
+    ],
+    "definitions": {
+        "ClientVO": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "type": "integer",
+                    "format": "int64"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "address": {
+                    "type": "string"
+                },
+                "homePhone": {
+                    "type": "string"
+                },
+                "businessPhone": {
+                    "type": "string"
+                },
+                "phonesVO": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/PhoneVO"
+                    }
+                }
+            }
+        },
+        "PhoneVO": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "type": "integer",
+                    "format": "int64"
+                },
+                "brand": {
+                    "type": "string"
+                },
+                "model": {
+                    "type": "string"
+                },
+                "state": {
+                    "type": "string",
+                    "enum": [
+                        "NO_CHIP",
+                        "MEMORY_CARD",
+                        "COVER",
+                        "BATTERY"
+                    ]
+                },
+                "esn": {
+                    "type": "string"
+                }
+            }
+        },
+        "ServiceOrderVO": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "type": "integer",
+                    "format": "int64"
+                },
+                "reportedProblem": {
+                    "type": "string"
+                },
+                "problemFound": {
+                    "type": "string"
+                },
+                "executedService": {
+                    "type": "string"
+                },
+                "serviceOrderType": {
+                    "type": "string",
+                    "enum": [
+                        "BUDGET",
+                        "SERVICE"
+                    ]
+                },
+                "soState": {
+                    "type": "string",
+                    "enum": [
+                        "OPEN",
+                        "WAITING_APPROVAL",
+                        "APPROVED",
+                        "COMPLETED"
+                    ]
+                },
+                "dateSo": {
+                    "type": "string",
+                    "format": "date"
+                },
+                "approvedDate": {
+                    "type": "string",
+                    "format": "date"
+                },
+                "datePhoneWithdrawl": {
+                    "type": "string",
+                    "format": "date"
+                },
+                "value": {
+                    "type": "number",
+                    "format": "double"
+                },
+                "clientVO": {
+                    "$ref": "#/definitions/ClientVO"
+                },
+                "phoneVO": {
+                    "$ref": "#/definitions/PhoneVO"
+                }
+            }
+        },
+        "ClientPhoneUpdateVO": {
+            "type": "object",
+            "properties": {
+                "clientVO": {
+                    "$ref": "#/definitions/ClientVO"
+                },
+                "phoneVO": {
+                    "type": "array",
+                    "description": "phones to be removed",
+                    "items": {
+                        "$ref": "#/definitions/PhoneVO"
+                    }
+                }
+            }
+        }
+    },
+    "parameters": {
+        "id": {
+            "name": "id",
+            "in": "path",
+            "description": "identifier",
+            "type": "integer",
+            "format": "int64",
+            "required": true
+        }
+    },
+    "paths": {
+        "/client": {
+            "post": {
+                "summary": "Create a new client",
+                "operationId": "createClient",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "in": "body",
+                        "name": "clientVO",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/ClientVO"
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "New client created",
+                        "schema": {
+                            "$ref": "#/definitions/ClientVO"
+                        },
+                        "headers": {
+                            "Location": {
+                                "description": "New client's uri",
+                                "type": "string"
+                            }
+                        }
+                    }
+                }
+            },
+            "get": {
+                "summary": "Retrieve every clients",
+                "operationId": "listAllClients",
+                "produces": [
+                    "application/json"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Retrieve every clients",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/ClientVO"
+                            }
+                        }
+                    }
+                }
+            },
+            "put": {
+                "summary": "Update client information",
+                "operationId": "updateClient",
+                "produces": [
+                    "application/json"
+                ],
+                "consumes": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "in": "body",
+                        "name": "clientPhoneUpdateVO",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/ClientPhoneUpdateVO"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Client updated",
+                        "schema": {
+                            "$ref": "#/definitions/ClientVO"
+                        },
+                        "headers": {
+                            "Location": {
+                                "description": "Updated client's uri",
+                                "type": "string"
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/client/{id}": {
+            "get": {
+                "summary": "Retrieve client by id",
+                "operationId": "retrieveClientById",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "$ref": "#/parameters/id"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Client retrieved",
+                        "schema": {
+                            "$ref": "#/definitions/ClientVO"
+                        },
+                        "headers": {
+                            "Location": {
+                                "description": "Client's uri",
+                                "type": "string"
+                            }
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "summary": "Delete client",
+                "operationId": "deleteClient",
+                "parameters": [
+                    {
+                        "$ref": "#/parameters/id"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Delete client"
+                    }
+                }
+            }
+        },
+        "/serviceorder": {
+            "post": {
+                "summary": "Create new service order",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "in": "body",
+                        "name": "serviceOrderVO",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/ServiceOrderVO"
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "New service order created",
+                        "schema": {
+                            "$ref": "#/definitions/ServiceOrderVO"
+                        },
+                        "headers": {
+                            "Location": {
+                                "description": "Service Order's uri",
+                                "type": "string"
+                            }
+                        }
+                    }
+                }
+            },
+            "put": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "in": "body",
+                        "name": "serviceOrderVO",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/ServiceOrderVO"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Update service order",
+                        "schema": {
+                            "$ref": "#/definitions/ServiceOrderVO"
+                        },
+                        "headers": {
+                            "Location": {
+                                "description": "Service Order's uri",
+                                "type": "string"
+                            }
+                        }
+                    }
+                }
+            },
+            "get": {
+                "produces": [
+                    "application/json"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Service orders",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/ServiceOrderVO"
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/serviceorder/{id}": {
+            "get": {
+                "summary": "Retrieve service order by id",
+                "operationId": "retriveServiceOrderById",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "$ref": "#/parameters/id"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Service Order retrieved",
+                        "schema": {
+                            "$ref": "#/definitions/ServiceOrderVO"
+                        },
+                        "headers": {
+                            "Location": {
+                                "description": "Service Order's uri",
+                                "type": "string"
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

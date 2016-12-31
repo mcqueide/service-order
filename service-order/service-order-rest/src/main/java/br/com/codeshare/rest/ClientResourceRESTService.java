@@ -73,7 +73,7 @@ public class ClientResourceRESTService {
 	@GET
 	@Path("/{id:[0-9][0-9]*}")
 	@Produces(MediaType.APPLICATION_JSON)
-	public Client lookupClientById(@PathParam("id") Long id){
+	public Client retrieveClientById(@PathParam("id") Long id){
 		Client client = repository.findClientById(id);
 		
 		if(client == null){
