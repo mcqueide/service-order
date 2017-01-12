@@ -19,7 +19,7 @@ public class PhoneLengthValidator implements ConstraintValidator<PhoneLengthPatt
 	@Override
 	public boolean isValid(String value, ConstraintValidatorContext context) {
 		
-		if(value.isEmpty())
+		if(value == null || value.isEmpty())
 			return true;
 		
 		return value.length()>= min && value.length() <= max;

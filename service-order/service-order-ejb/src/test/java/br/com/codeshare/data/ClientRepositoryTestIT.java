@@ -1,5 +1,6 @@
 package br.com.codeshare.data;
 
+import br.com.codeshare.builder.ClientBuilder;
 import br.com.codeshare.model.Client;
 import org.junit.After;
 import org.junit.Assert;
@@ -39,18 +40,68 @@ public class ClientRepositoryTestIT {
 
     @Test
     public void findClientByNameTest(){
-        Client client = new Client();
-        client.setName("John");
-        client.setAddress("Quadra 603 Conjunto 02 Casa 14");
-        client.setHomePhone("(61)99874-5698");
-        client.setBusinessPhone("(61)99874-5698");
+        Client client = new ClientBuilder().withName("John")
+                .withAdress("Quadra 603 Conjunto 02 Casa 14")
+                .withHomePhone("(61)99874-5698").build();
 
-        repository.em.persist(client);
+        repository.insert(client);
 
         List<Client> clients = repository.findClientByName("John");
 
         Assert.assertEquals(clients.size(),1);
         Assert.assertEquals("John",clients.get(0).getName());
+    }
+
+    @Test
+    public void saveClientWithPhoneNumberTest(){
+        Client client = new ClientBuilder().withName("John")
+                .withAdress("Quadra 603 Conjunto 02 Casa 14")
+                .withHomePhone("(61)99874-5698").build();
+
+        repository.insert(client);
+
+        Assert.assertNotNull(client.getId());
+    }
+
+    @Test
+    public void updateClientTest(){
+        Client client = new ClientBuilder().withName("John")
+                .withAdress("Quadra 603 Conjunto 02 Casa 14")
+                .withHomePhone("(61)99874-5698").build();
+
+        repository.insert(client);
+
+        Client clientRecovered = repository.findClientById(client.getId());
+        clientRecovered.setBusinessPhone("(61)3333-1987");
+        repository.update(clientRecovered);
+
+        Client clientForTest = repository.findClientById(client.getId());
+        Assert.assertEquals(clientForTest.getBusinessPhone(),"(61)3333-1987");
+    }
+
+    @Test
+    public void findClientByOrderedNameTest(){
+        Client peter = new ClientBuilder().withName("Peter")
+                .withAdress("Quadra 405 Conjunto 02 Casa 14")
+                .withHomePhone("(61)96574-5698").build();
+
+        Client john = new ClientBuilder().withName("John")
+                .withAdress("Quadra 603 Conjunto 02 Casa 14")
+                .withHomePhone("(61)99874-5698").build();
+
+        Client jon = new ClientBuilder().withName("Jon")
+                .withAdress("Quadra 803 Conjunto 02 Casa 14")
+                .withHomePhone("(61)99874-5698").build();
+
+        repository.insert(peter);
+        repository.insert(john);
+        repository.insert(jon);
+
+        List<Client> clients = repository.findAllOrderedByName();
+
+        Assert.assertEquals(clients.get(0).getName(),"John");
+        Assert.assertEquals(clients.get(1).getName(),"Jon");
+        Assert.assertEquals(clients.get(2).getName(),"Peter");
     }
 
 }
