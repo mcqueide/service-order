@@ -1,7 +1,9 @@
 package br.com.codeshare.data;
 
 import br.com.codeshare.builder.ClientBuilder;
+import br.com.codeshare.builder.PhoneBuilder;
 import br.com.codeshare.model.Client;
+import br.com.codeshare.model.Phone;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
@@ -10,6 +12,7 @@ import org.mockito.Mockito;
 
 import javax.persistence.EntityTransaction;
 import javax.persistence.Persistence;
+import java.util.Arrays;
 import java.util.List;
 import java.util.logging.Logger;
 
@@ -19,15 +22,19 @@ import java.util.logging.Logger;
 public class ClientRepositoryTestIT {
 
     private ClientRepository repository;
+    private PhoneRepository phoneRepository;
     private EntityTransaction transaction;
 
     @Before
     public void init(){
         repository = new ClientRepository();
+        phoneRepository = new PhoneRepository();
         repository.em = Persistence.createEntityManagerFactory("primary").createEntityManager();
+        phoneRepository.em = Persistence.createEntityManagerFactory("primary").createEntityManager();
         transaction = repository.em.getTransaction();
         Logger logger = Mockito.mock(Logger.class);
         repository.log = logger;
+        phoneRepository.log = logger;
 
         transaction.begin();
     }
@@ -61,6 +68,34 @@ public class ClientRepositoryTestIT {
         repository.insert(client);
 
         Assert.assertNotNull(client.getId());
+    }
+
+    @Test
+    public void saveClientWithPhoneNumberAndPhoneTest(){
+        Phone motorola = new PhoneBuilder().withBrand("Motorola").withModel("Moto G4")
+                .withEsn("123456789").buid();
+
+        Client client = new ClientBuilder().withName("John")
+                .withAdress("Quadra 603 Conjunto 02 Casa 14")
+                .withHomePhone("(61)99874-5698").withPhone(Arrays.asList(motorola))
+                .build();
+
+        motorola.setClient(client);
+
+        repository.insert(client);
+        phoneRepository.insert(motorola);
+
+        Assert.assertNotNull(client.getId());
+
+        for (Phone phone : client.getPhones()) {
+            Assert.assertNotNull(phone.getId());
+        }
+
+        Client clientById = repository.findClientById(client.getId());
+
+        Assert.assertEquals(clientById.getName(),"John");
+        Assert.assertEquals(clientById.getPhones().get(0).getBrand(),"Motorola");
+
     }
 
     @Test

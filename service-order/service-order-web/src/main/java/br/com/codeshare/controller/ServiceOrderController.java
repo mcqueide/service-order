@@ -166,7 +166,7 @@ public class ServiceOrderController implements Serializable{
 		}*/
 		
 		if(newServiceOrder !=null && !newServiceOrder.equals(""))
-            phones = phoneService.recoverClientPhones(newServiceOrder.getClient().getId());
+            phones = phoneService.findPhoneByClientId(newServiceOrder.getClient().getId());
         else
             phones = new ArrayList<Phone>();
 	}

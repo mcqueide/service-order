@@ -29,11 +29,6 @@ public class PhoneService {
 		phoneEvent.fire(phone);
 	}
 	
-	public List<Phone> recoverClientPhones(Long clientId){
-		log.info("Recovering phones");
-		return phoneRepository.findClientPhone(clientId);
-	}
-	
 	public Phone findById(Long id){
 		log.info("Search for phone with id " + id);
 		return phoneRepository.findById(id);
