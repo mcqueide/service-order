@@ -10,6 +10,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mockito;
 
+import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
 import javax.persistence.Persistence;
 import java.util.Arrays;
@@ -29,9 +30,10 @@ public class PhoneRepositoryTestIT {
     public void init(){
         repository = new PhoneRepository();
         clientRepository = new ClientRepository();
-        repository.em = Persistence.createEntityManagerFactory("primary").createEntityManager();
-        clientRepository.em = Persistence.createEntityManagerFactory("primary").createEntityManager();
-        transaction = clientRepository.em.getTransaction();
+        EntityManager entityManager = Persistence.createEntityManagerFactory("primary").createEntityManager();
+        repository.em = entityManager;
+        clientRepository.em = entityManager;
+        transaction = entityManager.getTransaction();
         Logger logger = Mockito.mock(Logger.class);
         repository.log = logger;
         clientRepository.log = logger;
