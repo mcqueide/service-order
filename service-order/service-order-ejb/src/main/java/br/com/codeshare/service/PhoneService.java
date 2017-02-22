@@ -23,7 +23,7 @@ public class PhoneService {
 	@Inject
 	private PhoneRepository phoneRepository;
 	
-	public void register(Phone phone) throws Exception{
+	public void register(Phone phone){
 		log.info("Registering " + phone.getModel());
 		phoneRepository.insert(phone);
 		phoneEvent.fire(phone);

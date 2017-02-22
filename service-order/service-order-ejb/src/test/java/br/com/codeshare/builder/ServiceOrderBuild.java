@@ -1,7 +1,7 @@
 package br.com.codeshare.builder;
 
 import java.math.BigDecimal;
-import java.util.Date;
+import java.time.LocalDate;
 
 import br.com.codeshare.enums.ServiceOrderState;
 import br.com.codeshare.enums.ServiceOrderType;
@@ -41,15 +41,15 @@ public class ServiceOrderBuild {
 		so.setSOState(soState);
 		return this;
 	}
-	public ServiceOrderBuild withDate(Date dateSo){
+	public ServiceOrderBuild withDate(LocalDate dateSo){
 		so.setDateSo(dateSo);
 		return this;
 	}
-	public ServiceOrderBuild withApprovedDate(Date approvedDate){
+	public ServiceOrderBuild withApprovedDate(LocalDate approvedDate){
 		so.setApprovedDate(approvedDate);
 		return this;
 	}
-	public ServiceOrderBuild withDatePhoneWithdrawl(Date datePhoneWithdrawl){
+	public ServiceOrderBuild withDatePhoneWithdrawl(LocalDate datePhoneWithdrawl){
 		so.setDatePhoneWithdrawl(datePhoneWithdrawl);
 		return this;
 	}

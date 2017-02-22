@@ -1,28 +1,13 @@
 package br.com.codeshare.model;
 
-import java.io.Serializable;
-import java.math.BigDecimal;
-import java.util.Date;
-
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.NamedQuery;
-import javax.persistence.SequenceGenerator;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
-import javax.validation.constraints.NotNull;
-
-import org.hibernate.validator.constraints.NotEmpty;
-
 import br.com.codeshare.enums.ServiceOrderState;
 import br.com.codeshare.enums.ServiceOrderType;
+import org.hibernate.validator.constraints.NotEmpty;
+import javax.persistence.*;
+import javax.validation.constraints.NotNull;
+import java.io.Serializable;
+import java.math.BigDecimal;
+import java.time.LocalDate;
 
 @Entity
 @NamedQuery(name="ServiceOrder.findSoByPhone", query="select so from ServiceOrder so where so.phone.id = :phoneid")
@@ -50,14 +35,11 @@ public class ServiceOrder implements Serializable {
 	private ServiceOrderState soState;
 	
 	@Column(name = "dateSo")
-	@Temporal(TemporalType.DATE)
-	private Date dateSo;
+	private LocalDate dateSo;
 	
-	@Temporal(TemporalType.DATE)
-	private Date approvedDate;
+	private LocalDate approvedDate;
 	
-	@Temporal(TemporalType.DATE)
-	private Date datePhoneWithdrawl;
+	private LocalDate datePhoneWithdrawl;
 	
 	@NotNull(message="{value.notempty}")
 	private BigDecimal value;
@@ -123,27 +105,27 @@ public class ServiceOrder implements Serializable {
 		this.soState = soState;
 	}
 
-	public Date getDateSo() {
+	public LocalDate getDateSo() {
 		return dateSo;
 	}
 
-	public void setDateSo(Date dataSo) {
+	public void setDateSo(LocalDate dataSo) {
 		this.dateSo = dataSo;
 	}
 
-	public Date getApprovedDate() {
+	public LocalDate getApprovedDate() {
 		return approvedDate;
 	}
 
-	public void setApprovedDate(Date approvedDate) {
+	public void setApprovedDate(LocalDate approvedDate) {
 		this.approvedDate = approvedDate;
 	}
 
-	public Date getDatePhoneWithdrawl() {
+	public LocalDate getDatePhoneWithdrawl() {
 		return datePhoneWithdrawl;
 	}
 
-	public void setDatePhoneWithdrawl(Date datePhoneWithdrawl) {
+	public void setDatePhoneWithdrawl(LocalDate datePhoneWithdrawl) {
 		this.datePhoneWithdrawl = datePhoneWithdrawl;
 	}
 

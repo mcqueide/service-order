@@ -1,8 +1,8 @@
 package br.com.codeshare.controller;
 
 import java.io.Serializable;
+import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -58,7 +58,7 @@ public class ServiceOrderController implements Serializable{
 	
 	public void save() throws Exception {
 		try {
-			newServiceOrder.setDateSo(new Date());
+			newServiceOrder.setDateSo(LocalDate.now());
 			serviceOrderService.register(newServiceOrder);
 			facesContext.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, WebResources.getMessage("register"), WebResources.getMessage("sucess_register")));
 			initNewServiceOrder();

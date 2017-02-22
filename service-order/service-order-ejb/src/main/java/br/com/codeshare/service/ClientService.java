@@ -34,9 +34,7 @@ public class ClientService{
 
 		clientRepository.insert(client);
 
-		for(Phone phone : client.getPhones()){
-			phoneService.register(phone);
-		}
+		client.getPhones().forEach(p -> phoneService.register(p));
 
 		clientEventSrc.fire(client);
 	}
@@ -69,13 +67,13 @@ public class ClientService{
 	}
 
     private void registerNewPhones(Client client) throws Exception {
-        for (Phone phone : client.getPhones()) {
-            if(phone.getId() == null){
-                log.info(String.format("Adding new phone (%s-%s) to client (%s)",
-                        phone.getBrand(),phone.getModel(),client.getName()));
-                phoneService.register(phone);
-            }
-        }
+        client.getPhones().forEach(p -> {
+			if(p.getId() == null){
+				log.info(String.format("Adding new phone (%s-%s) to client (%s)",
+						p.getBrand(),p.getModel(),client.getName()));
+				phoneService.register(p);
+			}
+		});
     }
 
     private void removePhones(List<Phone> phonesToBeRemove) throws BusinessException {
