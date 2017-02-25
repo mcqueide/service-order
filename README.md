@@ -6,7 +6,7 @@ Project to work with service orders from a mobile phone store made with: Java, J
 1. What do you need?
  - Jboss Wildfly 8.1.0.Final
  - PostgreSQL 9.4
- - JDK 1.7 +
+ - JDK 1.8
  - Maven
  - NodeJS
  - Git

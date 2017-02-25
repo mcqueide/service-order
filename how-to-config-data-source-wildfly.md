@@ -7,9 +7,9 @@ You can download [jdk](http://www.oracle.com/technetwork/pt/java/javase/download
 
 You can configure java to run in terminal easy with these commands:
 ```shell
-sudo update-alternatives --install /usr/bin/javac javac /opt/java/jdk1.6.0x32/bin/javac 1
-sudo update-alternatives --install /usr/bin/java java /opt/java/jdk1.6.0x32/bin/java 1
-sudo update-alternatives --install /usr/bin/javaws javaws /opt/java/jdk1.6.0x32/bin/javaws 1
+sudo update-alternatives --install /usr/bin/javac javac /opt/java/jdk1.8.0x32/bin/javac 1
+sudo update-alternatives --install /usr/bin/java java /opt/java/jdk1.8.0x32/bin/java 1
+sudo update-alternatives --install /usr/bin/javaws javaws /opt/java/jdk1.8.0x32/bin/javaws 1
 ```
 Or you can configure your system environment variable in your `/etc/profile`, `/etc/bash.bashrc`, or `/etc/environment`.
 
