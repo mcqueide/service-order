@@ -59,7 +59,7 @@
 							
 							<p:fragment id="deliveryDate" rendered="#{serviceOrderController.soSelected.SOState.id == 2}">
 								<p:outputLabel for="date" value="Data Prevista para Entrega"/>
-								<p:calendar id="date" value="#{serviceOrderController.soSelected.datePhoneWithdrawl}"/>
+								<p:calendar id="date" value="#{serviceOrderController.soSelected.datePhoneWithdrawl}" converter="localDateConverter" pattern="dd/MM/yyyy"/>
 							</p:fragment>
 					</p:fragment>
 					

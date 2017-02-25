@@ -60,7 +60,7 @@
 			<div>
 				<p:outputLabel value="#{label['detail.serviceorder.date']}" styleClass="itens_detalhamento_titulo"/>
 				<p:outputLabel value="#{serviceOrderController.soSelected.dateSo}">
-					<f:convertDateTime pattern="dd/MM/yyyy" timeZone="America/Sao_Paulo"/>
+					<f:converter converterId="localDateConverter"/>
 				</p:outputLabel>
 			</div>
 			<div>
