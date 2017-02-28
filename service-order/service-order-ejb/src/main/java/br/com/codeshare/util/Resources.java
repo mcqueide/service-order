@@ -16,12 +16,17 @@
  */
 package br.com.codeshare.util;
 
-import java.util.logging.Logger;
+import org.dozer.DozerBeanMapper;
+import org.dozer.Mapper;
 
+import javax.enterprise.context.ApplicationScoped;
 import javax.enterprise.inject.Produces;
 import javax.enterprise.inject.spi.InjectionPoint;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.logging.Logger;
 
 public class Resources {
 
@@ -32,6 +37,17 @@ public class Resources {
     @Produces
     public Logger produceLog(InjectionPoint injectionPoint) {
         return Logger.getLogger(injectionPoint.getMember().getDeclaringClass().getName());
+    }
+
+    @Produces
+    @ApplicationScoped
+    public Mapper produceMapper(){
+        List<String> mappingFiles = new ArrayList();
+        mappingFiles.add("dozerJdk8Converters.xml");
+
+        DozerBeanMapper dozerBeanMapper = new DozerBeanMapper();
+        dozerBeanMapper.setMappingFiles(mappingFiles);
+        return dozerBeanMapper;
     }
     
 }
