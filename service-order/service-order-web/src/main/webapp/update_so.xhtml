@@ -40,24 +40,24 @@
                     </p:fragment>
                     
 					<p:outputLabel for="soState" value="Estado da Os"/>
-					<p:selectOneRadio id="soState" value="#{serviceOrderController.soSelected.SOState}">
+					<p:selectOneRadio id="soState" value="#{serviceOrderController.soSelected.soState}">
 						<f:selectItems value="#{serviceOrderController.orderStates}" var="state" itemValue="#{state}" itemLabel="#{label[state.label]}"/>
 						<f:ajax execute="@this" render="action"/>
 					</p:selectOneRadio>
 						
 					<p:fragment id="action">
-							<p:fragment id="waiting" rendered="#{serviceOrderController.soSelected.SOState.id} == 1 ||
+							<p:fragment id="waiting" rendered="#{serviceOrderController.soSelected.soState.id} == 1 ||
 								ordemServicoMBean.osSelecionada.estadoOrdemServico.codigo == 2}">
 								<p:outputLabel for="problemFound" value="Problema Encontrado"/>
 								<p:inputTextarea id="problemFound" value="#{serviceOrderController.soSelected.problemFound}"/>
 							</p:fragment>
 							
-							<p:fragment id="approved" rendered="#{serviceOrderController.soSelected.SOState.id == 2}">
+							<p:fragment id="approved" rendered="#{serviceOrderController.soSelected.soState.id == 2}">
 								<p:outputLabel for="executedService" value="Serviço Executado"/>
 								<p:inputTextarea id="executedService" value="#{serviceOrderController.soSelected.executedService}"/>
 							</p:fragment>
 							
-							<p:fragment id="deliveryDate" rendered="#{serviceOrderController.soSelected.SOState.id == 2}">
+							<p:fragment id="deliveryDate" rendered="#{serviceOrderController.soSelected.soState.id == 2}">
 								<p:outputLabel for="date" value="Data Prevista para Entrega"/>
 								<p:calendar id="date" value="#{serviceOrderController.soSelected.datePhoneWithdrawl}" converter="localDateConverter" pattern="dd/MM/yyyy"/>
 							</p:fragment>
