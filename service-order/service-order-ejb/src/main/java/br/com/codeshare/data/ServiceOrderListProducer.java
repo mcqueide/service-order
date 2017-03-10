@@ -1,5 +1,9 @@
 package br.com.codeshare.data;
 
+import br.com.codeshare.model.ServiceOrder;
+import br.com.codeshare.util.Conversor;
+import br.com.codeshare.vo.ServiceOrderVO;
+
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.RequestScoped;
 import javax.enterprise.event.Observes;
@@ -7,9 +11,6 @@ import javax.enterprise.event.Reception;
 import javax.enterprise.inject.Produces;
 import javax.inject.Inject;
 import javax.inject.Named;
-
-import br.com.codeshare.model.ServiceOrder;
-
 import java.util.List;
 
 @RequestScoped
@@ -17,11 +18,13 @@ public class ServiceOrderListProducer {
 	
 	@Inject
 	private ServiceOrderRepository serviceOrderRepository;
-	private List<ServiceOrder> serviceOrders;
+	private List<ServiceOrderVO> serviceOrders;
+	@Inject
+	private Conversor conversor;
 
 	@Produces
 	@Named
-	public List<ServiceOrder> getServiceOrders() {
+	public List<ServiceOrderVO> getServiceOrders() {
 		return serviceOrders;
 	}
 	
@@ -31,7 +34,7 @@ public class ServiceOrderListProducer {
 	
 	@PostConstruct
 	public void retrieveAllServiceOrder(){
-		serviceOrders = serviceOrderRepository.findAllOrderedById();
+		serviceOrders = conversor.converter(serviceOrderRepository.findAllOrderedById(),ServiceOrderVO.class);
 	}
 	
 }

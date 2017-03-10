@@ -11,17 +11,21 @@ import javax.inject.Inject;
 import javax.inject.Named;
 
 import br.com.codeshare.model.Client;
+import br.com.codeshare.util.Conversor;
+import br.com.codeshare.vo.ClientVO;
 
 @RequestScoped
 public class ClientListProducer {
 
 	@Inject
 	private ClientRepository clientRepository;
-	private List<Client> clients;
+	private List<ClientVO> clients;
+	@Inject
+	private Conversor conversor;
 	
 	@Produces
 	@Named
-	public List<Client> getClients(){
+	public List<ClientVO> getClients(){
 		return clients;
 	}
 	
@@ -31,7 +35,7 @@ public class ClientListProducer {
 	
 	@PostConstruct
 	public void retrieveAllClientsOrderedByName(){
-		clients = clientRepository.findAllOrderedByName();
+		clients = conversor.converter(clientRepository.findAllOrderedByName(),ClientVO.class);
 	}
 	
 }

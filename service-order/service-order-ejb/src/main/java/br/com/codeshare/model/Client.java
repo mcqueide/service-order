@@ -20,7 +20,7 @@ import br.com.codeshare.annotation.validator.PhoneLengthPattern;
 
 @Entity
 @NamedQueries(
-		{@NamedQuery(name="Client.findAll", query="select c from Client c order by c.name"),
+		{@NamedQuery(name="Client.findAll", query="select c from Client c left join fetch c.phones order by c.name"),
 		@NamedQuery(name="Client.findByNameEager",query="select c from Client c left join fetch c.phones where lower (c.name) like :name")})
 public class Client implements Serializable{
 	
