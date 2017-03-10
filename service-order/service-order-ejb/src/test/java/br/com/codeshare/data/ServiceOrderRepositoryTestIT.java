@@ -7,6 +7,11 @@ import br.com.codeshare.enums.ServiceOrderType;
 import br.com.codeshare.model.Client;
 import br.com.codeshare.model.Phone;
 import br.com.codeshare.model.ServiceOrder;
+import br.com.codeshare.util.Conversor;
+import br.com.codeshare.util.Resources;
+import br.com.codeshare.vo.ClientVO;
+import br.com.codeshare.vo.PhoneVO;
+import br.com.codeshare.vo.ServiceOrderVO;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
@@ -31,6 +36,7 @@ public class ServiceOrderRepositoryTestIT {
     private PhoneRepository phoneRepository;
     private ServiceOrderRepository soRepository;
     private EntityTransaction transaction;
+    private Conversor conversor;
 
     @Before
     public void init(){
@@ -48,37 +54,43 @@ public class ServiceOrderRepositoryTestIT {
         soRepository.log = logger;
 
         transaction.begin();
+        conversor = new Conversor(new Resources().produceMapper());
     }
 
     @Test
     public void saveServiceOrder(){
-        Phone motorola = new PhoneBuilder().withBrand("Motorola").withModel("Moto G4")
+        PhoneVO motorola = new PhoneBuilder().withBrand("Motorola").withModel("Moto G4")
                 .withEsn("123456789").buid();
 
-        Client client = new ClientBuilder().withName("John")
+        ClientVO client = new ClientBuilder().withName("John")
                 .withAdress("Quadra 603 Conjunto 02 Casa 14")
                 .withHomePhone("(61)99874-5698").withPhone(Arrays.asList(motorola))
                 .build();
 
-        ServiceOrder serviceOrder = new ServiceOrderBuild().withClient(client).withPhone(motorola)
+        ServiceOrderVO serviceOrder = new ServiceOrderBuild().withClient(client).withPhone(motorola)
                 .withServiceOrderType(ServiceOrderType.SERVICE)
                 .withReportedProblem("Doesn't work")
                 .withDate(LocalDate.now())
                 .withValue(new BigDecimal(50)).build();
 
-        motorola.setClient(client);
+        Phone motorolaPersist = conversor.converter(motorola, Phone.class);
+        Client clientPersist = conversor.converter(client, Client.class);
+        ServiceOrder serviceOrderPersist = conversor.converter(serviceOrder, ServiceOrder.class);
 
-        repository.insert(client);
-        phoneRepository.insert(motorola);
-        soRepository.insert(serviceOrder);
+        motorolaPersist.setClient(clientPersist);
 
-        Assert.assertNotNull(client.getId());
-        Assert.assertNotNull(motorola.getId());
-        Assert.assertNotNull(serviceOrder.getId());
+        serviceOrderPersist.setClient(clientPersist);
+        serviceOrderPersist.setPhone(motorolaPersist);
 
-        ServiceOrder soById = soRepository.findById(serviceOrder.getId());
-        List<ServiceOrder> allOrderedById = soRepository.findAllOrderedById();
+        repository.insert(clientPersist);
+        phoneRepository.insert(motorolaPersist);
+        soRepository.insert(serviceOrderPersist);
 
+        Assert.assertNotNull(clientPersist.getId());
+        Assert.assertNotNull(motorolaPersist.getId());
+        Assert.assertNotNull(serviceOrderPersist.getId());
+
+        ServiceOrder soById = soRepository.findById(serviceOrderPersist.getId());
 
         Assert.assertEquals(soById.getClient().getName(),"John");
         Assert.assertEquals(soById.getDateSo(),LocalDate.now());

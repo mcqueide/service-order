@@ -1,17 +1,16 @@
 package br.com.codeshare.builder;
 
-import java.util.List;
+import br.com.codeshare.vo.ClientVO;
+import br.com.codeshare.vo.PhoneVO;
 
-import br.com.codeshare.model.Client;
-import br.com.codeshare.model.Phone;
-import br.com.codeshare.model.ServiceOrder;
+import java.util.List;
 
 public class ClientBuilder {
 
-	private Client client;
+	private ClientVO client;
 
 	public ClientBuilder() {
-		this.client = new Client();
+		this.client = new ClientVO();
 	}
 	
 	public  ClientBuilder withName (String name){
@@ -34,12 +33,7 @@ public class ClientBuilder {
 		return this;
 	}
 	
-	public  ClientBuilder withServiceOrder (List<ServiceOrder> serviceOrders){
-		client.setServiceOrders(serviceOrders);
-		return this;
-	}
-	
-	public  ClientBuilder withPhone (List< Phone> phones){
+	public  ClientBuilder withPhone (List<PhoneVO> phones){
 		client.setPhones(phones);
 		return this;
 	}
@@ -49,7 +43,7 @@ public class ClientBuilder {
 		return this;
 	}
 	
-	public Client build(){
+	public ClientVO build(){
 		return client;
 	}
 }

@@ -1,11 +1,13 @@
 package br.com.codeshare.controller;
 
-import java.io.Serializable;
-import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-
+import br.com.codeshare.enums.ServiceOrderState;
+import br.com.codeshare.enums.ServiceOrderType;
+import br.com.codeshare.qualifiers.SessionMap;
+import br.com.codeshare.service.PhoneService;
+import br.com.codeshare.service.ServiceOrderService;
+import br.com.codeshare.util.WebResources;
+import br.com.codeshare.vo.PhoneVO;
+import br.com.codeshare.vo.ServiceOrderVO;
 import javax.annotation.PostConstruct;
 import javax.enterprise.inject.Produces;
 import javax.faces.application.FacesMessage;
@@ -13,15 +15,11 @@ import javax.faces.context.FacesContext;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
-
-import br.com.codeshare.enums.ServiceOrderState;
-import br.com.codeshare.enums.ServiceOrderType;
-import br.com.codeshare.model.Phone;
-import br.com.codeshare.model.ServiceOrder;
-import br.com.codeshare.qualifiers.SessionMap;
-import br.com.codeshare.service.PhoneService;
-import br.com.codeshare.service.ServiceOrderService;
-import br.com.codeshare.util.WebResources;
+import java.io.Serializable;
+import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 
 @Named
 @ViewScoped
@@ -41,18 +39,18 @@ public class ServiceOrderController implements Serializable{
 //	@Inject
 //	private Conversation conversation;
 
-	private ServiceOrder newServiceOrder;
+	private ServiceOrderVO newServiceOrder;
 	private String filterClient;
 	private Long filterSo;
-	private List<ServiceOrder> listServiceOrder;
+	private List<ServiceOrderVO> listServiceOrder;
 	private ServiceOrderType[] orderTypes;
 	private ServiceOrderState[] orderStates;
-	private List<Phone> phones;
-	private ServiceOrder soSelected;
+	private List<PhoneVO> phones;
+	private ServiceOrderVO soSelected;
 
 	@Produces
 	@Named
-	public ServiceOrder getNewServiceOrder() {
+	public ServiceOrderVO getNewServiceOrder() {
 		return newServiceOrder;
 	}
 	
@@ -73,7 +71,7 @@ public class ServiceOrderController implements Serializable{
 		}
 	}
 	
-	public String update(ServiceOrder so) throws Exception {
+	public String update(ServiceOrderVO so) throws Exception {
 		try {
 			serviceOrderService.update(so);
 			facesContext.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, WebResources.getMessage("register"), WebResources.getMessage("sucess_register")));
@@ -93,7 +91,7 @@ public class ServiceOrderController implements Serializable{
 
 	@PostConstruct
 	public void initNewServiceOrder() {
-		this.newServiceOrder = new ServiceOrder();
+		this.newServiceOrder = new ServiceOrderVO();
 		orderTypes = ServiceOrderType.values();
 		orderStates = ServiceOrderState.values();
 		listServiceOrder = serviceOrderService.findAll();
@@ -122,11 +120,11 @@ public class ServiceOrderController implements Serializable{
 	}
 
 	public void findBySo() {
-		listServiceOrder = new ArrayList<ServiceOrder>();
+		listServiceOrder = new ArrayList<>();
 		if (filterSo == null || filterSo.equals(0l)) {
 			listServiceOrder = serviceOrderService.findAll();
 		}
-		ServiceOrder os = serviceOrderService.find(filterSo);
+		ServiceOrderVO os = serviceOrderService.find(filterSo);
 		if (os != null) {
 			listServiceOrder.add(os);
 		}
@@ -148,7 +146,7 @@ public class ServiceOrderController implements Serializable{
 		this.filterSo = filterSo;
 	}
 
-	public List<ServiceOrder> getListServiceOrder() {
+	public List<ServiceOrderVO> getListServiceOrder() {
 		return listServiceOrder;
 	}
 
@@ -168,31 +166,31 @@ public class ServiceOrderController implements Serializable{
 		if(newServiceOrder !=null && !newServiceOrder.equals(""))
             phones = phoneService.findPhoneByClientId(newServiceOrder.getClient().getId());
         else
-            phones = new ArrayList<Phone>();
+            phones = new ArrayList<>();
 	}
 	
-	public List<Phone> getPhones() {
+	public List<PhoneVO> getPhones() {
 		return phones;
 	}
 	
-	public void setPhones(List<Phone> phones) {
+	public void setPhones(List<PhoneVO> phones) {
 		this.phones = phones;
 	}
 	
-	public String detail(ServiceOrder so){
+	public String detail(ServiceOrderVO so){
 		this.soSelected = so;
 		sessionMap.put("so", so);
 		return "detail_so";
 	}
 	
-	public String edit(ServiceOrder so){
+	public String edit(ServiceOrderVO so){
 		this.soSelected = so;
 		sessionMap.put("so", so);
 		return "update_so";
 	}
 	
-	public ServiceOrder getSoSelected() {
-		ServiceOrder so = (ServiceOrder)sessionMap.get("so");
+	public ServiceOrderVO getSoSelected() {
+		ServiceOrderVO so = (ServiceOrderVO) sessionMap.get("so");
 		return so;
 	}
 	
@@ -206,18 +204,18 @@ public class ServiceOrderController implements Serializable{
 	}
 	
 	public void searchById(){
-		listServiceOrder = new ArrayList<ServiceOrder>();
+		listServiceOrder = new ArrayList<>();
 		if(filterSo == null || filterSo.equals(0l)){
 			listServiceOrder = serviceOrderService.findAll();
 			return;
 		}
-		ServiceOrder os = serviceOrderService.find(filterSo);
+		ServiceOrderVO os = serviceOrderService.find(filterSo);
 		if (os != null){
 			listServiceOrder.add(os);
 		}
 	}
 	
-	public ServiceOrder soSelected(){
+	public ServiceOrderVO soSelected(){
 		return soSelected;
 	}
 }

@@ -4,6 +4,10 @@ import br.com.codeshare.builder.ClientBuilder;
 import br.com.codeshare.builder.PhoneBuilder;
 import br.com.codeshare.model.Client;
 import br.com.codeshare.model.Phone;
+import br.com.codeshare.util.Conversor;
+import br.com.codeshare.util.Resources;
+import br.com.codeshare.vo.ClientVO;
+import br.com.codeshare.vo.PhoneVO;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
@@ -25,6 +29,7 @@ public class PhoneRepositoryTestIT {
     private PhoneRepository repository;
     private ClientRepository clientRepository;
     private EntityTransaction transaction;
+    private Conversor conversor;
 
     @Before
     public void init(){
@@ -39,6 +44,7 @@ public class PhoneRepositoryTestIT {
         clientRepository.log = logger;
 
         transaction.begin();
+        conversor = new Conversor(new Resources().produceMapper());
     }
 
     @After
@@ -49,20 +55,22 @@ public class PhoneRepositoryTestIT {
 
     @Test
     public void findByClientIdTest(){
-        Phone motorola = new PhoneBuilder().withBrand("Motorola").withModel("Moto G4")
+        PhoneVO motorola = new PhoneBuilder().withBrand("Motorola").withModel("Moto G4")
                 .withEsn("123456789").buid();
 
-        Client client = new ClientBuilder().withName("John")
+        ClientVO client = new ClientBuilder().withName("John")
                 .withAdress("Quadra 603 Conjunto 02 Casa 14")
                 .withHomePhone("(61)99874-5698").withPhone(Arrays.asList(motorola))
                 .build();
 
-        motorola.setClient(client);
+        Phone motorolaPersist = conversor.converter(motorola, Phone.class);
+        Client clientPersist = conversor.converter(client, Client.class);
+        motorolaPersist.setClient(clientPersist);
 
-        clientRepository.insert(client);
-        repository.insert(motorola);
+        clientRepository.insert(clientPersist);
+        repository.insert(motorolaPersist);
 
-        List<Phone> phones = repository.findByClientId(client.getId());
+        List<Phone> phones = repository.findByClientId(clientPersist.getId());
 
         Assert.assertEquals(phones.size(),1);
         Assert.assertEquals(phones.get(0).getBrand(),"Motorola");

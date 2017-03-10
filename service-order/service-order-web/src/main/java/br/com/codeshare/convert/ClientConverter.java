@@ -1,5 +1,7 @@
 package br.com.codeshare.convert;
 
+import br.com.codeshare.model.Client;
+import br.com.codeshare.service.ClientService;
 import javax.faces.application.FacesMessage;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
@@ -8,15 +10,12 @@ import javax.faces.convert.ConverterException;
 import javax.inject.Inject;
 import javax.inject.Named;
 
-import br.com.codeshare.model.Client;
-import br.com.codeshare.service.ClientService;
-
 @Named
 public class ClientConverter implements Converter {
 
 	@Inject
 	private ClientService clientService;
-	
+
 	@Override
 	public Object getAsObject(FacesContext fc, UIComponent uic, String value) {
 		if(value != null && value.trim().length() > 0) {

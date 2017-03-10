@@ -13,6 +13,7 @@ public class ClientVO {
     private String homePhone;
     private String businessPhone;
     private List<PhoneVO> phones;
+    private List<PhoneVO> phonesToBeRemoved;
 
     public Long getId() {
         return id;
@@ -60,5 +61,13 @@ public class ClientVO {
 
     public void setPhones(List<PhoneVO> phones) {
         this.phones = phones;
+    }
+
+    public List<PhoneVO> getPhonesToBeRemoved() {
+        return phonesToBeRemoved;
+    }
+
+    public void setPhonesToBeRemoved(List<PhoneVO> phonesToBeRemoved) {
+        this.phonesToBeRemoved = phonesToBeRemoved;
     }
 }

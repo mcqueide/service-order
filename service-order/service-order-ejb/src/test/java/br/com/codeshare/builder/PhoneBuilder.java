@@ -1,18 +1,14 @@
 package br.com.codeshare.builder;
 
-import java.util.List;
-
 import br.com.codeshare.enums.PhoneState;
-import br.com.codeshare.model.Client;
-import br.com.codeshare.model.Phone;
-import br.com.codeshare.model.ServiceOrder;
+import br.com.codeshare.vo.PhoneVO;
 
 public class PhoneBuilder {
 
-	private Phone phone;
+	private PhoneVO phone;
 
 	public PhoneBuilder() {
-		this.phone = new Phone();
+		this.phone = new PhoneVO();
 	}
 
 	public PhoneBuilder withId (Long id) {
@@ -40,17 +36,7 @@ public class PhoneBuilder {
 		return this;
 	}
 
-	public PhoneBuilder withClient (Client client) {
-		phone.setClient(client); 
-		return this;
-	}
-
-	public PhoneBuilder withServiceOrder (List<ServiceOrder> serviceOrders) {
-		phone.setOs(serviceOrders);
-		return this;
-	}
-	
-	public Phone buid(){
+	public PhoneVO buid(){
 		return phone;
 	}
 }

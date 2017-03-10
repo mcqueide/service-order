@@ -1,9 +1,11 @@
 package br.com.codeshare.controller;
 
-import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
-
+import br.com.codeshare.exception.BusinessException;
+import br.com.codeshare.service.ClientService;
+import br.com.codeshare.service.PhoneService;
+import br.com.codeshare.util.WebResources;
+import br.com.codeshare.vo.ClientVO;
+import br.com.codeshare.vo.PhoneVO;
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.Conversation;
 import javax.enterprise.context.ConversationScoped;
@@ -13,13 +15,9 @@ import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
-
-import br.com.codeshare.exception.BusinessException;
-import br.com.codeshare.model.Client;
-import br.com.codeshare.model.Phone;
-import br.com.codeshare.service.ClientService;
-import br.com.codeshare.service.PhoneService;
-import br.com.codeshare.util.WebResources;
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 @Named
 @ConversationScoped
@@ -34,7 +32,7 @@ public class ClientController implements Serializable {
 	@Inject
 	private ClientService clientService;
 
-	private Client newClient;
+	private ClientVO newClient;
 
 	@Inject
 	private PhoneController phoneController;
@@ -46,21 +44,20 @@ public class ClientController implements Serializable {
 	
 	private String filterName;
 
-	private List<Client> listClients;
+	private List<ClientVO> listClients;
 
-	private Client clientSelected;
-	private List<Phone> phoneToBeRemove;
-	
+	private ClientVO clientSelected;
+
 	@Produces
 	@Named
-	public Client getNewClient() {
+	public ClientVO getNewClient() {
 		return newClient;
 	}
 
 	@PostConstruct
 	public void initNewClient() {
-		newClient = new Client();
-		newClient.setPhones(new ArrayList<Phone>());
+		newClient = new ClientVO();
+		newClient.setPhones(new ArrayList<PhoneVO>());
 		if(externalContext.getRequestServletPath().equals("/clients.jsf")){
 			listClients = clientService.findAll();
 		}
@@ -85,9 +82,9 @@ public class ClientController implements Serializable {
 		return null;
 	}
 
-	public String update(Client client) throws Exception{
+	public String update(ClientVO client) throws Exception{
 		try {
-			clientService.update(client,phoneToBeRemove);
+			clientService.update(client);
 			facesContext.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,  WebResources.getMessage("register"),WebResources.getMessage("sucess_register")));
 			initNewClient();
 		}catch (BusinessException e) {
@@ -120,14 +117,13 @@ public class ClientController implements Serializable {
 		return errorMessage;
 	}
 
-	public void addClientPhone(Client client) {
+	public void addClientPhone(ClientVO client) {
 		if(conversation.isTransient()){
 			conversation.begin();
 		}
 		
-		phoneController.getNewPhone().setClient(client);
 		if (client.getPhones() == null) {
-			client.setPhones(new ArrayList<Phone>());
+			client.setPhones(new ArrayList<>());
 		}
 		client.getPhones().add(phoneController.getNewPhone());
 		phoneController.initNewPhone();
@@ -139,16 +135,16 @@ public class ClientController implements Serializable {
 		}
 	}
 	
-	public void removeClientPhone(Client client, Phone phone){
+	public void removeClientPhone(ClientVO client, PhoneVO phone){
 		if(conversation.isTransient()){
 			conversation.begin();
 		}
 		
 		client.getPhones().remove(phone);
-		if(phoneToBeRemove == null){
-			phoneToBeRemove = new ArrayList<Phone>();
+		if(client.getPhonesToBeRemoved() == null){
+			client.setPhonesToBeRemoved(new ArrayList<>());
 		}
-		phoneToBeRemove.add(phone);
+		client.getPhonesToBeRemoved().add(phone);
 	}
 	
 	public void searchByName() {
@@ -159,17 +155,17 @@ public class ClientController implements Serializable {
 		listClients = clientService.findByName(filterName);
 	}
 	
-	public String edit(Client client) {
+	public String edit(ClientVO client) {
 		if(conversation.isTransient()){
 			conversation.begin();
 		}
 		this.clientSelected = client;
-		List<Phone> phoneList = phoneService.findPhoneByClientId(clientSelected.getId());
+		List<PhoneVO> phoneList = phoneService.findPhoneByClientId(clientSelected.getId());
 		clientSelected.setPhones(phoneList);
 		return "update_client";
 	}
 	
-	public Client getClientSelected() {
+	public ClientVO getClientSelected() {
 		return clientSelected;
 	}
 	
@@ -181,7 +177,7 @@ public class ClientController implements Serializable {
 		this.filterName = filterName;
 	}
 
-	public List<Client> getListClients() {
+	public List<ClientVO> getListClients() {
 		return listClients;
 	}
 	

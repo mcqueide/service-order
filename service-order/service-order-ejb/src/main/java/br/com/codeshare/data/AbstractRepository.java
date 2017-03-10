@@ -40,6 +40,12 @@ public class AbstractRepository<T extends Serializable> implements Repository<T>
 	}
 
 	@Override
+	public void delete(Long id) {
+		T bean = findById(id);
+		getEntityManager().remove(bean);
+	}
+
+	@Override
 	public T findById(Long id) {
 		return getEntityManager().find(getType(), id);
 	}
