@@ -6,7 +6,6 @@ import javax.enterprise.context.RequestScoped;
 import javax.persistence.TypedQuery;
 
 import br.com.codeshare.model.Client;
-import br.com.codeshare.model.Phone;
 
 @RequestScoped
 public class ClientRepository extends AbstractRepository<Client>{

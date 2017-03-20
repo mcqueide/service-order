@@ -2,7 +2,6 @@ package br.com.codeshare.builder;
 
 import java.util.List;
 
-import br.com.codeshare.enums.PhoneState;
 import br.com.codeshare.model.Client;
 import br.com.codeshare.model.Phone;
 import br.com.codeshare.model.ServiceOrder;
@@ -30,10 +29,10 @@ public class PhoneBuilder {
 		return this;
 	}
 
-	public PhoneBuilder withState (PhoneState state) {
-		phone.setState(state);
-		return this;
-	}
+//	public PhoneBuilder withState (PhoneState state) {
+//		phone.setState(state);
+//		return this;
+//	}
 
 	public PhoneBuilder withEsn (String esn) {
 		phone.setEsn(esn);

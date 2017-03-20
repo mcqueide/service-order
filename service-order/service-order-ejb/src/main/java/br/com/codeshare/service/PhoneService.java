@@ -6,7 +6,6 @@ import java.util.logging.Logger;
 import javax.ejb.Stateless;
 import javax.enterprise.event.Event;
 import javax.inject.Inject;
-import javax.persistence.EntityManager;
 
 import br.com.codeshare.data.PhoneRepository;
 import br.com.codeshare.model.Phone;

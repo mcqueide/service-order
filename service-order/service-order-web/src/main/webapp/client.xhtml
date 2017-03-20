@@ -51,9 +51,9 @@
 					<p:inputText id="model" value="#{newPhone.model}" />
 
 					<p:outputLabel for="state" value="#{label['phone.state']}"/>
-					<p:selectOneRadio id="state" value="#{newPhone.state}">
-						<f:selectItems value="#{phoneStates}" var="p" itemValue="#{p}" itemLabel="#{label[p.label]}" />
-					</p:selectOneRadio>
+					<p:selectManyCheckbox id="state" value="#{clientController.states}">
+						<f:selectItems var="state" itemValue="#{state}" itemLabel="#{state.situation}" />
+					</p:selectManyCheckbox>
 					
 					<p:outputLabel for="esn" value="#{label['phone.esn']}" />
 					<p:inputText id="esn" value="#{newPhone.esn}" />

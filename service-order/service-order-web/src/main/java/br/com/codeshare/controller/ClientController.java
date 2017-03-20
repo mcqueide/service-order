@@ -17,8 +17,10 @@ import javax.inject.Named;
 import br.com.codeshare.exception.BusinessException;
 import br.com.codeshare.model.Client;
 import br.com.codeshare.model.Phone;
+import br.com.codeshare.model.State;
 import br.com.codeshare.service.ClientService;
 import br.com.codeshare.service.PhoneService;
+import br.com.codeshare.service.StateService;
 import br.com.codeshare.util.WebResources;
 
 @Named
@@ -33,6 +35,8 @@ public class ClientController implements Serializable {
 	private ExternalContext externalContext;
 	@Inject
 	private ClientService clientService;
+	@Inject
+	private StateService stateService;
 
 	private Client newClient;
 
@@ -47,7 +51,9 @@ public class ClientController implements Serializable {
 	private String filterName;
 
 	private List<Client> listClients;
-
+	
+	private List<State> states;
+	
 	private Client clientSelected;
 	private List<Phone> phoneToBeRemove;
 	
@@ -64,6 +70,8 @@ public class ClientController implements Serializable {
 		if(externalContext.getRequestServletPath().equals("/clients.jsf")){
 			listClients = clientService.findAll();
 		}
+		states = new ArrayList<>();
+		states = stateService.findAll();
 	}
 	
 	public String save() throws Exception {
@@ -184,5 +192,13 @@ public class ClientController implements Serializable {
 	public List<Client> getListClients() {
 		return listClients;
 	}
-	
+
+	public List<State> getStates() {
+		return states;
+	}
+
+	public void setStates(List<State> states) {
+		this.states = states;
+	}
+		
 }
