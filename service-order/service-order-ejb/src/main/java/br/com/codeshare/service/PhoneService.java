@@ -1,46 +1,47 @@
 package br.com.codeshare.service;
 
-import java.util.List;
-import java.util.logging.Logger;
-
-import javax.ejb.Stateless;
-import javax.enterprise.event.Event;
-import javax.inject.Inject;
-
 import br.com.codeshare.data.PhoneRepository;
 import br.com.codeshare.model.Phone;
+import br.com.codeshare.util.Conversor;
+import br.com.codeshare.vo.PhoneVO;
+
+import javax.ejb.Stateless;
+import javax.inject.Inject;
+import java.util.List;
+import java.util.logging.Logger;
 
 @Stateless
 public class PhoneService {
 
 	@Inject 
 	private Logger log;
-	
-	@Inject
-	private Event<Phone> phoneEvent;
-	
+
 	@Inject
 	private PhoneRepository phoneRepository;
-	
-	public void register(Phone phone){
+
+	@Inject
+	private Conversor conversor;
+
+	public void register(PhoneVO phone){
 		log.info("Registering " + phone.getModel());
-		phoneRepository.insert(phone);
-		phoneEvent.fire(phone);
+
+		Phone persist = conversor.converter(phone, Phone.class);
+
+		phoneRepository.insert(persist);
 	}
 	
-	public Phone findById(Long id){
+	public PhoneVO findById(Long id){
 		log.info("Search for phone with id " + id);
-		return phoneRepository.findById(id);
+		return conversor.converter(phoneRepository.findById(id),PhoneVO.class);
 	}
 	
-	public void remove(Phone phoneToBeRemoved){
+	public void remove(PhoneVO phoneToBeRemoved){
 		log.info(String.format("Removing %s  - %s", phoneToBeRemoved.getBrand(), phoneToBeRemoved.getModel()));
         Phone phone = phoneRepository.findById(phoneToBeRemoved.getId());
         phoneRepository.delete(phone);
-		phoneEvent.fire(phone);
 	}
 	
-	public List<Phone> findPhoneByClientId(Long id){
-    	return phoneRepository.findByClientId(id);
+	public List<PhoneVO> findPhoneByClientId(Long id){
+    	return conversor.converter(phoneRepository.findByClientId(id),PhoneVO.class);
     }
 }

@@ -13,8 +13,12 @@ import java.util.List;
 @Singleton
 public class Conversor {
 
-    @Inject
     private Mapper mapper;
+
+    @Inject
+    public Conversor(Mapper mapper) {
+        this.mapper = mapper;
+    }
 
     public <S, T> T converter(S entidade, Class<T> tipoVO) {
         if(entidade == null) {

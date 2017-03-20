@@ -1,17 +1,24 @@
 package br.com.codeshare.service;
 
-import java.util.List;
-import java.util.logging.Logger;
+import br.com.codeshare.data.ClientRepository;
+import br.com.codeshare.data.PhoneRepository;
+import br.com.codeshare.enums.ErrorCode;
+import br.com.codeshare.exception.BusinessException;
+import br.com.codeshare.model.Client;
+import br.com.codeshare.util.Conversor;
+import br.com.codeshare.vo.ClientVO;
+import br.com.codeshare.vo.PhoneVO;
 
 import javax.ejb.Stateless;
 import javax.enterprise.event.Event;
 import javax.inject.Inject;
-
-import br.com.codeshare.data.ClientRepository;
-import br.com.codeshare.enums.ErrorCode;
-import br.com.codeshare.exception.BusinessException;
-import br.com.codeshare.model.Client;
-import br.com.codeshare.model.Phone;
+import javax.validation.ConstraintViolation;
+import javax.validation.ConstraintViolationException;
+import javax.validation.Validator;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+import java.util.logging.Logger;
 
 @Stateless
 public class ClientService{
@@ -21,49 +28,69 @@ public class ClientService{
 	@Inject
 	private Event<Client> clientEventSrc;
 	@Inject
-	private PhoneService phoneService;
+	private PhoneRepository phoneRepository;
 	@Inject
 	private ServiceOrderService soService;
     @Inject
     protected Logger log;
+    @Inject
+	private Conversor conversor;
+	@Inject
+	private Validator validator;
 	
-	public void save(Client client) throws Exception{
+	public void save(ClientVO client) throws Exception{
 	    log.info("Registering new cliet: " + client.getName());
 
 		validatePhoneLeastOnePhoneObligatory(client);
+		Client persist = conversor.converter(client, Client.class);
 
-		clientRepository.insert(client);
+		validate(persist);
 
-		client.getPhones().forEach(p -> phoneService.register(p));
+		clientRepository.insert(persist);
+		persist.getPhones().forEach(p -> {
+			p.setClient(persist);
+			phoneRepository.insert(p);
+		});
 
-		clientEventSrc.fire(client);
+		clientEventSrc.fire(persist);
 	}
 
-	public Client findById(Long id)
+	private void validate(Client persist) {
+		Set<ConstraintViolation<Client>> violations = validator.validate(persist);
+
+		if(!violations.isEmpty()){
+			throw new ConstraintViolationException(new HashSet<ConstraintViolation<?>>(violations));
+		}
+	}
+
+	public ClientVO findById(Long id)
 	{
-	    return clientRepository.findClientById(id);
+	    return conversor.converter(clientRepository.findClientById(id),ClientVO.class);
 	}
 	
-	public List<Client> findAll(){
-		return clientRepository.findAllOrderedByName();
+	public List<ClientVO> findAll(){
+		return conversor.converter(clientRepository.findAllOrderedByName(),ClientVO.class);
 	}
 	
-	public List<Client> findByName(String name) {
-		return clientRepository.findClientByName(name);
+	public List<ClientVO> findByName(String name) {
+		return conversor.converter(clientRepository.findClientByName(name),ClientVO.class);
 	}
 
-	public void update(Client client,List<Phone>phonesToBeRemove) throws Exception {
+	public void update(ClientVO client) throws Exception {
         log.info("Updating client: " + client.getName());
 
 		validatePhoneLeastOnePhoneObligatory(client);
 
-		clientRepository.update(client);
+		Client persist = conversor.converter(client, Client.class);
+		validate(persist);
 
-        registerNewPhones(client);
+        registerNewPhones(persist);
 
-        removePhones(phonesToBeRemove);
+		clientRepository.update(persist);
 
-		clientEventSrc.fire(client);
+        removePhones(client.getPhonesToBeRemoved());
+
+		clientEventSrc.fire(persist);
 	}
 
     private void registerNewPhones(Client client) throws Exception {
@@ -71,19 +98,20 @@ public class ClientService{
 			if(p.getId() == null){
 				log.info(String.format("Adding new phone (%s-%s) to client (%s)",
 						p.getBrand(),p.getModel(),client.getName()));
-				phoneService.register(p);
+				p.setClient(client);
+				phoneRepository.insert(p);
 			}
 		});
     }
 
-    private void removePhones(List<Phone> phonesToBeRemove) throws BusinessException {
+    private void removePhones(List<PhoneVO> phonesToBeRemove) throws BusinessException {
 		if(phonesToBeRemove != null){
-			for(Phone phone : phonesToBeRemove){
+			for(PhoneVO phone : phonesToBeRemove){
 				if(soService.findSoByPhoneId(phone.getId()).isEmpty()){
 					if(phone.getId()!=null){
                         log.info(String.format("Removing phone (%s-%s)",
                                 phone.getBrand(),phone.getModel()));
-						phoneService.remove(phone);
+						phoneRepository.delete(phone.getId());//.remove(phone);
 					}
 				}
 				else{
@@ -93,7 +121,7 @@ public class ClientService{
 		}
 	}
 
-	private void validatePhoneLeastOnePhoneObligatory(Client client) throws BusinessException {
+	private void validatePhoneLeastOnePhoneObligatory(ClientVO client) throws BusinessException {
 		if(client.getHomePhone().isEmpty() && client.getBusinessPhone().isEmpty()){
 			throw new BusinessException(ErrorCode.LEAST_ONE_PHONE_OBLIGATORY.getErrorCode());
 		}

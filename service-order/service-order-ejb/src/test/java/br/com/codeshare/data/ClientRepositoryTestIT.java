@@ -4,12 +4,17 @@ import br.com.codeshare.builder.ClientBuilder;
 import br.com.codeshare.builder.PhoneBuilder;
 import br.com.codeshare.model.Client;
 import br.com.codeshare.model.Phone;
+import br.com.codeshare.util.Conversor;
+import br.com.codeshare.util.Resources;
+import br.com.codeshare.vo.ClientVO;
+import br.com.codeshare.vo.PhoneVO;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mockito;
 
+import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
 import javax.persistence.Persistence;
 import java.util.Arrays;
@@ -24,19 +29,23 @@ public class ClientRepositoryTestIT {
     private ClientRepository repository;
     private PhoneRepository phoneRepository;
     private EntityTransaction transaction;
+    private Conversor conversor;
 
     @Before
     public void init(){
         repository = new ClientRepository();
         phoneRepository = new PhoneRepository();
-        repository.em = Persistence.createEntityManagerFactory("primary").createEntityManager();
-        phoneRepository.em = Persistence.createEntityManagerFactory("primary").createEntityManager();
+        EntityManager entityManager =Persistence.createEntityManagerFactory("primary").createEntityManager();
+        repository.em = entityManager;
+        phoneRepository.em = entityManager;
         transaction = repository.em.getTransaction();
         Logger logger = Mockito.mock(Logger.class);
         repository.log = logger;
         phoneRepository.log = logger;
 
         transaction.begin();
+
+        conversor = new Conversor(new Resources().produceMapper());
     }
 
     @After
@@ -47,11 +56,12 @@ public class ClientRepositoryTestIT {
 
     @Test
     public void findClientByNameTest(){
-        Client client = new ClientBuilder().withName("John")
+        ClientVO client = new ClientBuilder().withName("John")
                 .withAdress("Quadra 603 Conjunto 02 Casa 14")
                 .withHomePhone("(61)99874-5698").build();
 
-        repository.insert(client);
+        Client persist = conversor.converter(client, Client.class);
+        repository.insert(persist);
 
         List<Client> clients = repository.findClientByName("John");
 
@@ -61,37 +71,37 @@ public class ClientRepositoryTestIT {
 
     @Test
     public void saveClientWithPhoneNumberTest(){
-        Client client = new ClientBuilder().withName("John")
+        ClientVO client = new ClientBuilder().withName("John")
                 .withAdress("Quadra 603 Conjunto 02 Casa 14")
                 .withHomePhone("(61)99874-5698").build();
 
-        repository.insert(client);
+        Client persist = conversor.converter(client, Client.class);
+        repository.insert(persist);
 
-        Assert.assertNotNull(client.getId());
+        Assert.assertNotNull(persist.getId());
     }
 
     @Test
     public void saveClientWithPhoneNumberAndPhoneTest(){
-        Phone motorola = new PhoneBuilder().withBrand("Motorola").withModel("Moto G4")
+        PhoneVO motorola = new PhoneBuilder().withBrand("Motorola").withModel("Moto G4")
                 .withEsn("123456789").buid();
 
-        Client client = new ClientBuilder().withName("John")
+        ClientVO client = new ClientBuilder().withName("John")
                 .withAdress("Quadra 603 Conjunto 02 Casa 14")
                 .withHomePhone("(61)99874-5698").withPhone(Arrays.asList(motorola))
                 .build();
 
-        motorola.setClient(client);
+        Phone motorolaPersist = conversor.converter(motorola, Phone.class);
+        Client clientPersist = conversor.converter(client, Client.class);
+        motorolaPersist.setClient(clientPersist);
 
-        repository.insert(client);
-        phoneRepository.insert(motorola);
+        repository.insert(clientPersist);
+        phoneRepository.insert(motorolaPersist);
 
-        Assert.assertNotNull(client.getId());
+        Assert.assertNotNull(clientPersist.getId());
+        Assert.assertNotNull(motorolaPersist.getId());
 
-        for (Phone phone : client.getPhones()) {
-            Assert.assertNotNull(phone.getId());
-        }
-
-        Client clientById = repository.findClientById(client.getId());
+        Client clientById = repository.findClientById(clientPersist.getId());
 
         Assert.assertEquals(clientById.getName(),"John");
         Assert.assertEquals(clientById.getPhones().get(0).getBrand(),"Motorola");
@@ -100,37 +110,38 @@ public class ClientRepositoryTestIT {
 
     @Test
     public void updateClientTest(){
-        Client client = new ClientBuilder().withName("John")
+        ClientVO client = new ClientBuilder().withName("John")
                 .withAdress("Quadra 603 Conjunto 02 Casa 14")
                 .withHomePhone("(61)99874-5698").build();
 
-        repository.insert(client);
+        Client clientPersist = conversor.converter(client, Client.class);
+        repository.insert(clientPersist);
 
-        Client clientRecovered = repository.findClientById(client.getId());
+        Client clientRecovered = repository.findClientById(clientPersist.getId());
         clientRecovered.setBusinessPhone("(61)3333-1987");
         repository.update(clientRecovered);
 
-        Client clientForTest = repository.findClientById(client.getId());
+        Client clientForTest = repository.findClientById(clientPersist.getId());
         Assert.assertEquals(clientForTest.getBusinessPhone(),"(61)3333-1987");
     }
 
     @Test
     public void findClientByOrderedNameTest(){
-        Client peter = new ClientBuilder().withName("Peter")
+        ClientVO peter = new ClientBuilder().withName("Peter")
                 .withAdress("Quadra 405 Conjunto 02 Casa 14")
                 .withHomePhone("(61)96574-5698").build();
 
-        Client john = new ClientBuilder().withName("John")
+        ClientVO john = new ClientBuilder().withName("John")
                 .withAdress("Quadra 603 Conjunto 02 Casa 14")
                 .withHomePhone("(61)99874-5698").build();
 
-        Client jon = new ClientBuilder().withName("Jon")
+        ClientVO jon = new ClientBuilder().withName("Jon")
                 .withAdress("Quadra 803 Conjunto 02 Casa 14")
                 .withHomePhone("(61)99874-5698").build();
 
-        repository.insert(peter);
-        repository.insert(john);
-        repository.insert(jon);
+        repository.insert(conversor.converter(peter,Client.class));
+        repository.insert(conversor.converter(john,Client.class));
+        repository.insert(conversor.converter(jon,Client.class));
 
         List<Client> clients = repository.findAllOrderedByName();
 

@@ -6,6 +6,10 @@ import java.util.logging.Logger;
 
 import javax.inject.Inject;
 
+import br.com.codeshare.util.Conversor;
+import br.com.codeshare.vo.ClientVO;
+import br.com.codeshare.vo.PhoneVO;
+import br.com.codeshare.vo.ServiceOrderVO;
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.junit.Arquillian;
 import org.jboss.shrinkwrap.api.Archive;
@@ -46,23 +50,26 @@ public class ServiceOrderServiceTestIT {
 	}
 	
 	@Inject
-	ServiceOrderService service;
+	private ServiceOrderService service;
 	
 	@Inject
-	ClientService clientService;
+	private ClientService clientService;
 	
 	@Inject
-	PhoneService phoneService;
+	private PhoneService phoneService;
 	
 	@Inject
-	Logger log;
+	private Logger log;
+
+	@Inject
+	private Conversor conversor;
 	
 	@Test
 	public void testRegister(){
 		
-		Phone phone = getPhone();
-		Client client = getClient(phone);
-		ServiceOrder so = getSO(client, phone);
+		PhoneVO phone = getPhone();
+		ClientVO client = getClient(phone);
+		ServiceOrderVO so = getSO(client, phone);
 		
 		try {
 			clientService.save(client);
@@ -77,9 +84,9 @@ public class ServiceOrderServiceTestIT {
 	
 	@Test
 	public void testUpdate(){
-		Phone phone = getPhone();
-		Client client = getClient(phone);
-		ServiceOrder so = getSO(client, phone);
+		PhoneVO phone = getPhone();
+		ClientVO client = getClient(phone);
+		ServiceOrderVO so = getSO(client, phone);
 		
 		try{
 			clientService.save(client);
@@ -93,15 +100,15 @@ public class ServiceOrderServiceTestIT {
 			e.printStackTrace();
 		}
 		
-		ServiceOrder soUpdated = service.find(so.getId());
+		ServiceOrderVO soUpdated = service.find(so.getId());
 		
 		Assert.assertEquals(new BigDecimal("1000.00"), soUpdated.getValue());
 		Assert.assertEquals(ServiceOrderState.APPROVED, soUpdated.getSoState());
 		log.info(so.getClient().getName() + "\'s service order with id " + so.getId() + " was updated");
 	}
 	
-	private Phone getPhone(){
-		Phone phone = new PhoneBuilder()
+	private PhoneVO getPhone(){
+		PhoneVO phone = new PhoneBuilder()
 				.withBrand("Samsung")
 				.withModel("Galaxy S6")
 				.buid();
@@ -109,8 +116,8 @@ public class ServiceOrderServiceTestIT {
 		return phone;
 	}
 	
-	private Client getClient(Phone...phones){
-		Client client = new ClientBuilder()
+	private ClientVO getClient(PhoneVO...phones){
+		ClientVO client = new ClientBuilder()
 				.withName("John Mc.Queide")
 				.withAdress("Quadra 101 Conjunto 07 Casa 07")
 				.withHomePhone("(61)1234-9812")
@@ -121,8 +128,8 @@ public class ServiceOrderServiceTestIT {
 	}
 	
 	@SuppressWarnings("unused")
-	private Client getClient(){
-		Client client = new ClientBuilder()
+	private ClientVO getClient(){
+		ClientVO client = new ClientBuilder()
 				.withName("John Mc.Queide")
 				.withAdress("Quadra 101 Conjunto 07 Casa 07")
 				.withHomePhone("(61)1234-9812")
@@ -131,8 +138,8 @@ public class ServiceOrderServiceTestIT {
 		return client;
 	}
 	
-	private ServiceOrder getSO(Client client,Phone phone){
-		ServiceOrder serviceOrder = new ServiceOrderBuild()
+	private ServiceOrderVO getSO(ClientVO client,PhoneVO phone){
+		ServiceOrderVO serviceOrder = new ServiceOrderBuild()
 				.withReportedProblem("Don't work")
 				.withValue(new BigDecimal(500))
 				.withClient(client)

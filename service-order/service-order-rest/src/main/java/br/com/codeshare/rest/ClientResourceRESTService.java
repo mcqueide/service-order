@@ -1,7 +1,6 @@
 package br.com.codeshare.rest;
 
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -11,7 +10,6 @@ import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import javax.validation.ConstraintViolation;
 import javax.validation.ConstraintViolationException;
-import javax.validation.Validator;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
@@ -24,13 +22,11 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.ResponseBuilder;
 
-import br.com.codeshare.data.ClientRepository;
-import br.com.codeshare.data.PhoneRepository;
 import br.com.codeshare.exception.BusinessException;
-import br.com.codeshare.model.Client;
-import br.com.codeshare.model.Phone;
 import br.com.codeshare.service.ClientService;
-import br.com.codeshare.vo.ClientPhoneUpdateVO;
+import br.com.codeshare.service.PhoneService;
+import br.com.codeshare.vo.ClientVO;
+import br.com.codeshare.vo.PhoneVO;
 
 @Path("/client")
 @RequestScoped
@@ -40,70 +36,48 @@ public class ClientResourceRESTService {
 	private Logger log; 
 	
 	@Inject
-	private Validator validator;
-	
-	@Inject
-	private ClientRepository repository;
-	
-	@Inject
 	private ClientService service;
 	
 	@Inject
-	private PhoneRepository phoneRepository;
+	private PhoneService phoneService;
 
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
-	public List<Client> listAllClients(){
+	public List<ClientVO> listAllClients(){
 		
-		List<Client> clients = repository.findAllOrderedByName();
+		List<ClientVO> clients = service.findAll();//findAllOrderedByName();
 		
 		
 		if(clients == null){
 			throw new WebApplicationException(Response.Status.NOT_FOUND);
 		}
 
-		for (Client client : clients) {
-			client.setServiceOrders(null);
-			client.setPhones(null);
-		}
-		
-		return clients; 
+		return clients;
 	}
 	
 	@GET
 	@Path("/{id:[0-9][0-9]*}")
 	@Produces(MediaType.APPLICATION_JSON)
-	public Client retrieveClientById(@PathParam("id") Long id){
-		Client client = repository.findClientById(id);
+	public ClientVO retrieveClientById(@PathParam("id") Long id){
+		ClientVO client = service.findById(id);//findClientById(id);
 		
 		if(client == null){
 			throw new WebApplicationException(Response.Status.NOT_FOUND);
 		}
 		
-		client.setServiceOrders(null);
-
-		for(Phone phone : client.getPhones()){
-		    phone.setOs(null);
-		    phone.setClient(null);
-        }
-
 		return client;
 	}
 	
 	@GET
 	@Path("/{id:[0-9][0-9]*}/phones")
 	@Produces(MediaType.APPLICATION_JSON)
-	public List<Phone> listClientPhones(@PathParam("id")Long id){
-		List<Phone> phones = phoneRepository.findByClientId(id);
+	public List<PhoneVO> listClientPhones(@PathParam("id")Long id){
+		List<PhoneVO> phones = phoneService.findPhoneByClientId(id);//findByClientId(id);
 		
 		if(phones == null){
 			throw new WebApplicationException(Response.Status.NOT_FOUND);
 		}
-		
-		for (Phone phone : phones) {
-			phone.setOs(null);
-		}
-		
+
 		return phones;
 	}
 	
@@ -112,19 +86,11 @@ public class ClientResourceRESTService {
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response createClient(Client client) {
+	public Response createClient(ClientVO client) {
 
 		ResponseBuilder builder = null;
 
 		try {
-			if (client.getPhones() != null) {
-				for (Phone phone : client.getPhones()) {
-					phone.setClient(client);
-				}
-			}
-
-			validateClient(client);
-
 			service.save(client);
 
 			builder = Response.ok();
@@ -149,17 +115,12 @@ public class ClientResourceRESTService {
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
 	@Path("/{id:[0-9][0-9]*}")
-	public Response updateClient(ClientPhoneUpdateVO clientPhoneVO){
+	public Response updateClient(ClientVO clientVO){
 		
 		ResponseBuilder builder = null;
 		
 		try{
-			if (clientPhoneVO.getClient().getPhones() != null) {
-				for (Phone phone : clientPhoneVO.getClient().getPhones()) {
-					phone.setClient(clientPhoneVO.getClient());
-				}
-			}
-			service.update(clientPhoneVO.getClient(), clientPhoneVO.getPhonesToBeRemoved());
+			service.update(clientVO);
 			
 			builder = Response.ok();
 		}catch (ConstraintViolationException ce) {
@@ -173,16 +134,6 @@ public class ClientResourceRESTService {
 		return builder.build();
 	}
 
-	private void validateClient(Client client) {
-
-		Set<ConstraintViolation<Client>> violations = validator.validate(client);
-		
-		if(!violations.isEmpty()){
-			throw new ConstraintViolationException(new HashSet<ConstraintViolation<?>>(violations));
-		}
-		
-	}
-	
 	private Response.ResponseBuilder createViolationResponse(Set<ConstraintViolation<?>> violations) {
         log.fine("Validation completed. violations found: " + violations.size());
 

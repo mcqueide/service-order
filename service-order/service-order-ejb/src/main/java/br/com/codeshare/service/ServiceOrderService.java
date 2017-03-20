@@ -1,46 +1,53 @@
 package br.com.codeshare.service;
 
-import java.util.List;
+import br.com.codeshare.data.ServiceOrderRepository;
+import br.com.codeshare.model.ServiceOrder;
+import br.com.codeshare.util.Conversor;
+import br.com.codeshare.vo.ServiceOrderVO;
 
 import javax.ejb.Stateless;
 import javax.enterprise.event.Event;
 import javax.inject.Inject;
-
-import br.com.codeshare.data.ServiceOrderRepository;
-import br.com.codeshare.model.ServiceOrder;
+import java.util.List;
 
 @Stateless
 public class ServiceOrderService {
 
 	@Inject
-	ServiceOrderRepository soRepository;
+	private ServiceOrderRepository soRepository;
 	
 	@Inject
-	private Event<ServiceOrder> soEventSrc;
+	private Event<ServiceOrderVO> soEventSrc;
+
+	@Inject
+    private Conversor conversor;
 	
-    public void register(ServiceOrder serviceOrder) throws Exception {
-    	soRepository.insert(serviceOrder);
+    public void register(ServiceOrderVO serviceOrder) throws Exception {
+        ServiceOrder persist = conversor.converter(serviceOrder, ServiceOrder.class);
+
+        soRepository.insert(persist);
     	soEventSrc.fire(serviceOrder);
     }
 
-    public List<ServiceOrder> findAll(){
-    	return soRepository.findAllOrderedById();
+    public List<ServiceOrderVO> findAll(){
+    	return conversor.converter(soRepository.findAllOrderedById(),ServiceOrderVO.class);
     }
     
-    public ServiceOrder find(Long id){
-    	return soRepository.findById(id);
+    public ServiceOrderVO find(Long id){
+    	return conversor.converter(soRepository.findById(id),ServiceOrderVO.class);
     }
     
-    public List<ServiceOrder> findClientByName(String name){
-    	return soRepository.findClientByName(name);
+    public List<ServiceOrderVO> findClientByName(String name){
+    	return conversor.converter(soRepository.findClientByName(name),ServiceOrderVO.class);
     }
     
-    public void update(ServiceOrder serviceOrder) throws Exception{
-    	soRepository.update(serviceOrder);
+    public void update(ServiceOrderVO serviceOrder) throws Exception{
+        ServiceOrder persist = conversor.converter(serviceOrder, ServiceOrder.class);
+        soRepository.update(persist);
     	soEventSrc.fire(serviceOrder);
     }
     
-    public List<ServiceOrder> findSoByPhoneId(Long id){
-    	return soRepository.findByPhoneId(id);
+    public List<ServiceOrderVO> findSoByPhoneId(Long id){
+    	return conversor.converter(soRepository.findByPhoneId(id),ServiceOrderVO.class);
     }
 }

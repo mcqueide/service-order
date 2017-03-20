@@ -9,9 +9,9 @@ import javax.inject.Inject;
 import javax.inject.Named;
 
 import br.com.codeshare.enums.PhoneState;
-import br.com.codeshare.model.Phone;
 import br.com.codeshare.service.PhoneService;
 import br.com.codeshare.util.WebResources;
+import br.com.codeshare.vo.PhoneVO;
 
 @Model
 public class PhoneController {
@@ -22,11 +22,11 @@ public class PhoneController {
 	@Inject
 	private PhoneService phoneService;
 	
-	private Phone newPhone;
+	private PhoneVO newPhone;
 	
 	@Produces
 	@Named
-	public Phone getNewPhone(){
+	public PhoneVO getNewPhone(){
 		return newPhone;
 	}
 	
@@ -44,7 +44,7 @@ public class PhoneController {
 	
 	@PostConstruct
 	public void initNewPhone(){
-		newPhone = new Phone();
+		newPhone = new PhoneVO();
 	}
 	
 	private String getRootErrorMessage(Exception e) {

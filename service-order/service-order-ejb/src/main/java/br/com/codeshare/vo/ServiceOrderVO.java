@@ -129,4 +129,45 @@ public class ServiceOrderVO {
     public void setPhone(PhoneVO phone) {
         this.phone = phone;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        ServiceOrderVO that = (ServiceOrderVO) o;
+
+        if (id != null ? !id.equals(that.id) : that.id != null) return false;
+        if (reportedProblem != null ? !reportedProblem.equals(that.reportedProblem) : that.reportedProblem != null)
+            return false;
+        if (problemFound != null ? !problemFound.equals(that.problemFound) : that.problemFound != null) return false;
+        if (executedService != null ? !executedService.equals(that.executedService) : that.executedService != null)
+            return false;
+        if (serviceOrderType != that.serviceOrderType) return false;
+        if (soState != that.soState) return false;
+        if (dateSo != null ? !dateSo.equals(that.dateSo) : that.dateSo != null) return false;
+        if (approvedDate != null ? !approvedDate.equals(that.approvedDate) : that.approvedDate != null) return false;
+        if (datePhoneWithdrawl != null ? !datePhoneWithdrawl.equals(that.datePhoneWithdrawl) : that.datePhoneWithdrawl != null)
+            return false;
+        if (value != null ? !value.equals(that.value) : that.value != null) return false;
+        if (client != null ? !client.equals(that.client) : that.client != null) return false;
+        return phone != null ? phone.equals(that.phone) : that.phone == null;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = id != null ? id.hashCode() : 0;
+        result = 31 * result + (reportedProblem != null ? reportedProblem.hashCode() : 0);
+        result = 31 * result + (problemFound != null ? problemFound.hashCode() : 0);
+        result = 31 * result + (executedService != null ? executedService.hashCode() : 0);
+        result = 31 * result + (serviceOrderType != null ? serviceOrderType.hashCode() : 0);
+        result = 31 * result + (soState != null ? soState.hashCode() : 0);
+        result = 31 * result + (dateSo != null ? dateSo.hashCode() : 0);
+        result = 31 * result + (approvedDate != null ? approvedDate.hashCode() : 0);
+        result = 31 * result + (datePhoneWithdrawl != null ? datePhoneWithdrawl.hashCode() : 0);
+        result = 31 * result + (value != null ? value.hashCode() : 0);
+        result = 31 * result + (client != null ? client.hashCode() : 0);
+        result = 31 * result + (phone != null ? phone.hashCode() : 0);
+        return result;
+    }
 }

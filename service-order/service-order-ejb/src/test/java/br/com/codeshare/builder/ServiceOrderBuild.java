@@ -1,20 +1,19 @@
 package br.com.codeshare.builder;
 
+import br.com.codeshare.enums.ServiceOrderType;
+import br.com.codeshare.vo.ClientVO;
+import br.com.codeshare.vo.PhoneVO;
+import br.com.codeshare.vo.ServiceOrderVO;
+
 import java.math.BigDecimal;
 import java.time.LocalDate;
 
-import br.com.codeshare.enums.ServiceOrderState;
-import br.com.codeshare.enums.ServiceOrderType;
-import br.com.codeshare.model.Client;
-import br.com.codeshare.model.Phone;
-import br.com.codeshare.model.ServiceOrder;
-
 public class ServiceOrderBuild {
 
-	private ServiceOrder so;
+	private ServiceOrderVO so;
 
 	public ServiceOrderBuild() {
-		this.so = new ServiceOrder();
+		this.so = new ServiceOrderVO();
 	}
 	
 	public ServiceOrderBuild withId(Long id){
@@ -37,10 +36,6 @@ public class ServiceOrderBuild {
 		so.setServiceOrderType(serviceOrderType);
 		return this;
 	}
-	public ServiceOrderBuild withServiceOrderState (ServiceOrderState soState){
-		so.setSOState(soState);
-		return this;
-	}
 	public ServiceOrderBuild withDate(LocalDate dateSo){
 		so.setDateSo(dateSo);
 		return this;
@@ -57,15 +52,15 @@ public class ServiceOrderBuild {
 		so.setValue(value);
 		return this;
 	}
-	public ServiceOrderBuild withClient(Client client){
+	public ServiceOrderBuild withClient(ClientVO client){
 		so.setClient(client);
 		return this;
 	}
-	public ServiceOrderBuild withPhone(Phone phone){
+	public ServiceOrderBuild withPhone(PhoneVO phone){
 		so.setPhone(phone);
 		return this;
 	}
-	public ServiceOrder build(){
+	public ServiceOrderVO build(){
 		return so;
 	}
 	

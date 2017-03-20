@@ -7,9 +7,8 @@ import javax.faces.convert.Converter;
 import javax.faces.convert.ConverterException;
 import javax.inject.Inject;
 import javax.inject.Named;
-
-import br.com.codeshare.model.Phone;
 import br.com.codeshare.service.PhoneService;
+import br.com.codeshare.vo.PhoneVO;
 
 @Named
 public class PhoneConverter implements Converter {
@@ -34,7 +33,7 @@ public class PhoneConverter implements Converter {
 	@Override
 	public String getAsString(FacesContext fc, UIComponent uic, Object object) {
 		if(object != null) {
-            return String.valueOf(((Phone) object).getId());
+            return String.valueOf(((PhoneVO) object).getId());
         }
         else {
             return null;
