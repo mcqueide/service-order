@@ -21,7 +21,7 @@ public class PhoneService {
 
 	@Inject
 	private Conversor conversor;
-	
+
 	public void register(PhoneVO phone){
 		log.info("Registering " + phone.getModel());
 
@@ -39,7 +39,6 @@ public class PhoneService {
 		log.info(String.format("Removing %s  - %s", phoneToBeRemoved.getBrand(), phoneToBeRemoved.getModel()));
         Phone phone = phoneRepository.findById(phoneToBeRemoved.getId());
         phoneRepository.delete(phone);
-		//phoneEvent.fire(phone);
 	}
 	
 	public List<PhoneVO> findPhoneByClientId(Long id){

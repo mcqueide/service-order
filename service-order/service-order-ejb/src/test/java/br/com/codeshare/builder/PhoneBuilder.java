@@ -26,10 +26,10 @@ public class PhoneBuilder {
 		return this;
 	}
 
-	public PhoneBuilder withState (PhoneState state) {
-		phone.setState(state);
-		return this;
-	}
+//	public PhoneBuilder withState (PhoneState state) {
+//		phone.setState(state);
+//		return this;
+//	}
 
 	public PhoneBuilder withEsn (String esn) {
 		phone.setEsn(esn);

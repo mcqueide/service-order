@@ -1,11 +1,9 @@
 package br.com.codeshare.controller;
 
-import br.com.codeshare.exception.BusinessException;
-import br.com.codeshare.service.ClientService;
-import br.com.codeshare.service.PhoneService;
-import br.com.codeshare.util.WebResources;
-import br.com.codeshare.vo.ClientVO;
-import br.com.codeshare.vo.PhoneVO;
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.Conversation;
 import javax.enterprise.context.ConversationScoped;
@@ -15,9 +13,13 @@ import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
-import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
+
+import br.com.codeshare.exception.BusinessException;
+import br.com.codeshare.model.Client;
+import br.com.codeshare.model.Phone;
+import br.com.codeshare.service.ClientService;
+import br.com.codeshare.service.PhoneService;
+import br.com.codeshare.util.WebResources;
 
 @Named
 @ConversationScoped
@@ -31,6 +33,8 @@ public class ClientController implements Serializable {
 	private ExternalContext externalContext;
 	@Inject
 	private ClientService clientService;
+	@Inject
+	private StateService stateService;
 
 	private ClientVO newClient;
 
@@ -44,10 +48,10 @@ public class ClientController implements Serializable {
 	
 	private String filterName;
 
-	private List<ClientVO> listClients;
-
-	private ClientVO clientSelected;
-
+    private List<ClientVO> listClients;
+    private List<State> states;
+    private ClientVO clientSelected;
+	
 	@Produces
 	@Named
 	public ClientVO getNewClient() {
@@ -61,6 +65,8 @@ public class ClientController implements Serializable {
 		if(externalContext.getRequestServletPath().equals("/clients.jsf")){
 			listClients = clientService.findAll();
 		}
+		states = new ArrayList<>();
+		states = stateService.findAll();
 	}
 	
 	public String save() throws Exception {
@@ -121,7 +127,7 @@ public class ClientController implements Serializable {
 		if(conversation.isTransient()){
 			conversation.begin();
 		}
-		
+
 		if (client.getPhones() == null) {
 			client.setPhones(new ArrayList<>());
 		}
@@ -180,5 +186,13 @@ public class ClientController implements Serializable {
 	public List<ClientVO> getListClients() {
 		return listClients;
 	}
-	
+
+	public List<State> getStates() {
+		return states;
+	}
+
+	public void setStates(List<State> states) {
+		this.states = states;
+	}
+
 }
