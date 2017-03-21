@@ -1,9 +1,13 @@
 package br.com.codeshare.controller;
 
-import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
-
+import br.com.codeshare.exception.BusinessException;
+import br.com.codeshare.model.State;
+import br.com.codeshare.service.ClientService;
+import br.com.codeshare.service.PhoneService;
+import br.com.codeshare.service.StateService;
+import br.com.codeshare.util.WebResources;
+import br.com.codeshare.vo.ClientVO;
+import br.com.codeshare.vo.PhoneVO;
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.Conversation;
 import javax.enterprise.context.ConversationScoped;
@@ -13,13 +17,9 @@ import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
-
-import br.com.codeshare.exception.BusinessException;
-import br.com.codeshare.model.Client;
-import br.com.codeshare.model.Phone;
-import br.com.codeshare.service.ClientService;
-import br.com.codeshare.service.PhoneService;
-import br.com.codeshare.util.WebResources;
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 @Named
 @ConversationScoped
@@ -61,7 +61,7 @@ public class ClientController implements Serializable {
 	@PostConstruct
 	public void initNewClient() {
 		newClient = new ClientVO();
-		newClient.setPhones(new ArrayList<PhoneVO>());
+		newClient.setPhones(new ArrayList<>());
 		if(externalContext.getRequestServletPath().equals("/clients.jsf")){
 			listClients = clientService.findAll();
 		}
