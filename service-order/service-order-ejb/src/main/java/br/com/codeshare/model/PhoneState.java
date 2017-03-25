@@ -1,28 +1,42 @@
 package br.com.codeshare.model;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.SequenceGenerator;
+import javax.persistence.*;
+import java.io.Serializable;
+import java.util.List;
 
 @Entity
-public class PhoneState {
+@Table(name = "phone_state")
+public class PhoneState implements Serializable {
 	
+	private static final long serialVersionUID = 1L;
+
 	@Id 
-	@GeneratedValue(strategy=GenerationType.SEQUENCE,generator="SEQ_PHONE_STATE")
-	@SequenceGenerator(name="SEQ_PHONE_STATE",sequenceName="SEQ_STATE",initialValue=1,allocationSize=1)
+	@GeneratedValue(strategy=GenerationType.SEQUENCE,generator="seq_phone_state")
+	@SequenceGenerator(name="seq_phone_state",sequenceName="seq_phone_state",initialValue=1,allocationSize=1)
 	@Column(name="phone_state_id")
-	private Integer id;
+	private Long id;
+
+	@Column(name = "state")
+	private String state;
 	
-	@ManyToOne
-	@JoinColumn(name="state_id")
-	private State state;
+	@OneToMany(mappedBy = "phoneState")
+	private List<ServiceOrderPhone> serviceOrderPhones;
 	
-	@ManyToOne
-	@JoinColumn(name="phone_id")
-	private Phone phone;
+
+	public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
+	}
+
+	public String getState() {
+		return state;
+	}
+
+	public void setState(String situation) {
+		this.state = situation;
+	}
+		
 }

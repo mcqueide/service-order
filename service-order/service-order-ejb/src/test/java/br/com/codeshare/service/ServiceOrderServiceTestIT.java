@@ -143,7 +143,6 @@ public class ServiceOrderServiceTestIT {
 				.withReportedProblem("Don't work")
 				.withValue(new BigDecimal(500))
 				.withClient(client)
-				.withPhone(phone)
 				.build();
 		
 		return serviceOrder;

@@ -1,12 +1,12 @@
 package br.com.codeshare.controller;
 
 import br.com.codeshare.exception.BusinessException;
-import br.com.codeshare.model.State;
 import br.com.codeshare.service.ClientService;
 import br.com.codeshare.service.PhoneService;
-import br.com.codeshare.service.StateService;
+import br.com.codeshare.service.PhoneStateService;
 import br.com.codeshare.util.WebResources;
 import br.com.codeshare.vo.ClientVO;
+import br.com.codeshare.vo.PhoneStateVO;
 import br.com.codeshare.vo.PhoneVO;
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.Conversation;
@@ -34,7 +34,7 @@ public class ClientController implements Serializable {
 	@Inject
 	private ClientService clientService;
 	@Inject
-	private StateService stateService;
+	private PhoneStateService phoneStateService;
 
 	private ClientVO newClient;
 
@@ -49,7 +49,8 @@ public class ClientController implements Serializable {
 	private String filterName;
 
     private List<ClientVO> listClients;
-    private List<State> states;
+    private List<PhoneStateVO> phoneStates;
+	private List<PhoneStateVO> phoneStatesSelected;
     private ClientVO clientSelected;
 	
 	@Produces
@@ -65,8 +66,9 @@ public class ClientController implements Serializable {
 		if(externalContext.getRequestServletPath().equals("/clients.jsf")){
 			listClients = clientService.findAll();
 		}
-		states = new ArrayList<>();
-		states = stateService.findAll();
+		phoneStates = new ArrayList<>();
+		phoneStatesSelected = new ArrayList<>();
+		phoneStates = phoneStateService.findAll();
 	}
 	
 	public String save() throws Exception {
@@ -187,12 +189,19 @@ public class ClientController implements Serializable {
 		return listClients;
 	}
 
-	public List<State> getStates() {
-		return states;
+	public List<PhoneStateVO> getPhoneStates() {
+		return phoneStates;
 	}
 
-	public void setStates(List<State> states) {
-		this.states = states;
+	public void setPhoneStates(List<PhoneStateVO> phoneStates) {
+		this.phoneStates = phoneStates;
 	}
 
+	public List<PhoneStateVO> getPhoneStatesSelected() {
+		return phoneStatesSelected;
+	}
+
+	public void setPhoneStatesSelected(List<PhoneStateVO> phoneStatesSelected) {
+		this.phoneStatesSelected = phoneStatesSelected;
+	}
 }

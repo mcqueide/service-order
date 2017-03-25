@@ -14,10 +14,12 @@
 		<class>br.com.codeshare.model.Client</class>
 		<class>br.com.codeshare.model.ServiceOrder</class>
 		<class>br.com.codeshare.model.Phone</class>
+		<class>br.com.codeshare.model.PhoneState</class>
+		<class>br.com.codeshare.model.ServiceOrderPhone</class>
 		
 		<properties>
 			<!-- Properties for Hibernate -->
-			<property name="hibernate.hbm2ddl.auto" value="update" />
+			<property name="hibernate.hbm2ddl.auto" value="validate" />
 			<property name="hibernate.dialect" value="${hibernate.dialect}" />
 			<property name="hibernate.show_sql" value="${hibernate.show_sql}" />
 			<property name="hibernate.format_sql" value="${hibernate.format_sql}" />

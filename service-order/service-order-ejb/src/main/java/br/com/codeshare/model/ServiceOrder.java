@@ -8,37 +8,48 @@ import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.util.List;
 
 @Entity
-@NamedQuery(name="ServiceOrder.findSoByPhone", query="select so from ServiceOrder so where so.phone.id = :phoneid")
+@Table(name = "so")
+@NamedQuery(name="ServiceOrder.findSoByPhone", query="SELECT so FROM ServiceOrder so JOIN so.soPhonePhoneState sop where sop.phone.id = :phoneid")
 public class ServiceOrder implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 	public static final String FIND_SO_BY_PHONE = "ServiceOrder.findSoByPhone";
 
-	@SequenceGenerator(name = "SEQ_OS", sequenceName = "SEQ_OS", initialValue = 1, allocationSize = 1)
+	@SequenceGenerator(name = "seq_os", sequenceName = "seq_os", initialValue = 1, allocationSize = 1)
 	@Id
-	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_OS")
+	@Column(name = "so_id")
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "seq_os")
 	private Long id;
 	
 	@NotNull(message="{reportedProblem.notempty}")
 	@NotEmpty(message="{reportedProblem.notempty}")
+	@Column(name = "reported_problem")
 	private String reportedProblem;
-	
+
+	@Column(name = "problem_found")
 	private String problemFound;
-	
+
+	@Column(name = "executed_service")
 	private String executedService;
-	
+
+	@Enumerated(EnumType.ORDINAL)
+	@Column(name = "service_order_type")
 	private ServiceOrderType serviceOrderType;
 	
 	@Enumerated(EnumType.ORDINAL)
+	@Column(name = "so_state")
 	private ServiceOrderState soState;
 	
-	@Column(name = "dateSo")
+	@Column(name = "date_so")
 	private LocalDate dateSo;
-	
+
+	@Column(name = "approved_date")
 	private LocalDate approvedDate;
-	
+
+	@Column(name = "date_phone_withdrawl")
 	private LocalDate datePhoneWithdrawl;
 	
 	@NotNull(message="{value.notempty}")
@@ -48,12 +59,10 @@ public class ServiceOrder implements Serializable {
 	@ManyToOne
 	@JoinColumn(name="client_id")
 	private Client client;
-	
-	@NotNull(message="{phone.notempty}")
-	@ManyToOne
-	@JoinColumn(name="phone_id")
-	private Phone phone;
 
+	@OneToMany(mappedBy = "serviceOrder")
+	private List<ServiceOrderPhone> soPhonePhoneState;
+	
 	public ServiceOrder() {
 	}
 	
@@ -137,14 +146,6 @@ public class ServiceOrder implements Serializable {
 		this.client = client;
 	}
 
-	public Phone getPhone() {
-		return phone;
-	}
-
-	public void setPhone(Phone phone) {
-		this.phone = phone;
-	}
-	
 	public ServiceOrderState getSoState() {
 		return soState;
 	}
@@ -159,6 +160,14 @@ public class ServiceOrder implements Serializable {
 
 	public void setValue(BigDecimal value) {
 		this.value = value;
+	}
+
+	public List<ServiceOrderPhone> getSoPhonePhoneState() {
+		return soPhonePhoneState;
+	}
+
+	public void setSoPhonePhoneState(List<ServiceOrderPhone> state) {
+		this.soPhonePhoneState = state;
 	}
 
 	@Override

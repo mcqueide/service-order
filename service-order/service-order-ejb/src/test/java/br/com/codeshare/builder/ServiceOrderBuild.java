@@ -2,11 +2,12 @@ package br.com.codeshare.builder;
 
 import br.com.codeshare.enums.ServiceOrderType;
 import br.com.codeshare.vo.ClientVO;
-import br.com.codeshare.vo.PhoneVO;
+import br.com.codeshare.vo.ServiceOrderPhoneVO;
 import br.com.codeshare.vo.ServiceOrderVO;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.util.List;
 
 public class ServiceOrderBuild {
 
@@ -56,8 +57,8 @@ public class ServiceOrderBuild {
 		so.setClient(client);
 		return this;
 	}
-	public ServiceOrderBuild withPhone(PhoneVO phone){
-		so.setPhone(phone);
+	public ServiceOrderBuild withServiceOrderPhone(List<ServiceOrderPhoneVO> serviceOrderPhone){
+		so.setSoPhonePhoneState(serviceOrderPhone);
 		return this;
 	}
 	public ServiceOrderVO build(){

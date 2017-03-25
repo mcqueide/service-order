@@ -23,7 +23,7 @@
 				<p:inputText value="#{newPhone.model}" />
 				
 				<p:outputLabel value="Phone State" />
-				<p:selectOneRadio value="#{newPhone.state}">
+				<p:selectOneRadio value="#{newPhone.phoneStates}">
 					<f:selectItems value="#{newPhone.phoneStates}" var="p" itemValue="#{p}" itemLabel="#{p.label}"/>
 				</p:selectOneRadio>
 				

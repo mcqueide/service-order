@@ -9,6 +9,7 @@ import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.util.List;
 
 /**
  * Created by mcqueide on 28/02/17.
@@ -32,7 +33,7 @@ public class ServiceOrderVO {
     private LocalDate datePhoneWithdrawl;
     private BigDecimal value;
     private ClientVO client;
-    private PhoneVO phone;
+    private List<ServiceOrderPhoneVO> soPhonePhoneState;
 
     public Long getId() {
         return id;
@@ -122,12 +123,12 @@ public class ServiceOrderVO {
         this.client = client;
     }
 
-    public PhoneVO getPhone() {
-        return phone;
+    public List<ServiceOrderPhoneVO> getSoPhonePhoneState() {
+        return soPhonePhoneState;
     }
 
-    public void setPhone(PhoneVO phone) {
-        this.phone = phone;
+    public void setSoPhonePhoneState(List<ServiceOrderPhoneVO> soPhonePhoneState) {
+        this.soPhonePhoneState = soPhonePhoneState;
     }
 
     @Override
@@ -151,7 +152,7 @@ public class ServiceOrderVO {
             return false;
         if (value != null ? !value.equals(that.value) : that.value != null) return false;
         if (client != null ? !client.equals(that.client) : that.client != null) return false;
-        return phone != null ? phone.equals(that.phone) : that.phone == null;
+        return soPhonePhoneState != null ? soPhonePhoneState.equals(that.soPhonePhoneState) : that.soPhonePhoneState == null;
     }
 
     @Override
@@ -167,7 +168,7 @@ public class ServiceOrderVO {
         result = 31 * result + (datePhoneWithdrawl != null ? datePhoneWithdrawl.hashCode() : 0);
         result = 31 * result + (value != null ? value.hashCode() : 0);
         result = 31 * result + (client != null ? client.hashCode() : 0);
-        result = 31 * result + (phone != null ? phone.hashCode() : 0);
+        result = 31 * result + (soPhonePhoneState != null ? soPhonePhoneState.hashCode() : 0);
         return result;
     }
 }

@@ -3,15 +3,7 @@ package br.com.codeshare.model;
 import java.io.Serializable;
 import java.util.List;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.NamedQueries;
-import javax.persistence.NamedQuery;
-import javax.persistence.OneToMany;
-import javax.persistence.SequenceGenerator;
+import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 
 import org.hibernate.validator.constraints.NotEmpty;
@@ -19,6 +11,7 @@ import org.hibernate.validator.constraints.NotEmpty;
 import br.com.codeshare.annotation.validator.PhoneLengthPattern;
 
 @Entity
+@Table(name = "client")
 @NamedQueries(
 		{@NamedQuery(name="Client.findAll", query="select c from Client c left join fetch c.phones order by c.name"),
 		@NamedQuery(name="Client.findByNameEager",query="select c from Client c left join fetch c.phones where lower (c.name) like :name")})
@@ -28,8 +21,8 @@ public class Client implements Serializable{
 	public static final String FIND_ALL = "Client.findAll";
 	public static final String FIND_BY_NAME_EAGER = "Client.findByNameEager";
 	
-	@SequenceGenerator(name="SEQ_CLIENT",sequenceName="SEQ_CLIENT",initialValue=1,allocationSize=1)
-	@Id @GeneratedValue(strategy=GenerationType.SEQUENCE,generator="SEQ_CLIENT")
+	@SequenceGenerator(name="seq_client",sequenceName="seq_client",initialValue=1,allocationSize=1)
+	@Id @GeneratedValue(strategy=GenerationType.SEQUENCE,generator="seq_client")
 	@Column(name="client_id")
 	private Long id;
 	

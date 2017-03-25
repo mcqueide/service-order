@@ -1,17 +1,11 @@
 package br.com.codeshare.data;
 
-import br.com.codeshare.builder.ClientBuilder;
-import br.com.codeshare.builder.PhoneBuilder;
-import br.com.codeshare.builder.ServiceOrderBuild;
+import br.com.codeshare.builder.*;
 import br.com.codeshare.enums.ServiceOrderType;
-import br.com.codeshare.model.Client;
-import br.com.codeshare.model.Phone;
-import br.com.codeshare.model.ServiceOrder;
+import br.com.codeshare.model.*;
 import br.com.codeshare.util.Conversor;
 import br.com.codeshare.util.Resources;
-import br.com.codeshare.vo.ClientVO;
-import br.com.codeshare.vo.PhoneVO;
-import br.com.codeshare.vo.ServiceOrderVO;
+import br.com.codeshare.vo.*;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
@@ -35,6 +29,8 @@ public class ServiceOrderRepositoryTestIT {
     private ClientRepository repository;
     private PhoneRepository phoneRepository;
     private ServiceOrderRepository soRepository;
+    private SOPhoneRepository soPhoneRepository;
+    private PhoneStateRepository phoneStateRepository;
     private EntityTransaction transaction;
     private Conversor conversor;
 
@@ -43,15 +39,21 @@ public class ServiceOrderRepositoryTestIT {
         repository = new ClientRepository();
         phoneRepository = new PhoneRepository();
         soRepository = new ServiceOrderRepository();
+        soPhoneRepository = new SOPhoneRepository();
+        phoneStateRepository = new PhoneStateRepository();
         EntityManager entityManager = Persistence.createEntityManagerFactory("primary").createEntityManager();
         repository.em = entityManager;
         phoneRepository.em = entityManager;
         soRepository.em = entityManager;
+        soPhoneRepository.em = entityManager;
+        phoneStateRepository.em = entityManager;
         transaction = entityManager.getTransaction();
         Logger logger = Mockito.mock(Logger.class);
         repository.log = logger;
         phoneRepository.log = logger;
         soRepository.log = logger;
+        soPhoneRepository.log = logger;
+        phoneStateRepository.log = logger;
 
         transaction.begin();
         conversor = new Conversor(new Resources().produceMapper());
@@ -67,7 +69,12 @@ public class ServiceOrderRepositoryTestIT {
                 .withHomePhone("(61)99874-5698").withPhone(Arrays.asList(motorola))
                 .build();
 
-        ServiceOrderVO serviceOrder = new ServiceOrderBuild().withClient(client).withPhone(motorola)
+        PhoneState phoneState = phoneStateRepository.findById(1L);
+
+        ServiceOrderPhoneVO serviceOrderPhoneVO = new ServiceOrderPhoneBuilder().withPhone(motorola).build();
+
+        ServiceOrderVO serviceOrder = new ServiceOrderBuild().withClient(client)
+                .withServiceOrderPhone(Arrays.asList(serviceOrderPhoneVO))
                 .withServiceOrderType(ServiceOrderType.SERVICE)
                 .withReportedProblem("Doesn't work")
                 .withDate(LocalDate.now())
@@ -76,19 +83,23 @@ public class ServiceOrderRepositoryTestIT {
         Phone motorolaPersist = conversor.converter(motorola, Phone.class);
         Client clientPersist = conversor.converter(client, Client.class);
         ServiceOrder serviceOrderPersist = conversor.converter(serviceOrder, ServiceOrder.class);
+        ServiceOrderPhone serviceOrderPhonePersist = conversor.converter(serviceOrderPhoneVO, ServiceOrderPhone.class);
 
         motorolaPersist.setClient(clientPersist);
-
         serviceOrderPersist.setClient(clientPersist);
-        serviceOrderPersist.setPhone(motorolaPersist);
+        serviceOrderPhonePersist.setPhone(motorolaPersist);
+        serviceOrderPhonePersist.setServiceOrder(serviceOrderPersist);
+        serviceOrderPhonePersist.setPhoneState(phoneState);
 
         repository.insert(clientPersist);
         phoneRepository.insert(motorolaPersist);
         soRepository.insert(serviceOrderPersist);
+        soPhoneRepository.insert(serviceOrderPhonePersist);
 
         Assert.assertNotNull(clientPersist.getId());
         Assert.assertNotNull(motorolaPersist.getId());
         Assert.assertNotNull(serviceOrderPersist.getId());
+        Assert.assertNotNull(serviceOrderPhonePersist.getId());
 
         ServiceOrder soById = soRepository.findById(serviceOrderPersist.getId());
 

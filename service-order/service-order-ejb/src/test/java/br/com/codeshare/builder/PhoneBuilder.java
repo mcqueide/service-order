@@ -26,8 +26,8 @@ public class PhoneBuilder {
 		return this;
 	}
 
-//	public PhoneBuilder withState (PhoneState state) {
-//		phone.setState(state);
+//	public PhoneBuilder withState (ServiceOrderPhone state) {
+//		phone.setPhoneStates(state);
 //		return this;
 //	}
 

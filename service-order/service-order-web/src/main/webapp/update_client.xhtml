@@ -36,8 +36,8 @@
                     <p:outputLabel for="model" value="#{label['phone.model']}" />
                     <p:inputText id="model" value="#{newPhone.model}" />
 
-                    <p:outputLabel for="state" value="#{label['phone.state']}"/>
-                    <p:selectOneRadio id="state" value="#{newPhone.state}">
+                    <p:outputLabel for="phoneStates" value="#{label['phone.phoneStates']}"/>
+                    <p:selectOneRadio id="phoneStates" value="#{newPhone.phoneStates}">
                         <f:selectItems value="#{phoneStates}" var="p" itemValue="#{p}" itemLabel="#{label[p.label]}" />
                     </p:selectOneRadio>
                     

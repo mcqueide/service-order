@@ -11,6 +11,8 @@
         <class>br.com.codeshare.model.Client</class>
         <class>br.com.codeshare.model.ServiceOrder</class>
         <class>br.com.codeshare.model.Phone</class>
+        <class>br.com.codeshare.model.PhoneState</class>
+        <class>br.com.codeshare.model.ServiceOrderPhone</class>
 
         <properties>
             <property name="javax.persistence.jdbc.driver" value="org.h2.Driver" />

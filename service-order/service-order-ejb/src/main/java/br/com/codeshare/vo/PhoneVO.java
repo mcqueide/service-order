@@ -1,6 +1,6 @@
 package br.com.codeshare.vo;
 
-import br.com.codeshare.enums.PhoneState;
+import java.util.List;
 
 /**
  * Created by mcqueide on 28/02/17.
@@ -10,7 +10,7 @@ public class PhoneVO {
     private Long id;
     private String brand;
     private String model;
-    private PhoneState state;
+    private List<PhoneStateVO> phoneStates;
     private String esn;
 
     public Long getId() {
@@ -37,12 +37,12 @@ public class PhoneVO {
         this.model = model;
     }
 
-    public PhoneState getState() {
-        return state;
+    public List<PhoneStateVO> getPhoneStates() {
+        return phoneStates;
     }
 
-    public void setState(PhoneState state) {
-        this.state = state;
+    public void setPhoneStates(List<PhoneStateVO> phoneStates) {
+        this.phoneStates = phoneStates;
     }
 
     public String getEsn() {
@@ -63,7 +63,7 @@ public class PhoneVO {
         if (id != null ? !id.equals(phoneVO.id) : phoneVO.id != null) return false;
         if (brand != null ? !brand.equals(phoneVO.brand) : phoneVO.brand != null) return false;
         if (model != null ? !model.equals(phoneVO.model) : phoneVO.model != null) return false;
-        if (state != phoneVO.state) return false;
+        if (phoneStates != null ? !phoneStates.equals(phoneVO.phoneStates) : phoneVO.phoneStates != null) return false;
         return esn != null ? esn.equals(phoneVO.esn) : phoneVO.esn == null;
     }
 
@@ -72,7 +72,7 @@ public class PhoneVO {
         int result = id != null ? id.hashCode() : 0;
         result = 31 * result + (brand != null ? brand.hashCode() : 0);
         result = 31 * result + (model != null ? model.hashCode() : 0);
-        result = 31 * result + (state != null ? state.hashCode() : 0);
+        result = 31 * result + (phoneStates != null ? phoneStates.hashCode() : 0);
         result = 31 * result + (esn != null ? esn.hashCode() : 0);
         return result;
     }

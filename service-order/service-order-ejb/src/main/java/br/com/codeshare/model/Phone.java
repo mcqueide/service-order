@@ -3,28 +3,19 @@ package br.com.codeshare.model;
 import java.io.Serializable;
 import java.util.List;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.NamedQuery;
-import javax.persistence.OneToMany;
-import javax.persistence.SequenceGenerator;
+import javax.persistence.*;
 
 @Entity
+@Table(name = "phone")
 @NamedQuery(name = "Phone.findPhoneByClient", query = "select p from Phone p where p.client.id = :clientid")
 public class Phone implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 	public static final String FIND_PHONE_BY_CLIENT = "Phone.findPhoneByClient";
 
-	@SequenceGenerator(name = "SEQ_PHONE", sequenceName = "SEQ_PHONE", initialValue = 1, allocationSize = 1)
+	@SequenceGenerator(name = "seq_phone", sequenceName = "seq_phone", initialValue = 1, allocationSize = 1)
 	@Id
-	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_PHONE")
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "seq_phone")
 	@Column(name = "phone_id")
 	private Long id;
 
@@ -32,8 +23,8 @@ public class Phone implements Serializable {
 
 	private String model;
 
-	@OneToMany
-	private List<PhoneState> state;
+	@OneToMany(mappedBy = "phone")
+	private List<ServiceOrderPhone> state;
 
 	private String esn;
 
@@ -42,7 +33,7 @@ public class Phone implements Serializable {
 	private Client client;
 
 	@OneToMany(mappedBy = "phone")
-	private List<ServiceOrder> os;
+	private List<ServiceOrderPhone> serviceOrderPhones;
 
 	public Phone() {
 	}
@@ -71,11 +62,11 @@ public class Phone implements Serializable {
 		this.model = model;
 	}
 
-	public List<PhoneState> getState() {
+	public List<ServiceOrderPhone> getState() {
 		return state;
 	}
 
-	public void setState(List<PhoneState> state) {
+	public void setState(List<ServiceOrderPhone> state) {
 		this.state = state;
 	}
 
@@ -95,12 +86,12 @@ public class Phone implements Serializable {
 		this.client = client;
 	}
 
-	public List<ServiceOrder> getOs() {
-		return os;
+	public List<ServiceOrderPhone> getServiceOrderPhones() {
+		return serviceOrderPhones;
 	}
 
-	public void setOs(List<ServiceOrder> os) {
-		this.os = os;
+	public void setServiceOrderPhones(List<ServiceOrderPhone> serviceOrderPhones) {
+		this.serviceOrderPhones = serviceOrderPhones;
 	}
 
 	@Override
