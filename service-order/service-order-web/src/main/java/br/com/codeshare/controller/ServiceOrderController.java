@@ -70,7 +70,7 @@ public class ServiceOrderController implements Serializable{
 			serviceOrderService.register(newServiceOrder);
 			facesContext.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, WebResources.getMessage("register"), WebResources.getMessage("sucess_register")));
 			initNewServiceOrder();
-			
+
 			/*if(!conversation.isTransient()){
 				conversation.end();
 			}*/
@@ -108,6 +108,7 @@ public class ServiceOrderController implements Serializable{
 		listServiceOrder = serviceOrderService.findAll();
 		phoneStates = phoneStateService.findAll();
 		phoneStatesSelected = new ArrayList<>();
+        phoneSelected = new PhoneVO();
 	}
 
 	private String getRootErrorMessage(Exception e) {
