@@ -52,7 +52,7 @@
 
 					<p:outputLabel for="state" value="#{label['phone.phoneState']}"/>
 					<p:selectManyCheckbox id="state" value="#{clientController.phoneStatesSelected}" converter="#{phoneStateConverter}">
-						<f:selectItems var="state" itemValue="#{state}" itemLabel="#{state.state}" value="#{clientController.phoneStates}"/>
+						<f:selectItems var="state" itemValue="#{state}" itemLabel="#{label[state.state]}" value="#{clientController.phoneStates}"/>
 					</p:selectManyCheckbox>
 					
 					<p:outputLabel for="esn" value="#{label['phone.esn']}" />

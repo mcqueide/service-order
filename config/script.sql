@@ -77,8 +77,8 @@ CREATE TABLE so_phone_phone_state
   FOREIGN KEY (so_id) REFERENCES so (so_id)
 );
 
-INSERT INTO phone_state (phone_state_id, state) VALUES (1, 'No Chip');
-INSERT INTO phone_state (phone_state_id, state) VALUES (2, 'Memory Card');
-INSERT INTO phone_state (phone_state_id, state) VALUES (3, 'Cover');
-INSERT INTO phone_state (phone_state_id, state) VALUES (4, 'Battery');
-INSERT INTO phone_state (phone_state_id, state) VALUES (5, 'Other');
+INSERT INTO phone_state (phone_state_id, state) VALUES (1, 'phone.phoneState.nochip');
+INSERT INTO phone_state (phone_state_id, state) VALUES (2, 'phone.phoneState.memorycard');
+INSERT INTO phone_state (phone_state_id, state) VALUES (3, 'phone.phoneState.cover');
+INSERT INTO phone_state (phone_state_id, state) VALUES (4, 'phone.phoneState.battery');
+INSERT INTO phone_state (phone_state_id, state) VALUES (5, 'phone.phoneState.others');
