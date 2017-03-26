@@ -62,6 +62,18 @@ public class ServiceOrderController implements Serializable{
 	public ServiceOrderVO getNewServiceOrder() {
 		return newServiceOrder;
 	}
+
+    @PostConstruct
+    public void initNewServiceOrder() {
+        this.newServiceOrder = new ServiceOrderVO();
+        this.newServiceOrder.setSoPhonePhoneState(new ArrayList<>());
+        orderTypes = ServiceOrderType.values();
+        orderStates = ServiceOrderState.values();
+        listServiceOrder = serviceOrderService.findAll();
+        phoneStates = phoneStateService.findAll();
+        phoneStatesSelected = new ArrayList<>();
+        phoneSelected = new PhoneVO();
+    }
 	
 	public void save() throws Exception {
 		try {
@@ -97,18 +109,6 @@ public class ServiceOrderController implements Serializable{
 		}
 		
 		return "service-order";
-	}
-
-	@PostConstruct
-	public void initNewServiceOrder() {
-		this.newServiceOrder = new ServiceOrderVO();
-		this.newServiceOrder.setSoPhonePhoneState(new ArrayList<>());
-		orderTypes = ServiceOrderType.values();
-		orderStates = ServiceOrderState.values();
-		listServiceOrder = serviceOrderService.findAll();
-		phoneStates = phoneStateService.findAll();
-		phoneStatesSelected = new ArrayList<>();
-        phoneSelected = new PhoneVO();
 	}
 
 	private String getRootErrorMessage(Exception e) {

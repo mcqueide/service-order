@@ -12,7 +12,7 @@ public class ServiceOrderRepository extends AbstractRepository<ServiceOrder>{
 
 	public List<ServiceOrder> findClientByName(String nameFilter) {
 		TypedQuery<ServiceOrder> query =
-				getEntityManager().createQuery("from ServiceOrder os join fetch os.client join fetch os.phone where lower (os.client.name) like :name",ServiceOrder.class);
+				getEntityManager().createQuery("select distinct(os) from ServiceOrder os join fetch os.client join fetch os.soPhonePhoneState where lower (os.client.name) like :name",ServiceOrder.class);
 		query.setParameter("name", "%"+nameFilter.toLowerCase()+"%");
 		return query.getResultList();
 	}
