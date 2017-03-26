@@ -8,7 +8,14 @@ public class ServiceOrderPhoneVO {
     private Long id;
     private PhoneStateVO phoneState;
     private PhoneVO phone;
-    private ServiceOrderVO serviceOrder;
+
+    public ServiceOrderPhoneVO() {
+    }
+
+    public ServiceOrderPhoneVO(PhoneStateVO phoneState, PhoneVO phone) {
+        this.phoneState = phoneState;
+        this.phone = phone;
+    }
 
     public Long getId() {
         return id;
@@ -34,14 +41,6 @@ public class ServiceOrderPhoneVO {
         this.phone = phone;
     }
 
-    public ServiceOrderVO getServiceOrder() {
-        return serviceOrder;
-    }
-
-    public void setServiceOrder(ServiceOrderVO serviceOrder) {
-        this.serviceOrder = serviceOrder;
-    }
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -51,8 +50,7 @@ public class ServiceOrderPhoneVO {
 
         if (id != null ? !id.equals(that.id) : that.id != null) return false;
         if (phoneState != null ? !phoneState.equals(that.phoneState) : that.phoneState != null) return false;
-        if (phone != null ? !phone.equals(that.phone) : that.phone != null) return false;
-        return serviceOrder != null ? serviceOrder.equals(that.serviceOrder) : that.serviceOrder == null;
+        return phone != null ? phone.equals(that.phone) : that.phone == null;
     }
 
     @Override
@@ -60,7 +58,6 @@ public class ServiceOrderPhoneVO {
         int result = id != null ? id.hashCode() : 0;
         result = 31 * result + (phoneState != null ? phoneState.hashCode() : 0);
         result = 31 * result + (phone != null ? phone.hashCode() : 0);
-        result = 31 * result + (serviceOrder != null ? serviceOrder.hashCode() : 0);
         return result;
     }
 }

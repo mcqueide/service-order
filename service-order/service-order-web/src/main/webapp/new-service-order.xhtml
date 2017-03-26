@@ -24,10 +24,16 @@
 					</p:selectOneMenu>
 					
 					<p:outputLabel for="phone" value="#{label['new-serviceorder.phone']}" />
-					<p:selectOneMenu id="phone" value="#{newServiceOrder.phone}" converter="#{phoneConverter}" disabled="#{newServiceOrder.client == null}">
+					<p:selectOneMenu id="phone" value="#{serviceOrderController.phoneSelected}" converter="#{phoneConverter}" disabled="#{newServiceOrder.client == null}">
 						<f:selectItem itemLabel="#{label['new-serviceorder.phone.label']}"/>
 						<f:selectItems value="#{serviceOrderController.phones}" var="phone" itemLabel="#{phone.model}" itemValue="#{phone}" />
 					</p:selectOneMenu>
+
+					<p:outputLabel for="state" value="#{label['phone.phoneState']}"/>
+					<p:selectManyCheckbox id="state" value="#{serviceOrderController.phoneStatesSelected}" converter="#{phoneStateConverter}">
+						<f:selectItems var="state" itemValue="#{state}" itemLabel="#{label[state.state]}" value="#{serviceOrderController.phoneStates}"/>
+					</p:selectManyCheckbox>
+
 					<p:outputLabel for="osType" value="#{label['new-serviceorder.ostype']}" />
 					<p:selectOneRadio id="osType" value="#{newServiceOrder.serviceOrderType}">
 						<f:selectItems value="#{serviceOrderController.orderTypes}" var="type" itemValue="#{type}" itemLabel="#{label[type.label]}" />

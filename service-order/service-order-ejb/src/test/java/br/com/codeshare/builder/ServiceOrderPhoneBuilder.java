@@ -31,11 +31,6 @@ public class ServiceOrderPhoneBuilder {
         return this;
     }
 
-    public ServiceOrderPhoneBuilder withServiceOrder(ServiceOrderVO serviceOrder) {
-        serviceOrderPhoneVO.setServiceOrder(serviceOrder);
-        return this;
-    }
-
     public ServiceOrderPhoneVO build(){
         return serviceOrderPhoneVO;
     }

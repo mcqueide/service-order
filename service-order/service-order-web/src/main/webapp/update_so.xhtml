@@ -20,7 +20,7 @@
 					<p:outputLabel id="client" value="#{serviceOrderController.soSelected.client.name}"/>
 					
 					<p:outputLabel for="phone" value="#{label['new-serviceorder.phone']}" />
-					<p:outputLabel id="phone" value="#{serviceOrderController.soSelected.phone.brand} - #{serviceOrderController.soSelected.phone.model}" />
+					<p:outputLabel id="phone" value="#{serviceOrderController.soSelected.soPhonePhoneState[0].phone.brand} - #{serviceOrderController.soSelected.soPhonePhoneState[0].phone.model}" />
 					
 					<p:outputLabel for="osType" value="#{label['new-serviceorder.ostype']}" />
 					<p:selectOneRadio id="osType" value="#{serviceOrderController.soSelected.serviceOrderType}">

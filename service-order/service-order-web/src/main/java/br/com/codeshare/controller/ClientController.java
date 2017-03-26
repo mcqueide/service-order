@@ -33,42 +33,44 @@ public class ClientController implements Serializable {
 	private ExternalContext externalContext;
 	@Inject
 	private ClientService clientService;
-	@Inject
-	private PhoneStateService phoneStateService;
-
 	private ClientVO newClient;
-
-	@Inject
-	private PhoneController phoneController;
+	private PhoneVO newPhone;
 	@Inject
 	private PhoneService phoneService;
-	
+
 	@Inject
 	private Conversation conversation;
-	
+
 	private String filterName;
 
     private List<ClientVO> listClients;
-    private List<PhoneStateVO> phoneStates;
-	private List<PhoneStateVO> phoneStatesSelected;
+
     private ClientVO clientSelected;
-	
+
 	@Produces
 	@Named
 	public ClientVO getNewClient() {
 		return newClient;
 	}
 
+	@Produces
+	@Named
+	public PhoneVO getNewPhone(){
+		return newPhone;
+	}
+
 	@PostConstruct
 	public void initNewClient() {
 		newClient = new ClientVO();
+		newPhone = new PhoneVO();
 		newClient.setPhones(new ArrayList<>());
 		if(externalContext.getRequestServletPath().equals("/clients.jsf")){
 			listClients = clientService.findAll();
 		}
-		phoneStates = new ArrayList<>();
-		phoneStatesSelected = new ArrayList<>();
-		phoneStates = phoneStateService.findAll();
+	}
+
+	public void initNewPhone(){
+		newPhone = new PhoneVO();
 	}
 	
 	public String save() throws Exception {
@@ -133,8 +135,8 @@ public class ClientController implements Serializable {
 		if (client.getPhones() == null) {
 			client.setPhones(new ArrayList<>());
 		}
-		client.getPhones().add(phoneController.getNewPhone());
-		phoneController.initNewPhone();
+		client.getPhones().add(getNewPhone());
+		initNewPhone();
 	}
 	
 	public void initConversation(){
@@ -187,21 +189,5 @@ public class ClientController implements Serializable {
 
 	public List<ClientVO> getListClients() {
 		return listClients;
-	}
-
-	public List<PhoneStateVO> getPhoneStates() {
-		return phoneStates;
-	}
-
-	public void setPhoneStates(List<PhoneStateVO> phoneStates) {
-		this.phoneStates = phoneStates;
-	}
-
-	public List<PhoneStateVO> getPhoneStatesSelected() {
-		return phoneStatesSelected;
-	}
-
-	public void setPhoneStatesSelected(List<PhoneStateVO> phoneStatesSelected) {
-		this.phoneStatesSelected = phoneStatesSelected;
 	}
 }

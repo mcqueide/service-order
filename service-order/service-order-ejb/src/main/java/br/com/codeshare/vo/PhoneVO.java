@@ -63,7 +63,6 @@ public class PhoneVO {
         if (id != null ? !id.equals(phoneVO.id) : phoneVO.id != null) return false;
         if (brand != null ? !brand.equals(phoneVO.brand) : phoneVO.brand != null) return false;
         if (model != null ? !model.equals(phoneVO.model) : phoneVO.model != null) return false;
-        if (phoneStates != null ? !phoneStates.equals(phoneVO.phoneStates) : phoneVO.phoneStates != null) return false;
         return esn != null ? esn.equals(phoneVO.esn) : phoneVO.esn == null;
     }
 
@@ -72,7 +71,6 @@ public class PhoneVO {
         int result = id != null ? id.hashCode() : 0;
         result = 31 * result + (brand != null ? brand.hashCode() : 0);
         result = 31 * result + (model != null ? model.hashCode() : 0);
-        result = 31 * result + (phoneStates != null ? phoneStates.hashCode() : 0);
         result = 31 * result + (esn != null ? esn.hashCode() : 0);
         return result;
     }

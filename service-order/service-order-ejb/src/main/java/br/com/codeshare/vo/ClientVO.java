@@ -82,10 +82,7 @@ public class ClientVO {
         if (name != null ? !name.equals(clientVO.name) : clientVO.name != null) return false;
         if (address != null ? !address.equals(clientVO.address) : clientVO.address != null) return false;
         if (homePhone != null ? !homePhone.equals(clientVO.homePhone) : clientVO.homePhone != null) return false;
-        if (businessPhone != null ? !businessPhone.equals(clientVO.businessPhone) : clientVO.businessPhone != null)
-            return false;
-        if (phones != null ? !phones.equals(clientVO.phones) : clientVO.phones != null) return false;
-        return phonesToBeRemoved != null ? phonesToBeRemoved.equals(clientVO.phonesToBeRemoved) : clientVO.phonesToBeRemoved == null;
+        return businessPhone != null ? businessPhone.equals(clientVO.businessPhone) : clientVO.businessPhone == null;
     }
 
     @Override
@@ -95,8 +92,6 @@ public class ClientVO {
         result = 31 * result + (address != null ? address.hashCode() : 0);
         result = 31 * result + (homePhone != null ? homePhone.hashCode() : 0);
         result = 31 * result + (businessPhone != null ? businessPhone.hashCode() : 0);
-        result = 31 * result + (phones != null ? phones.hashCode() : 0);
-        result = 31 * result + (phonesToBeRemoved != null ? phonesToBeRemoved.hashCode() : 0);
         return result;
     }
 }

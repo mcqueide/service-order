@@ -4,9 +4,12 @@ import br.com.codeshare.enums.ServiceOrderState;
 import br.com.codeshare.enums.ServiceOrderType;
 import br.com.codeshare.qualifiers.SessionMap;
 import br.com.codeshare.service.PhoneService;
+import br.com.codeshare.service.PhoneStateService;
 import br.com.codeshare.service.ServiceOrderService;
 import br.com.codeshare.util.WebResources;
+import br.com.codeshare.vo.PhoneStateVO;
 import br.com.codeshare.vo.PhoneVO;
+import br.com.codeshare.vo.ServiceOrderPhoneVO;
 import br.com.codeshare.vo.ServiceOrderVO;
 import javax.annotation.PostConstruct;
 import javax.enterprise.inject.Produces;
@@ -35,6 +38,8 @@ public class ServiceOrderController implements Serializable{
 	private ServiceOrderService serviceOrderService;
 	@Inject
 	private PhoneService phoneService;
+	@Inject
+	private PhoneStateService phoneStateService;
 	
 //	@Inject
 //	private Conversation conversation;
@@ -47,6 +52,10 @@ public class ServiceOrderController implements Serializable{
 	private ServiceOrderState[] orderStates;
 	private List<PhoneVO> phones;
 	private ServiceOrderVO soSelected;
+	private ServiceOrderPhoneVO serviceOrderPhoneVO;
+	private List<PhoneStateVO> phoneStates;
+	private List<PhoneStateVO> phoneStatesSelected;
+	private PhoneVO phoneSelected;
 
 	@Produces
 	@Named
@@ -57,6 +66,7 @@ public class ServiceOrderController implements Serializable{
 	public void save() throws Exception {
 		try {
 			newServiceOrder.setDateSo(LocalDate.now());
+			phoneStatesSelected.forEach(phoneState -> newServiceOrder.getSoPhonePhoneState().add(new ServiceOrderPhoneVO(phoneState,phoneSelected)));
 			serviceOrderService.register(newServiceOrder);
 			facesContext.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, WebResources.getMessage("register"), WebResources.getMessage("sucess_register")));
 			initNewServiceOrder();
@@ -92,9 +102,12 @@ public class ServiceOrderController implements Serializable{
 	@PostConstruct
 	public void initNewServiceOrder() {
 		this.newServiceOrder = new ServiceOrderVO();
+		this.newServiceOrder.setSoPhonePhoneState(new ArrayList<>());
 		orderTypes = ServiceOrderType.values();
 		orderStates = ServiceOrderState.values();
 		listServiceOrder = serviceOrderService.findAll();
+		phoneStates = phoneStateService.findAll();
+		phoneStatesSelected = new ArrayList<>();
 	}
 
 	private String getRootErrorMessage(Exception e) {
@@ -217,5 +230,37 @@ public class ServiceOrderController implements Serializable{
 	
 	public ServiceOrderVO soSelected(){
 		return soSelected;
+	}
+
+	public ServiceOrderPhoneVO getServiceOrderPhoneVO() {
+		return serviceOrderPhoneVO;
+	}
+
+	public void setServiceOrderPhoneVO(ServiceOrderPhoneVO serviceOrderPhoneVO) {
+		this.serviceOrderPhoneVO = serviceOrderPhoneVO;
+	}
+
+	public List<PhoneStateVO> getPhoneStates() {
+		return phoneStates;
+	}
+
+	public void setPhoneStates(List<PhoneStateVO> phoneStates) {
+		this.phoneStates = phoneStates;
+	}
+
+	public List<PhoneStateVO> getPhoneStatesSelected() {
+		return phoneStatesSelected;
+	}
+
+	public void setPhoneStatesSelected(List<PhoneStateVO> phoneStatesSelected) {
+		this.phoneStatesSelected = phoneStatesSelected;
+	}
+
+	public PhoneVO getPhoneSelected() {
+		return phoneSelected;
+	}
+
+	public void setPhoneSelected(PhoneVO phoneSelected) {
+		this.phoneSelected = phoneSelected;
 	}
 }

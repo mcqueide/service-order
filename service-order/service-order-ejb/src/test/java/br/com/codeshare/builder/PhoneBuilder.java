@@ -1,6 +1,5 @@
 package br.com.codeshare.builder;
 
-import br.com.codeshare.enums.PhoneState;
 import br.com.codeshare.vo.PhoneVO;
 
 public class PhoneBuilder {
