@@ -38,23 +38,25 @@
 			
 			<div>
 				<p:outputLabel value="#{label['detail.serviceorder.brand']}" styleClass="itens_detalhamento_titulo"/>
-				<p:outputLabel value="#{serviceOrderController.soSelected.phone.brand}"/>
+				<p:outputLabel value="#{serviceOrderController.soSelected.soPhonePhoneState[0].phone.brand}"/>
 			</div>
 			<div>
 				<p:outputLabel value="#{label['detail.serviceorder.model']}" styleClass="itens_detalhamento_titulo"/>
-				<p:outputLabel value="#{serviceOrderController.soSelected.phone.model}"/>
+				<p:outputLabel value="#{serviceOrderController.soSelected.soPhonePhoneState[0].phone.model}"/>
 			</div>
 			
 			<div>
 				<p:outputLabel value="#{label['detail.serviceorder.phonestate']}" styleClass="itens_detalhamento_titulo"/>
-				<p:outputLabel value="#{label[serviceOrderController.soSelected.phone.phoneStates.label]}"/>
+				<ui:repeat value="#{serviceOrderController.soSelected.soPhonePhoneState}" var="soPhoneState">
+					#{label[soPhoneState.phoneState.state]},
+				</ui:repeat>
 			</div>
 			
 			<br />
 			
 			<div>
 				<p:outputLabel value="#{label['detail.serviceorder.esn']}" styleClass="itens_detalhamento_titulo"/>
-				<p:outputLabel value="#{serviceOrderController.soSelected.phone.esn}"/>
+				<p:outputLabel value="#{serviceOrderController.soSelected.soPhonePhoneState[0].phone.esn}"/>
 			</div>
 			
 			<div>
