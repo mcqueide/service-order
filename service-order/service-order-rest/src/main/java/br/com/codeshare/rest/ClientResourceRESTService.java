@@ -45,7 +45,7 @@ public class ClientResourceRESTService {
 	@Produces(MediaType.APPLICATION_JSON)
 	public List<ClientVO> listAllClients(){
 		
-		List<ClientVO> clients = service.findAll();//findAllOrderedByName();
+		List<ClientVO> clients = service.findAll();
 		
 		
 		if(clients == null){
@@ -59,7 +59,7 @@ public class ClientResourceRESTService {
 	@Path("/{id:[0-9][0-9]*}")
 	@Produces(MediaType.APPLICATION_JSON)
 	public ClientVO retrieveClientById(@PathParam("id") Long id){
-		ClientVO client = service.findById(id);//findClientById(id);
+		ClientVO client = service.findById(id);
 		
 		if(client == null){
 			throw new WebApplicationException(Response.Status.NOT_FOUND);
@@ -72,7 +72,7 @@ public class ClientResourceRESTService {
 	@Path("/{id:[0-9][0-9]*}/phones")
 	@Produces(MediaType.APPLICATION_JSON)
 	public List<PhoneVO> listClientPhones(@PathParam("id")Long id){
-		List<PhoneVO> phones = phoneService.findPhoneByClientId(id);//findByClientId(id);
+		List<PhoneVO> phones = phoneService.findPhoneByClientId(id);
 		
 		if(phones == null){
 			throw new WebApplicationException(Response.Status.NOT_FOUND);
@@ -88,7 +88,7 @@ public class ClientResourceRESTService {
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response createClient(ClientVO client) {
 
-		ResponseBuilder builder = null;
+		ResponseBuilder builder;
 
 		try {
 			service.save(client);
@@ -97,12 +97,12 @@ public class ClientResourceRESTService {
 		} catch (ConstraintViolationException ce) {
 			builder = createViolationResponse(ce.getConstraintViolations());
 		}catch (BusinessException be) {
-			Map<String, String> responseObj = new HashMap<String, String>();
+			Map<String, String> responseObj = new HashMap<>();
 			responseObj.put("error", be.getErrorCode());
 			be.printStackTrace();
 			builder = Response.status(Response.Status.BAD_REQUEST).entity(responseObj);
 		} catch (Exception e) {
-            Map<String, String> responseObj = new HashMap<String, String>();
+            Map<String, String> responseObj = new HashMap<>();
             responseObj.put("error", e.getMessage());
             e.printStackTrace();
             builder = Response.status(Response.Status.BAD_REQUEST).entity(responseObj);
@@ -117,7 +117,7 @@ public class ClientResourceRESTService {
 	@Path("/{id:[0-9][0-9]*}")
 	public Response updateClient(ClientVO clientVO){
 		
-		ResponseBuilder builder = null;
+		ResponseBuilder builder;
 		
 		try{
 			service.update(clientVO);
@@ -126,7 +126,7 @@ public class ClientResourceRESTService {
 		}catch (ConstraintViolationException ce) {
             builder = createViolationResponse(ce.getConstraintViolations());
         } catch (Exception e) {
-            Map<String, String> responseObj = new HashMap<String, String>();
+            Map<String, String> responseObj = new HashMap<>();
             responseObj.put("error", e.getMessage());
             builder = Response.status(Response.Status.BAD_REQUEST).entity(responseObj);
         }
@@ -137,7 +137,7 @@ public class ClientResourceRESTService {
 	private Response.ResponseBuilder createViolationResponse(Set<ConstraintViolation<?>> violations) {
         log.fine("Validation completed. violations found: " + violations.size());
 
-        Map<String, String> responseObj = new HashMap<String, String>();
+        Map<String, String> responseObj = new HashMap<>();
 
         for (ConstraintViolation<?> violation : violations) {
             responseObj.put(violation.getPropertyPath().toString(), violation.getMessage());

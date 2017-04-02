@@ -112,7 +112,7 @@ public class ClientService implements Serializable{
 					if(phone.getId()!=null){
                         log.info(String.format("Removing phone (%s-%s)",
                                 phone.getBrand(),phone.getModel()));
-						phoneRepository.delete(phone.getId());//.remove(phone);
+						phoneRepository.delete(phone.getId());
 					}
 				}
 				else{

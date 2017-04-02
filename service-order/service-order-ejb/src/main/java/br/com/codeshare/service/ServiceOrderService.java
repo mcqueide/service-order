@@ -62,7 +62,6 @@ public class ServiceOrderService implements Serializable{
     public void update(ServiceOrderVO serviceOrder) throws Exception{
         ServiceOrder persist = conversor.converter(serviceOrder, ServiceOrder.class);
         soRepository.update(persist);
-        //saveSOPhoneState(persist);
     	soEventSrc.fire(serviceOrder);
     }
     

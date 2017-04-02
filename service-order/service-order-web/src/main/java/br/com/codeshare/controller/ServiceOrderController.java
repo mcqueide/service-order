@@ -32,8 +32,10 @@ public class ServiceOrderController implements Serializable{
 
 	private static final long serialVersionUID = 1L;
 
-	@Inject
+	@SuppressWarnings("CdiUnproxyableBeanTypesInspection")
+    @Inject
 	private FacesContext facesContext;
+    @SuppressWarnings("CdiUnproxyableBeanTypesInspection")
 	@Inject
 	private ExternalContext externalContext;
 	@Inject
@@ -127,25 +129,6 @@ public class ServiceOrderController implements Serializable{
 		return errorMessage;
 	}
 
-	public void findClientByName() {
-		listServiceOrder = null;
-		if (filterClient == null) {
-			listServiceOrder = serviceOrderService.findAll();
-		}
-		listServiceOrder = serviceOrderService.findClientByName(filterClient);
-	}
-
-	public void findBySo() {
-		listServiceOrder = new ArrayList<>();
-		if (filterSo == null || filterSo.equals(0l)) {
-			listServiceOrder = serviceOrderService.findAll();
-		}
-		ServiceOrderVO os = serviceOrderService.find(filterSo);
-		if (os != null) {
-			listServiceOrder.add(os);
-		}
-	}
-
 	public String getFilterClient() {
 		return filterClient;
 	}
@@ -179,7 +162,7 @@ public class ServiceOrderController implements Serializable{
 			conversation.begin();
 		}
 		
-		if(newServiceOrder !=null && !newServiceOrder.equals(""))
+		if(newServiceOrder !=null)
             phones = phoneService.findPhoneByClientId(newServiceOrder.getClient().getId());
         else
             phones = new ArrayList<>();
@@ -224,7 +207,7 @@ public class ServiceOrderController implements Serializable{
 	
 	public void searchById(){
 		listServiceOrder = new ArrayList<>();
-		if(filterSo == null || filterSo.equals(0l)){
+		if(filterSo == null || filterSo.equals(0L)){
 			listServiceOrder = serviceOrderService.findAll();
 			return;
 		}
