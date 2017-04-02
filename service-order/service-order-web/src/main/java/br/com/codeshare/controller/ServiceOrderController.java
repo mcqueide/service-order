@@ -12,10 +12,11 @@ import br.com.codeshare.vo.PhoneVO;
 import br.com.codeshare.vo.ServiceOrderPhoneVO;
 import br.com.codeshare.vo.ServiceOrderVO;
 import javax.annotation.PostConstruct;
+import javax.enterprise.context.Conversation;
+import javax.enterprise.context.ConversationScoped;
 import javax.enterprise.inject.Produces;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
-import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 import java.io.Serializable;
@@ -25,7 +26,7 @@ import java.util.List;
 import java.util.Map;
 
 @Named
-@ViewScoped
+@ConversationScoped
 public class ServiceOrderController implements Serializable{
 
 	private static final long serialVersionUID = 1L;
@@ -40,10 +41,8 @@ public class ServiceOrderController implements Serializable{
 	private PhoneService phoneService;
 	@Inject
 	private PhoneStateService phoneStateService;
-	
-//	@Inject
-//	private Conversation conversation;
-
+	@Inject
+	private Conversation conversation;
 	private ServiceOrderVO newServiceOrder;
 	private String filterClient;
 	private Long filterSo;
@@ -83,9 +82,9 @@ public class ServiceOrderController implements Serializable{
 			facesContext.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, WebResources.getMessage("register"), WebResources.getMessage("sucess_register")));
 			initNewServiceOrder();
 
-			/*if(!conversation.isTransient()){
+			if(!conversation.isTransient()){
 				conversation.end();
-			}*/
+			}
 		} catch (Exception e) {
 			String errorMessage = getRootErrorMessage(e);
 			FacesMessage m = new FacesMessage(FacesMessage.SEVERITY_ERROR, errorMessage, WebResources.getMessage("unsuccessful"));
@@ -99,9 +98,9 @@ public class ServiceOrderController implements Serializable{
 			facesContext.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, WebResources.getMessage("register"), WebResources.getMessage("sucess_register")));
 			initNewServiceOrder();
 			
-			/*if(!conversation.isTransient()){
+			if(!conversation.isTransient()){
 				conversation.end();
-			}*/
+			}
 		} catch (Exception e) {
 			String errorMessage = getRootErrorMessage(e);
 			FacesMessage m = new FacesMessage(FacesMessage.SEVERITY_ERROR, errorMessage, WebResources.getMessage("unsuccessful"));
@@ -173,9 +172,9 @@ public class ServiceOrderController implements Serializable{
 	}
 
 	public void onClientChange(){
-		/*if(conversation.isTransient()){
+		if(conversation.isTransient()){
 			conversation.begin();
-		}*/
+		}
 		
 		if(newServiceOrder !=null && !newServiceOrder.equals(""))
             phones = phoneService.findPhoneByClientId(newServiceOrder.getClient().getId());
@@ -192,20 +191,23 @@ public class ServiceOrderController implements Serializable{
 	}
 	
 	public String detail(ServiceOrderVO so){
+		if(conversation.isTransient()){
+			conversation.begin();
+		}
 		this.soSelected = so;
-		sessionMap.put("so", so);
 		return "detail_so";
 	}
 	
 	public String edit(ServiceOrderVO so){
+		if(conversation.isTransient()){
+			conversation.begin();
+		}
 		this.soSelected = so;
-		sessionMap.put("so", so);
 		return "update_so";
 	}
 	
 	public ServiceOrderVO getSoSelected() {
-		ServiceOrderVO so = (ServiceOrderVO) sessionMap.get("so");
-		return so;
+		return this.soSelected;
 	}
 	
 	public void searchByName(){

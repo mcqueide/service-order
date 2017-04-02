@@ -3,10 +3,8 @@ package br.com.codeshare.controller;
 import br.com.codeshare.exception.BusinessException;
 import br.com.codeshare.service.ClientService;
 import br.com.codeshare.service.PhoneService;
-import br.com.codeshare.service.PhoneStateService;
 import br.com.codeshare.util.WebResources;
 import br.com.codeshare.vo.ClientVO;
-import br.com.codeshare.vo.PhoneStateVO;
 import br.com.codeshare.vo.PhoneVO;
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.Conversation;
@@ -37,14 +35,10 @@ public class ClientController implements Serializable {
 	private PhoneVO newPhone;
 	@Inject
 	private PhoneService phoneService;
-
 	@Inject
 	private Conversation conversation;
-
 	private String filterName;
-
     private List<ClientVO> listClients;
-
     private ClientVO clientSelected;
 
 	@Produces
@@ -128,9 +122,7 @@ public class ClientController implements Serializable {
 	}
 
 	public void addClientPhone(ClientVO client) {
-		if(conversation.isTransient()){
-			conversation.begin();
-		}
+        initConversation();
 
 		if (client.getPhones() == null) {
 			client.setPhones(new ArrayList<>());
@@ -146,9 +138,7 @@ public class ClientController implements Serializable {
 	}
 	
 	public void removeClientPhone(ClientVO client, PhoneVO phone){
-		if(conversation.isTransient()){
-			conversation.begin();
-		}
+        initConversation();
 		
 		client.getPhones().remove(phone);
 		if(client.getPhonesToBeRemoved() == null){
