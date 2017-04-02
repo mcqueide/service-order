@@ -1,5 +1,6 @@
 package br.com.codeshare.service;
 
+import java.io.Serializable;
 import java.util.List;
 
 import javax.ejb.Stateless;
@@ -10,7 +11,7 @@ import br.com.codeshare.util.Conversor;
 import br.com.codeshare.vo.PhoneStateVO;
 
 @Stateless
-public class PhoneStateService {
+public class PhoneStateService implements Serializable{
 	
 	@Inject
 	private PhoneStateRepository phoneStateRepository;

@@ -41,7 +41,7 @@
                     
 					<p:outputLabel for="soState" value="Estado da Os"/>
 					<p:selectOneRadio id="soState" value="#{serviceOrderController.soSelected.soState}">
-						<f:selectItems value="#{serviceOrderController.orderStates}" var="phoneStates" itemValue="#{phoneStates}" itemLabel="#{label[phoneState.label]}"/>
+						<f:selectItems value="#{serviceOrderController.orderStates}" var="state" itemValue="#{state}" itemLabel="#{label[state.label]}"/>
 						<f:ajax execute="@this" render="action"/>
 					</p:selectOneRadio>
 						

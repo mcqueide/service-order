@@ -11,10 +11,11 @@ import br.com.codeshare.vo.ServiceOrderVO;
 import javax.ejb.Stateless;
 import javax.enterprise.event.Event;
 import javax.inject.Inject;
+import java.io.Serializable;
 import java.util.List;
 
 @Stateless
-public class ServiceOrderService {
+public class ServiceOrderService implements Serializable{
 
 	@Inject
 	private ServiceOrderRepository soRepository;

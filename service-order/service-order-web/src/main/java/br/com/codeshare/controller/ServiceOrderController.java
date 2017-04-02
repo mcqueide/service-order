@@ -16,6 +16,7 @@ import javax.enterprise.context.Conversation;
 import javax.enterprise.context.ConversationScoped;
 import javax.enterprise.inject.Produces;
 import javax.faces.application.FacesMessage;
+import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -33,8 +34,8 @@ public class ServiceOrderController implements Serializable{
 
 	@Inject
 	private FacesContext facesContext;
-	@Inject @SessionMap
-	private Map<String, Object> sessionMap;
+	@Inject
+	private ExternalContext externalContext;
 	@Inject
 	private ServiceOrderService serviceOrderService;
 	@Inject
@@ -68,7 +69,9 @@ public class ServiceOrderController implements Serializable{
         this.newServiceOrder.setSoPhonePhoneState(new ArrayList<>());
         orderTypes = ServiceOrderType.values();
         orderStates = ServiceOrderState.values();
-        listServiceOrder = serviceOrderService.findAll();
+		if(externalContext.getRequestServletPath().equals("/so/service-order.jsf")){
+        	listServiceOrder = serviceOrderService.findAll();
+		}
         phoneStates = phoneStateService.findAll();
         phoneStatesSelected = new ArrayList<>();
         phoneSelected = new PhoneVO();

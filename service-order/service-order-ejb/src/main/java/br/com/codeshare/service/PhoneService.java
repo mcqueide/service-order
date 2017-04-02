@@ -7,11 +7,12 @@ import br.com.codeshare.vo.PhoneVO;
 
 import javax.ejb.Stateless;
 import javax.inject.Inject;
+import java.io.Serializable;
 import java.util.List;
 import java.util.logging.Logger;
 
 @Stateless
-public class PhoneService {
+public class PhoneService implements Serializable{
 
 	@Inject 
 	private Logger log;
