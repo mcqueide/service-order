@@ -64,7 +64,7 @@ public class ClientController implements Serializable {
 		newClient = new ClientVO();
 		newPhone = new PhoneVO();
 		newClient.setPhones(new ArrayList<>());
-		if(externalContext.getRequestServletPath().equals("/clients.jsf")){
+		if(externalContext.getRequestServletPath().equals("/client/clients.jsf")){
 			listClients = clientService.findAll();
 		}
 	}

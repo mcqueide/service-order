@@ -10,14 +10,14 @@
 	<title>
 		<ui:insert name="title"/>
 	</title>
-	<link rel="stylesheet" type="text/css" href="resources/css/reset.css" />
-	<link rel="stylesheet" type="text/css" href="resources/css/style.css" />
-	<link rel="stylesheet" type="text/css" href="resources/css/fonts/font-awesome.min.css" />
+	<link rel="stylesheet" type="text/css" href="#{request.contextPath}/resources/css/reset.css" />
+	<link rel="stylesheet" type="text/css" href="#{request.contextPath}/resources/css/style.css" />
+	<link rel="stylesheet" type="text/css" href="#{request.contextPath}/resources/css/fonts/font-awesome.min.css" />
 </h:head>
 <body>
 	<div class="main">
 		<div class="menu">
-			<ui:include src="/menu.xhtml" />
+			<ui:include src="/WEB-INF/templates/menu.xhtml" />
 		</div>	
 		
 		<div id="body">
