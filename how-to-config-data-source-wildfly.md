@@ -40,6 +40,10 @@ Sometimes you can get some trouble when you try to run npm packages like gulp. T
 
 For install Bower you need to have NodeJS, NPM and Git installed previously. If you don't have git installed in your system, execute this command your terminal `sudo apt-get install git` and after it have done installed you can run `sudo apt-get install bower`.
 
+## Docker instead of installing PostgreSql on your machine
+
+If you have Docker on your machine, you can use the docker-compose file available in the folder `config/docker-compose.yml`. To start the container docker, you just need to execute the following command, `docker-compose up -d` in the **config** folder. After this, you can access the container docker with this command, `docker exec -it postgres_service_order bash`, and access the database with `psql -U postgres` and then type the password **postgres** to finish the login in. The last step, create a database with `create database serviceorder`, connect to it with `\c serviceorder`, and execute the script available in `config/script.sql` to create the database structure.
+
 ## How to config PostgreSql driver in WildFly
 
 This tutor will help you to config a driver on your wildfly server. All commands are for unix platform, if you are using windows, you can change the `*.sh files` with `*.bat files`.
