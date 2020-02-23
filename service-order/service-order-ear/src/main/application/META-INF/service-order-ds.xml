@@ -8,7 +8,7 @@
       
     <datasource jndi-name="java:jboss/datasources/service-orderDS" pool-name="service-order"
         enabled="true" use-java-context="true">
-        <connection-url>jdbc:postgresql://localhost:5432/serviceOrder</connection-url>
+        <connection-url>jdbc:postgresql://192.168.99.100:5432/serviceorder</connection-url>
         <driver>postgres</driver>
         <security>
             <user-name>postgres</user-name>
